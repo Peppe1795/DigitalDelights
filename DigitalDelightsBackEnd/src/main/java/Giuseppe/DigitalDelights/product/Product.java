@@ -16,10 +16,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Product")
 @Data
+@NoArgsConstructor
 public class Product {
 	@Id
 	@GeneratedValue
@@ -48,4 +50,16 @@ public class Product {
 	@ManyToAny
 	@JoinColumn(name = "category_id", nullable = false)
 	private ProductCategory category;
+
+	public Product(String sku, String name, String description, BigDecimal unitPrice, String imageUrl, boolean active,
+			int unitsInStock) {
+		this.sku = sku;
+		this.name = name;
+		this.description = description;
+		this.unitPrice = unitPrice;
+		this.imageUrl = imageUrl;
+		this.active = active;
+		this.unitsInStock = unitsInStock;
+	}
+
 }
