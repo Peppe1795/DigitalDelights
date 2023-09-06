@@ -15,6 +15,7 @@ import Giuseppe.DigitalDelights.address.Address;
 import Giuseppe.DigitalDelights.cart.Cart;
 import Giuseppe.DigitalDelights.order.Order;
 import Giuseppe.DigitalDelights.products.Product;
+import Giuseppe.DigitalDelights.reviews.Reviews;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,6 +64,9 @@ public class User implements UserDetails {
 	@JoinTable(name = "user_prodotti_preferiti", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Product> favoriteProducts = new ArrayList<>();
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Reviews> reviews = new ArrayList<>();
+
 	public User(String username, String name, String lastName, String email, String password, Address address,
 			Role role) {
 
@@ -74,6 +78,7 @@ public class User implements UserDetails {
 		this.address = address;
 		this.role = role;
 		this.favoriteProducts = new ArrayList<>();
+		this.reviews = new ArrayList<>();
 	}
 
 	@Override

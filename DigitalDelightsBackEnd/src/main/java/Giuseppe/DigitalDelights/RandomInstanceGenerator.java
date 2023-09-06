@@ -26,6 +26,8 @@ import Giuseppe.DigitalDelights.products.Product;
 import Giuseppe.DigitalDelights.products.ProductRepository;
 import Giuseppe.DigitalDelights.products.ProductRequestPayload;
 import Giuseppe.DigitalDelights.products.ProductService;
+import Giuseppe.DigitalDelights.reviews.Reviews;
+import Giuseppe.DigitalDelights.reviews.ReviewsRepository;
 import Giuseppe.DigitalDelights.user.Role;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserRepository;
@@ -43,6 +45,7 @@ public class RandomInstanceGenerator {
 	private final AddressRepository ar;
 	private final ProductRepository pr;
 	private final CartService cs;
+	private final ReviewsRepository rr;
 
 	Faker faker = new Faker(new Locale("it"));
 	Random rnd = new Random();
@@ -51,7 +54,7 @@ public class RandomInstanceGenerator {
 
 	@Autowired
 	public RandomInstanceGenerator(UserService us, ProductService ps, AddressService ad, UserRepository ur,
-			AddressRepository ar, ProductRepository pr, OrderService os, CartService cs) {
+			AddressRepository ar, ProductRepository pr, OrderService os, CartService cs, ReviewsRepository rr) {
 		this.us = us;
 		this.ps = ps;
 		this.ad = ad;
@@ -60,6 +63,7 @@ public class RandomInstanceGenerator {
 		this.pr = pr;
 		this.os = os;
 		this.cs = cs;
+		this.rr = rr;
 	}
 
 	public void generateRandomAddressAndUser(int numeroIstanze) {
@@ -194,5 +198,15 @@ public class RandomInstanceGenerator {
 		CartRequestPayload cartPayload = new CartRequestPayload(user, products, 2);
 
 		return cs.create(cartPayload); // Supponendo che cs è il tuo bean CartService
+	}
+
+	public Reviews createSampleReview() {
+		User sampleUser = new User("userdsname", "namdde", "lastnddame", "emddail@email.com", "paddssword", null,
+				Role.USER); // Popola questo oggetto con dati di esempio
+		Product sampleProduct = new Product("Product2dd", "Descriptddion2", 32.0, "imageURL", true, 3,
+				Category.SMARTWATCH); // Popola questo oggetto con dati di esempio
+
+		Reviews sampleReview = new Reviews(5, "Questa è una recensione di test", sampleUser, sampleProduct);
+		return rr.save(sampleReview);
 	}
 }

@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.products;
+package Giuseppe.DigitalDelights.reviews;
 
 import java.util.UUID;
 
@@ -19,47 +19,48 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/product")
-public class ProductController {
-	private final ProductService productSrv;
+@RequestMapping("/reviews")
+public class ReviewsController {
+	private final ReviewsService reviewsSrv;
 
 	@Autowired
-	public ProductController(ProductService productSrv) {
-		this.productSrv = productSrv;
+	public ReviewsController(ReviewsService reviewsSrv) {
+
+		this.reviewsSrv = reviewsSrv;
 	}
 
 	@GetMapping
-	public Page<Product> getProduct(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "productId") String sortBy) {
-		return productSrv.find(page, size, sortBy);
+	public Page<Reviews> getReviews(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "reviewsId") String sortBy) {
+		return reviewsSrv.find(page, size, sortBy);
 	}
 
-	@GetMapping("/{productId}")
-	public Product findById(@PathVariable UUID productId) {
-		return productSrv.findById(productId);
+	@GetMapping("/{reviewsId}")
+	public Reviews findById(@PathVariable UUID reviewsId) {
+		return reviewsSrv.findById(reviewsId);
 
 	}
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product saveProduct(@RequestBody ProductRequestPayload body) {
-		Product created = productSrv.create(body);
+	public Reviews saveReviews(@RequestBody ReviewsRequestPayload body) {
+		Reviews created = reviewsSrv.create(body);
 
 		return created;
 	}
 
-	@PutMapping("/{productId}")
+	@PutMapping("/{reviewsId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Product updateProduct(@PathVariable UUID productId, @RequestBody ProductRequestPayload body) {
-		return productSrv.findByIdAndUpdate(productId, body);
+	public Reviews updateReviews(@PathVariable UUID reviewsId, @RequestBody ReviewsRequestPayload body) {
+		return reviewsSrv.findByIdAndUpdate(reviewsId, body);
 	}
 
-	@DeleteMapping("/{productId}")
+	@DeleteMapping("/{reviewsId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
-		productSrv.findByIdAndDelete(productId);
-		return ResponseEntity.ok("Prodotto eliminato con successo.");
+	public ResponseEntity<String> deleteReviews(@PathVariable UUID reviewsId) {
+		reviewsSrv.findByIdAndDelete(reviewsId);
+		return ResponseEntity.ok("Recensione eliminata con successo.");
 
 	}
 }
