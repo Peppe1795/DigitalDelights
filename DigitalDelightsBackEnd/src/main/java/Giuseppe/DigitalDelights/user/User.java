@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import Giuseppe.DigitalDelights.address.Address;
+import Giuseppe.DigitalDelights.cart.Cart;
 import Giuseppe.DigitalDelights.order.Order;
+import Giuseppe.DigitalDelights.products.Product;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +23,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -32,6 +37,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties({ "password", "accountNonExpired", "authorities", "credentialsNonExpired", "accountNonLocked" })
 public class User implements UserDetails {
+
 	@Id
 	@GeneratedValue
 	private UUID userId;
@@ -49,6 +55,14 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user")
 	private List<Order> order;
 
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private Cart cart;
+
+	@ManyToMany
+	@JoinTable(name = "user_prodotti_preferiti", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private List<Product> favoriteProducts = new ArrayList<>();
+
 	public User(String username, String name, String lastName, String email, String password, Address address,
 			Role role) {
 
@@ -59,6 +73,7 @@ public class User implements UserDetails {
 		this.password = password;
 		this.address = address;
 		this.role = role;
+		this.favoriteProducts = new ArrayList<>();
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.prodotti;
+package Giuseppe.DigitalDelights.products;
 
 import java.util.Date;
 import java.util.UUID;

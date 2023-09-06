@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.order;
+package Giuseppe.DigitalDelights.cart;
 
 import java.util.Date;
 import java.util.List;
@@ -14,38 +14,36 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "carts")
 @Data
 @NoArgsConstructor
-public class Order {
-
+public class Cart {
 	@Id
 	@GeneratedValue
-	private UUID orderId;
+	private UUID cartId;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToMany
-	@JoinTable(name = "order_items", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
+	@JoinTable(name = "cart_items", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Product> products;
+
+	private int quantity;
 	@CreationTimestamp
-	private Date orderDate;
+	private Date createdDate;
 
-	private double totalPrice;
-
-	public Order(User user, List<Product> products, Date orderDate, double totalPrice) {
+	public Cart(User user, List<Product> products, int quantity) {
 		this.user = user;
 		this.products = products;
-		this.orderDate = orderDate;
-		this.totalPrice = totalPrice;
+		this.quantity = quantity;
 	}
 
 }

@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.prodotti;
+package Giuseppe.DigitalDelights.cart;
 
 import java.util.UUID;
 
@@ -19,47 +19,47 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/product")
-public class ProductController {
-	private final ProductService productSrv;
+@RequestMapping("/user/cart")
+public class CartController {
+	private final CartService cartSrv;
 
 	@Autowired
-	public ProductController(ProductService productSrv) {
-		this.productSrv = productSrv;
+	public CartController(CartService cartSrv) {
+		this.cartSrv = cartSrv;
 	}
 
 	@GetMapping
-	public Page<Product> getProduct(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "productId") String sortBy) {
-		return productSrv.find(page, size, sortBy);
+	public Page<Cart> getCart(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "cartId") String sortBy) {
+		return cartSrv.find(page, size, sortBy);
 	}
 
-	@GetMapping("/{productId}")
-	public Product findById(@PathVariable UUID productId) {
-		return productSrv.findById(productId);
+	@GetMapping("/{cartId}")
+	public Cart findById(@PathVariable UUID cartId) {
+		return cartSrv.findById(cartId);
 
 	}
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product saveIndirizzo(@RequestBody ProductRequestPayload body) {
-		Product created = productSrv.create(body);
+	public Cart saveCart(@RequestBody CartRequestPayload body) {
+		Cart created = cartSrv.create(body);
 
 		return created;
 	}
 
-	@PutMapping("/{productId}")
+	@PutMapping("/{cartId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Product updateProduct(@PathVariable UUID productId, @RequestBody ProductRequestPayload body) {
-		return productSrv.findByIdAndUpdate(productId, body);
+	public Cart updateCart(@PathVariable UUID cartId, @RequestBody CartRequestPayload body) {
+		return cartSrv.findByIdAndUpdate(cartId, body);
 	}
 
-	@DeleteMapping("/{productId}")
+	@DeleteMapping("/{cartId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
-		productSrv.findByIdAndDelete(productId);
-		return ResponseEntity.ok("Prodotto eliminato con successo.");
+	public ResponseEntity<String> deleteCart(@PathVariable UUID cartId) {
+		cartSrv.findByIdAndDelete(cartId);
+		return ResponseEntity.ok("Carrello eliminato con successo.");
 
 	}
 }

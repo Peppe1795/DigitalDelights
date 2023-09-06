@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.prodotti;
+package Giuseppe.DigitalDelights.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

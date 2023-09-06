@@ -15,19 +15,23 @@ import Giuseppe.DigitalDelights.address.Address;
 import Giuseppe.DigitalDelights.address.AddressRepository;
 import Giuseppe.DigitalDelights.address.AddressRequestPayload;
 import Giuseppe.DigitalDelights.address.AddressService;
+import Giuseppe.DigitalDelights.cart.Cart;
+import Giuseppe.DigitalDelights.cart.CartRequestPayload;
+import Giuseppe.DigitalDelights.cart.CartService;
 import Giuseppe.DigitalDelights.exception.BadRequestException;
 import Giuseppe.DigitalDelights.order.OrderRequestPayload;
 import Giuseppe.DigitalDelights.order.OrderService;
-import Giuseppe.DigitalDelights.prodotti.Category;
-import Giuseppe.DigitalDelights.prodotti.Product;
-import Giuseppe.DigitalDelights.prodotti.ProductRepository;
-import Giuseppe.DigitalDelights.prodotti.ProductRequestPayload;
-import Giuseppe.DigitalDelights.prodotti.ProductService;
+import Giuseppe.DigitalDelights.products.Category;
+import Giuseppe.DigitalDelights.products.Product;
+import Giuseppe.DigitalDelights.products.ProductRepository;
+import Giuseppe.DigitalDelights.products.ProductRequestPayload;
+import Giuseppe.DigitalDelights.products.ProductService;
 import Giuseppe.DigitalDelights.user.Role;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserRepository;
 import Giuseppe.DigitalDelights.user.UserRequestPayload;
 import Giuseppe.DigitalDelights.user.UserService;
+import jakarta.transaction.Transactional;
 
 @Component
 public class RandomInstanceGenerator {
@@ -38,6 +42,8 @@ public class RandomInstanceGenerator {
 	private final UserRepository ur;
 	private final AddressRepository ar;
 	private final ProductRepository pr;
+	private final CartService cs;
+
 	Faker faker = new Faker(new Locale("it"));
 	Random rnd = new Random();
 	@Autowired
@@ -45,7 +51,7 @@ public class RandomInstanceGenerator {
 
 	@Autowired
 	public RandomInstanceGenerator(UserService us, ProductService ps, AddressService ad, UserRepository ur,
-			AddressRepository ar, ProductRepository pr, OrderService os) {
+			AddressRepository ar, ProductRepository pr, OrderService os, CartService cs) {
 		this.us = us;
 		this.ps = ps;
 		this.ad = ad;
@@ -53,6 +59,7 @@ public class RandomInstanceGenerator {
 		this.ar = ar;
 		this.pr = pr;
 		this.os = os;
+		this.cs = cs;
 	}
 
 	public void generateRandomAddressAndUser(int numeroIstanze) {
@@ -170,4 +177,22 @@ public class RandomInstanceGenerator {
 		}
 	}
 
+	@Transactional
+	public Cart createTestCart() {
+		// Creazione e salvataggio dell'utente
+		User user = new User("username", "name", "lastname", "email@email.com", "password", null, Role.USER);
+		ur.save(user); // Supponendo che userRepository è il tuo bean UserRepository
+
+		// Creazione e salvataggio dei prodotti
+		Product product1 = new Product("Product1", "Description1", 20.0, "imageURL", true, 5, Category.SMARTPHONE);
+		Product product2 = new Product("Product2", "Description2", 30.0, "imageURL", true, 3, Category.SMARTWATCH);
+		pr.save(product1); // Supponendo che productRepository è il tuo bean ProductRepository
+		pr.save(product2);
+
+		// Creazione del carrello
+		List<Product> products = List.of(product1, product2);
+		CartRequestPayload cartPayload = new CartRequestPayload(user, products, 2);
+
+		return cs.create(cartPayload); // Supponendo che cs è il tuo bean CartService
+	}
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import Giuseppe.DigitalDelights.products.Product;
+
 @RequestMapping("/user")
 @RestController
 public class UserController {
@@ -59,5 +61,25 @@ public class UserController {
 	public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
 		userSrv.findByIdAndDelete(userId);
 		return ResponseEntity.ok("User eliminato con successo.");
+	}
+
+	@PostMapping("/aggiungiPreferiti/{productId}")
+	public ResponseEntity<?> addFavorite(@PathVariable UUID productId) {
+		userSrv.addFavoriteProduct(productId);
+		return ResponseEntity.ok("Prodotto aggiunto ai preferiti");
+	}
+
+	@DeleteMapping("/rimuoviPreferiti/{productId}")
+	public ResponseEntity<?> removeFavorite(@PathVariable UUID productId) {
+		userSrv.removeFavoriteProduct(productId);
+		return ResponseEntity.ok("Prodotto rimosso dai preferiti");
+	}
+
+	@GetMapping("/preferiti")
+	public ResponseEntity<Page<Product>> getUserPreferiti(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+
+		Page<Product> favorites = userSrv.getUserProductPreferite(page, size);
+		return ResponseEntity.ok(favorites);
 	}
 }

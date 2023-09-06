@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.prodotti;
+package Giuseppe.DigitalDelights.products;
 
 public enum Category {
 	SMARTPHONE, LAPTOP, SMARTWATCH, TABLET;
