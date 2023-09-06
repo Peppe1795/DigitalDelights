@@ -1,4 +1,4 @@
-package Giuseppe.DigitalDelights.prodotti;
+package Giuseppe.DigitalDelights.order;
 
 import java.util.UUID;
 
@@ -19,47 +19,48 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/product")
-public class ProductController {
-	private final ProductService productSrv;
+@RequestMapping("/user/order")
+public class OrderController {
+
+	private final OrderService orderSrv;
 
 	@Autowired
-	public ProductController(ProductService productSrv) {
-		this.productSrv = productSrv;
+	public OrderController(OrderService orderSrv) {
+		this.orderSrv = orderSrv;
 	}
 
 	@GetMapping
-	public Page<Product> getProduct(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "productId") String sortBy) {
-		return productSrv.find(page, size, sortBy);
+	public Page<Order> getProduct(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "orderId") String sortBy) {
+		return orderSrv.find(page, size, sortBy);
 	}
 
-	@GetMapping("/{productId}")
-	public Product findById(@PathVariable UUID productId) {
-		return productSrv.findById(productId);
+	@GetMapping("/{orderId}")
+	public Order findById(@PathVariable UUID orderId) {
+		return orderSrv.findById(orderId);
 
 	}
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product saveIndirizzo(@RequestBody ProductRequestPayload body) {
-		Product created = productSrv.create(body);
+	public Order saveIndirizzo(@RequestBody OrderRequestPayload body) {
+		Order created = orderSrv.create(body);
 
 		return created;
 	}
 
-	@PutMapping("/{productId}")
+	@PutMapping("/{orderId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Product updateProduct(@PathVariable UUID productId, @RequestBody ProductRequestPayload body) {
-		return productSrv.findByIdAndUpdate(productId, body);
+	public Order updateProduct(@PathVariable UUID orderId, @RequestBody OrderRequestPayload body) {
+		return orderSrv.findByIdAndUpdate(orderId, body);
 	}
 
-	@DeleteMapping("/{productId}")
+	@DeleteMapping("/{orderId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
-		productSrv.findByIdAndDelete(productId);
-		return ResponseEntity.ok("Prodotto eliminato con successo.");
+	public ResponseEntity<String> deleteProduct(@PathVariable UUID orderId) {
+		orderSrv.findByIdAndDelete(orderId);
+		return ResponseEntity.ok("Ordine eliminato con successo.");
 
 	}
 }

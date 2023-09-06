@@ -1,5 +1,7 @@
 package Giuseppe.DigitalDelights;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -14,8 +16,11 @@ import Giuseppe.DigitalDelights.address.AddressRepository;
 import Giuseppe.DigitalDelights.address.AddressRequestPayload;
 import Giuseppe.DigitalDelights.address.AddressService;
 import Giuseppe.DigitalDelights.exception.BadRequestException;
+import Giuseppe.DigitalDelights.order.OrderRequestPayload;
+import Giuseppe.DigitalDelights.order.OrderService;
 import Giuseppe.DigitalDelights.prodotti.Category;
 import Giuseppe.DigitalDelights.prodotti.Product;
+import Giuseppe.DigitalDelights.prodotti.ProductRepository;
 import Giuseppe.DigitalDelights.prodotti.ProductRequestPayload;
 import Giuseppe.DigitalDelights.prodotti.ProductService;
 import Giuseppe.DigitalDelights.user.Role;
@@ -29,8 +34,10 @@ public class RandomInstanceGenerator {
 	private final UserService us;
 	private final ProductService ps;
 	private final AddressService ad;
+	private final OrderService os;
 	private final UserRepository ur;
 	private final AddressRepository ar;
+	private final ProductRepository pr;
 	Faker faker = new Faker(new Locale("it"));
 	Random rnd = new Random();
 	@Autowired
@@ -38,12 +45,14 @@ public class RandomInstanceGenerator {
 
 	@Autowired
 	public RandomInstanceGenerator(UserService us, ProductService ps, AddressService ad, UserRepository ur,
-			AddressRepository ar) {
+			AddressRepository ar, ProductRepository pr, OrderService os) {
 		this.us = us;
 		this.ps = ps;
 		this.ad = ad;
 		this.ur = ur;
 		this.ar = ar;
+		this.pr = pr;
+		this.os = os;
 	}
 
 	public void generateRandomAddressAndUser(int numeroIstanze) {
@@ -119,6 +128,46 @@ public class RandomInstanceGenerator {
 		int max = (int) Math.pow(10, n) - 1;
 		int rndSeries = min + (int) (Math.random() * (max - min + 1));
 		return rndSeries;
+	}
+
+	public void generateRandomOrders(int numberOfOrders) {
+		for (int i = 0; i < numberOfOrders; i++) {
+			try {
+				// Ottieni un utente casuale dall'elenco di tutti gli utenti
+				List<User> allUsers = ur.findAll();
+				User randomUser = allUsers.get(new Random().nextInt(allUsers.size()));
+
+				// Ottieni una lista di prodotti casuali dall'elenco di tutti i prodotti
+				List<Product> allProducts = pr.findAll();
+				List<Product> randomProducts = new ArrayList<>();
+				Random rand = new Random();
+				int numberOfProducts = rand.nextInt(5) + 1; // Numero casuale di prodotti nell'ordine
+				for (int j = 0; j < numberOfProducts; j++) {
+					randomProducts.add(allProducts.get(rand.nextInt(allProducts.size())));
+				}
+
+				// Calcola il prezzo totale dell'ordine
+				double totalPrice = 0.0;
+				for (Product product : randomProducts) {
+					totalPrice += product.getPrice();
+				}
+
+				// Crea e inizializza l'oggetto OrderRequestPayload
+				OrderRequestPayload orderPayload = new OrderRequestPayload();
+				orderPayload.setUser(randomUser);
+				orderPayload.setProducts(randomProducts);
+				orderPayload.setTotalPrice(totalPrice);
+				// Puoi anche impostare una data casuale qui
+
+				// Salva l'ordine (supponendo che tu abbia un metodo 'create' in un servizio di
+				// Order)
+				os.create(orderPayload);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Errore nella generazione degli ordini!");
+			}
+		}
 	}
 
 }

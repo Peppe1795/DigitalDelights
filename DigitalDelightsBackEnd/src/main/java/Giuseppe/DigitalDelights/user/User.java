@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import Giuseppe.DigitalDelights.address.Address;
+import Giuseppe.DigitalDelights.order.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +20,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -44,6 +46,8 @@ public class User implements UserDetails {
 	private Address address;
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	@OneToMany(mappedBy = "user")
+	private List<Order> order;
 
 	public User(String username, String name, String lastName, String email, String password, Address address,
 			Role role) {
