@@ -10,8 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AddressRequestPayload {
 	private String via;
-	private String numeroCivico;
+	private int numeroCivico;
 	private String località;
-	private int cap;
+	private String cap;
+	private String comune;
 	private User user;
 }

@@ -22,8 +22,8 @@ public class AddressService {
 	}
 
 	public Address create(AddressRequestPayload body) {
-		Address newAddress = new Address(body.getVia(), body.getNumeroCivico(), body.getLocalità(), body.getCap(),
-				body.getUser());
+		Address newAddress = new Address(body.getVia(), body.getNumeroCivico(), body.getLocalità(), body.getComune(),
+				body.getCap(), body.getUser());
 		return addressRepo.save(newAddress);
 	}
 
@@ -42,7 +42,6 @@ public class AddressService {
 		found.setNumeroCivico(body.getNumeroCivico());
 		found.setLocalità(body.getLocalità());
 		found.setCap(body.getCap());
-		found.setUser(body.getUser());
 
 		return addressRepo.save(found);
 	}

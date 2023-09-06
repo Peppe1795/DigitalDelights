@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.user;
 
+import Giuseppe.DigitalDelights.address.Address;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,5 +24,8 @@ public class UserRequestPayload {
 	private String email;
 	@NotNull(message = "La password è obbligatoria")
 	private String password;
+
+	private Address address;
+
 	private Role role;
 }

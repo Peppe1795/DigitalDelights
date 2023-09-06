@@ -22,7 +22,7 @@ public class UserService {
 
 	public User create(UserRequestPayload body) {
 		User newUser = new User(body.getName(), body.getUsername(), body.getLastName(), body.getEmail(),
-				body.getPassword(), Role.USER);
+				body.getPassword(), body.getAddress(), body.getRole());
 		return userRepo.save(newUser);
 	}
 
