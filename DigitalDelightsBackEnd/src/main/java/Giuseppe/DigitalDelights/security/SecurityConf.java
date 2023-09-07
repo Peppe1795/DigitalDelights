@@ -30,8 +30,8 @@ public class SecurityConf {
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/product/**").authenticated());
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/reviews/**").authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/product/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/reviews/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/order/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/cart/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/indirizzo/**").authenticated());
