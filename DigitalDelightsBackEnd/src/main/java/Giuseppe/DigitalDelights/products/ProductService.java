@@ -52,4 +52,9 @@ public class ProductService {
 		Product found = this.findById(id);
 		productRepo.delete(found);
 	}
+
+	public Page<Product> findByPartOfName(String parteDelNome, int page, int size, String sortBy) {
+		Pageable productPageable = PageRequest.of(page, size, Sort.by(sortBy));
+		return productRepo.findByNameContainingIgnoreCase(parteDelNome, productPageable);
+	}
 }

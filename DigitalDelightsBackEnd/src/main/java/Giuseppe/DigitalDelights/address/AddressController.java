@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/indirizzo")
+@RequestMapping("/indirizzo")
 public class AddressController {
 	private final AddressService addressSrv;
 
@@ -29,6 +29,7 @@ public class AddressController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Page<Address> getAddress(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "addressId") String sortBy) {
 		return addressSrv.find(page, size, sortBy);

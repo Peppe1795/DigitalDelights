@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/reviews")
 public class ReviewsController {
@@ -44,7 +46,7 @@ public class ReviewsController {
 	@PostMapping
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Reviews saveReviews(@RequestBody ReviewsRequestPayload body) {
+	public Reviews saveReviews(@Valid @RequestBody ReviewsRequestPayload body) {
 		Reviews created = reviewsSrv.create(body);
 
 		return created;
@@ -52,7 +54,7 @@ public class ReviewsController {
 
 	@PutMapping("/{reviewsId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Reviews updateReviews(@PathVariable UUID reviewsId, @RequestBody ReviewsRequestPayload body) {
+	public Reviews updateReviews(@PathVariable UUID reviewsId, @Valid @RequestBody ReviewsRequestPayload body) {
 		return reviewsSrv.findByIdAndUpdate(reviewsId, body);
 	}
 

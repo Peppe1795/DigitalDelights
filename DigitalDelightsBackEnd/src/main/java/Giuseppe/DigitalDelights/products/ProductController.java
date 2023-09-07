@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/product")
+@RequestMapping("/product")
 public class ProductController {
 	private final ProductService productSrv;
 
@@ -61,5 +61,18 @@ public class ProductController {
 		productSrv.findByIdAndDelete(productId);
 		return ResponseEntity.ok("Prodotto eliminato con successo.");
 
+	}
+
+	@GetMapping("/parteDelNome")
+	public ResponseEntity<Page<Product>> getClientiByParteDelNome(@RequestParam String parteDelNome,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "name") String sortBy) {
+		Page<Product> clientiByParteDelNome = productSrv.findByPartOfName(parteDelNome, page, size, sortBy);
+
+		if (clientiByParteDelNome.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(clientiByParteDelNome);
+		}
 	}
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/order")
+@RequestMapping("/order")
 public class OrderController {
 
 	private final OrderService orderSrv;
