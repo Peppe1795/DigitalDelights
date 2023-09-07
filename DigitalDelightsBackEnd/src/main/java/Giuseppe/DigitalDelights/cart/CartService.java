@@ -21,7 +21,7 @@ public class CartService {
 	}
 
 	public Cart create(CartRequestPayload body) {
-		Cart newCart = new Cart(body.getUser(), body.getProducts(), body.getQuantity());
+		Cart newCart = new Cart(body.getUser());
 		return cartRepo.save(newCart);
 	}
 
@@ -37,8 +37,6 @@ public class CartService {
 	public Cart findByIdAndUpdate(UUID id, CartRequestPayload body) throws NotFoundException {
 		Cart found = this.findById(id);
 		found.setUser(body.getUser());
-		found.setProducts(body.getProducts());
-		found.setQuantity(body.getQuantity());
 
 		return cartRepo.save(found);
 	}

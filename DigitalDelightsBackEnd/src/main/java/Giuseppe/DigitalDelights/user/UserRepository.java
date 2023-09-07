@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
 	@Query("SELECT p FROM User u JOIN u.favoriteProducts p WHERE u.userId = ?1")
 	Page<Product> findFavoriteProductsByUserId(UUID userId, Pageable pageable);
+
+	List<User> findAllByFavoriteProductsContaining(Product product);
 }

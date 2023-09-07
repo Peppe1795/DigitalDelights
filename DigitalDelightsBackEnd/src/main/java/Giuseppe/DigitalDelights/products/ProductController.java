@@ -63,16 +63,16 @@ public class ProductController {
 
 	}
 
-	@GetMapping("/parteDelNome")
-	public ResponseEntity<Page<Product>> getClientiByParteDelNome(@RequestParam String parteDelNome,
+	@GetMapping("/partOfName")
+	public ResponseEntity<Page<Product>> getProductsByPartOfName(@RequestParam String partOfName,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "name") String sortBy) {
-		Page<Product> clientiByParteDelNome = productSrv.findByPartOfName(parteDelNome, page, size, sortBy);
+		Page<Product> productiBypartOfName = productSrv.findByPartOfName(partOfName, page, size, sortBy);
 
-		if (clientiByParteDelNome.isEmpty()) {
+		if (productiBypartOfName.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
-			return ResponseEntity.ok(clientiByParteDelNome);
+			return ResponseEntity.ok(productiBypartOfName);
 		}
 	}
 }

@@ -9,7 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import Giuseppe.DigitalDelights.address.Address;
 import Giuseppe.DigitalDelights.cart.Cart;
@@ -32,11 +35,13 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties({ "password", "accountNonExpired", "authorities", "credentialsNonExpired", "accountNonLocked" })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
 public class User implements UserDetails {
 
 	@Id
@@ -49,11 +54,11 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
+	@JsonManagedReference
 	private Address address;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> order;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

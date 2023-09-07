@@ -45,7 +45,6 @@ public class UserService {
 		User found = this.findById(id);
 		found.setName(body.getName());
 		found.setUsername(body.getUsername());
-		;
 		found.setLastName(body.getLastName());
 		found.setEmail(body.getEmail());
 		found.setPassword(body.getPassword());

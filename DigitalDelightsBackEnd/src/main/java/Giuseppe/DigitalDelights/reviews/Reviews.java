@@ -6,6 +6,9 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import Giuseppe.DigitalDelights.products.Product;
 import Giuseppe.DigitalDelights.user.User;
 import jakarta.persistence.CascadeType;
@@ -25,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "reviews")
 @Data
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "reviewId")
 public class Reviews {
 	@Id
 	@GeneratedValue
@@ -59,4 +63,10 @@ public class Reviews {
 		this.product = product;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+		if (!user.getReviews().contains(this)) {
+			user.getReviews().add(this);
+		}
+	}
 }

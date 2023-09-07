@@ -88,8 +88,8 @@ public class RandomInstanceGenerator {
 				String cap = String.valueOf(rnd.nextInt(99999 - 10000) + 10000);
 				String comune = faker.address().state();
 
-				AddressRequestPayload addressPayload = new AddressRequestPayload(via, numeroCivico, localita, cap,
-						comune, null);
+				AddressRequestPayload addressPayload = new AddressRequestPayload(via, numeroCivico, localita, comune,
+						cap, null);
 				Address newAddress = ad.create(addressPayload);
 
 				// Step 3: Aggiorna il nuovo User con il nuovo Address
@@ -195,7 +195,7 @@ public class RandomInstanceGenerator {
 
 		// Creazione del carrello
 		List<Product> products = List.of(product1, product2);
-		CartRequestPayload cartPayload = new CartRequestPayload(user, products, 2);
+		CartRequestPayload cartPayload = new CartRequestPayload(user);
 
 		return cs.create(cartPayload); // Supponendo che cs è il tuo bean CartService
 	}

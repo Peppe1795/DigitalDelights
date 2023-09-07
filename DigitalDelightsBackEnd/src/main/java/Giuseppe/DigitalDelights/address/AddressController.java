@@ -42,7 +42,6 @@ public class AddressController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Address saveAddress(@RequestBody AddressRequestPayload body) {
 		Address created = addressSrv.create(body);
@@ -51,13 +50,11 @@ public class AddressController {
 	}
 
 	@PutMapping("/{addressId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public Address updateAddress(@PathVariable UUID indirizzoId, @RequestBody AddressRequestPayload body) {
-		return addressSrv.findByIdAndUpdate(indirizzoId, body);
+	public Address updateAddress(@PathVariable UUID addressId, @RequestBody AddressRequestPayload body) {
+		return addressSrv.findByIdAndUpdate(addressId, body);
 	}
 
 	@DeleteMapping("/{addressId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<String> deleteAddress(@PathVariable UUID addressId) {
 		addressSrv.findByIdAndDelete(addressId);
 		return ResponseEntity.ok("Indirizzo eliminato con successo.");

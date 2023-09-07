@@ -29,6 +29,7 @@ public class CartController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Page<Cart> getCart(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "cartId") String sortBy) {
 		return cartSrv.find(page, size, sortBy);
@@ -50,7 +51,6 @@ public class CartController {
 	}
 
 	@PutMapping("/{cartId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public Cart updateCart(@PathVariable UUID cartId, @RequestBody CartRequestPayload body) {
 		return cartSrv.findByIdAndUpdate(cartId, body);
 	}

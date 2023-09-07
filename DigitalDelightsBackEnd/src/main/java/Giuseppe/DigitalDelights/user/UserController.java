@@ -31,6 +31,7 @@ public class UserController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Page<User> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "userId") String sortBy) {
 		return userSrv.find(page, size, sortBy);
@@ -43,7 +44,6 @@ public class UserController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User saveUser(@RequestBody UserRequestPayload body) {
 		User created = userSrv.create(body);
@@ -51,13 +51,11 @@ public class UserController {
 	}
 
 	@PutMapping("/{userId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public User updateUser(@PathVariable UUID userId, @RequestBody UserRequestPayload body) {
 		return userSrv.findByIdAndUpdate(userId, body);
 	}
 
 	@DeleteMapping("/{userId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
 		userSrv.findByIdAndDelete(userId);
 		return ResponseEntity.ok("User eliminato con successo.");

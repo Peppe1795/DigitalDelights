@@ -33,7 +33,7 @@ public class ReviewsController {
 
 	@GetMapping
 	public Page<Reviews> getReviews(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "reviewsId") String sortBy) {
+			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "reviewId") String sortBy) {
 		return reviewsSrv.find(page, size, sortBy);
 	}
 
@@ -44,7 +44,6 @@ public class ReviewsController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Reviews saveReviews(@Valid @RequestBody ReviewsRequestPayload body) {
 		Reviews created = reviewsSrv.create(body);
@@ -53,7 +52,6 @@ public class ReviewsController {
 	}
 
 	@PutMapping("/{reviewsId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public Reviews updateReviews(@PathVariable UUID reviewsId, @Valid @RequestBody ReviewsRequestPayload body) {
 		return reviewsSrv.findByIdAndUpdate(reviewsId, body);
 	}

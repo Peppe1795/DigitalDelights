@@ -30,6 +30,7 @@ public class OrderController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Page<Order> getProduct(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "orderId") String sortBy) {
 		return orderSrv.find(page, size, sortBy);
@@ -42,7 +43,6 @@ public class OrderController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Order saveIndirizzo(@RequestBody OrderRequestPayload body) {
 		Order created = orderSrv.create(body);
@@ -51,13 +51,11 @@ public class OrderController {
 	}
 
 	@PutMapping("/{orderId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public Order updateProduct(@PathVariable UUID orderId, @RequestBody OrderRequestPayload body) {
 		return orderSrv.findByIdAndUpdate(orderId, body);
 	}
 
 	@DeleteMapping("/{orderId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<String> deleteProduct(@PathVariable UUID orderId) {
 		orderSrv.findByIdAndDelete(orderId);
 		return ResponseEntity.ok("Ordine eliminato con successo.");

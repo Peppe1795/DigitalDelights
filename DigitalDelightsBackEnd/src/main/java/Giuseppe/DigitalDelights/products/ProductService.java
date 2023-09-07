@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.products;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import Giuseppe.DigitalDelights.exception.NotFoundException;
+import Giuseppe.DigitalDelights.user.User;
+import Giuseppe.DigitalDelights.user.UserRepository;
 
 @Service
 public class ProductService {
 	private final ProductRepository productRepo;
 
+	private final UserRepository userRepo;
+
 	@Autowired
-	public ProductService(ProductRepository productRepo) {
+	public ProductService(ProductRepository productRepo, UserRepository userRepo) {
 		this.productRepo = productRepo;
+		this.userRepo = userRepo;
 	}
 
 	public Product create(ProductRequestPayload body) {
@@ -48,13 +54,22 @@ public class ProductService {
 		return productRepo.save(found);
 	}
 
-	public void findByIdAndDelete(UUID id) throws NotFoundException {
-		Product found = this.findById(id);
-		productRepo.delete(found);
+	public Page<Product> findByPartOfName(String partOfName, int page, int size, String sortBy) {
+		Pageable productPageable = PageRequest.of(page, size, Sort.by(sortBy));
+		return productRepo.findByNameContainingIgnoreCase(partOfName, productPageable);
 	}
 
-	public Page<Product> findByPartOfName(String parteDelNome, int page, int size, String sortBy) {
-		Pageable productPageable = PageRequest.of(page, size, Sort.by(sortBy));
-		return productRepo.findByNameContainingIgnoreCase(parteDelNome, productPageable);
+	public void findByIdAndDelete(UUID productId) throws NotFoundException {
+		Product productToDelete = productRepo.findById(productId)
+				.orElseThrow(() -> new NotFoundException("Prodotto non trovato con ID: " + productId));
+
+		List<User> usersWithFavoriteProduct = userRepo.findAllByFavoriteProductsContaining(productToDelete);
+
+		for (User user : usersWithFavoriteProduct) {
+			user.getFavoriteProducts().remove(productToDelete);
+			userRepo.save(user);
+		}
+
+		productRepo.delete(productToDelete);
 	}
 }
