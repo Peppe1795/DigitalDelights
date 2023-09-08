@@ -27,5 +27,4 @@ public class UserRequestPayload {
 
 	private Address address;
 
-	private Role role;
 }

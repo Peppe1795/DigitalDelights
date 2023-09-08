@@ -1,0 +1,136 @@
+<div class="row h-100">
+  <div class="col-12 d-flex justify-content-center align-items-center mt-5">
+    <form #form="ngForm" (ngSubmit)="registra(form)">
+      <!-- Campo Nome -->
+      <div class="mb-3">
+        <label for="name" class="form-label text-white">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          required
+          ngModel
+          id="name"
+          name="name"
+          placeholder="Inserisci il tuo nome"
+        />
+      </div>
+
+      <!-- Campo Username -->
+      <div class="mb-3">
+        <label for="username" class="form-label text-white">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          required
+          ngModel
+          id="username"
+          name="username"
+          placeholder="Scegli un username"
+        />
+      </div>
+
+      <!-- Campo Cognome -->
+      <div class="mb-3">
+        <label for="lastName" class="form-label text-white">Cognome</label>
+        <input
+          type="text"
+          class="form-control"
+          required
+          ngModel
+          id="lastName"
+          name="lastName"
+          placeholder="Inserisci il tuo cognome"
+        />
+      </div>
+
+      <!-- Campo Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label text-white">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          required
+          ngModel
+          id="email"
+          name="email"
+          placeholder="Inserisci l'email"
+        />
+      </div>
+
+      <!-- Campo Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label text-white">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          required
+          ngModel
+          id="password"
+          name="password"
+          placeholder="Inserisci password"
+        />
+      </div>
+
+      <!-- Campi Indirizzo -->
+      <div class="mb-3">
+        <label for="via" class="form-label text-white">Via</label>
+        <input
+          type="text"
+          class="form-control"
+          ngModel
+          id="via"
+          name="via"
+          placeholder="Inserisci la via"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="numeroCivico" class="form-label text-white"
+          >Numero Civico</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          ngModel
+          id="numeroCivico"
+          name="numeroCivico"
+          placeholder="Inserisci il numero civico"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="località" class="form-label text-white">Località</label>
+        <input
+          type="text"
+          class="form-control"
+          ngModel
+          id="località"
+          name="località"
+          placeholder="Inserisci la località"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cap" class="form-label text-white">CAP</label>
+        <input
+          type="text"
+          class="form-control"
+          ngModel
+          id="cap"
+          name="cap"
+          placeholder="Inserisci il CAP"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="comune" class="form-label text-white">Comune</label>
+        <input
+          type="text"
+          class="form-control"
+          ngModel
+          id="comune"
+          name="comune"
+          placeholder="Inserisci il comune"
+        />
+      </div>
+
+      <button class="btn buttons" type="submit">REGISTRATI</button>
+    </form>
+  </div>
+</div>

@@ -78,7 +78,7 @@ public class RandomInstanceGenerator {
 				Role role = Role.values()[rnd.nextInt(Role.values().length)];
 
 				UserRequestPayload tempUserPayload = new UserRequestPayload(name, username, lastName, email, password,
-						null, role);
+						null);
 				User newUser = us.create(tempUserPayload);
 
 				// Step 2: Genera e salva Address (senza User)

@@ -28,7 +28,7 @@ public class UserService {
 
 	public User create(UserRequestPayload body) {
 		User newUser = new User(body.getName(), body.getUsername(), body.getLastName(), body.getEmail(),
-				body.getPassword(), body.getAddress(), body.getRole());
+				body.getPassword(), body.getAddress(), Role.USER);
 		return userRepo.save(newUser);
 	}
 
@@ -48,7 +48,6 @@ public class UserService {
 		found.setLastName(body.getLastName());
 		found.setEmail(body.getEmail());
 		found.setPassword(body.getPassword());
-		found.setRole(body.getRole());
 
 		return userRepo.save(found);
 	}

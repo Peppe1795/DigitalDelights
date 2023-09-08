@@ -1,0 +1,31 @@
+<h1>mi piace luca quaglino</h1>
+<div class="container">
+  <div class="row mt-3">
+    <div *ngFor="let product of products">
+      <div class="col-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text">Prezzo: ${{ product.price }}</p>
+            <p class="card-text">
+              Disponibili in magazzino: {{ product.unitsInStock }}
+            </p>
+            <p class="card-text">Categoria: {{ product.category }}</p>
+            <p class="card-text">
+              Data di creazione: {{ product.dateCreated | date : "short" }}
+            </p>
+            <p class="card-text">
+              Ultimo aggiornamento: {{ product.lastUpdated | date : "short" }}
+            </p>
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <button type="button" class="text-center backg border-0">
+              Dettagli Prodotto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
