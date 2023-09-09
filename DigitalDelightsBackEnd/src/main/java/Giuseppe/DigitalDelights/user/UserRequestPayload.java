@@ -27,4 +27,14 @@ public class UserRequestPayload {
 
 	private Address address;
 
+	@Override
+	public String toString() {
+		return "UserRequestPayload {" + "name='" + name + '\'' + ", username='" + username + '\'' + ", lastName='"
+				+ lastName + '\'' + ", email='" + email + '\'' + ", password='" + "********" + '\'' + // Maschera la
+																										// password per
+																										// ragioni di
+																										// sicurezza
+				", address=" + (address != null ? address.toString() : "null") + '}';
+	}
+
 }

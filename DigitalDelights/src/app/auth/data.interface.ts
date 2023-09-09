@@ -13,7 +13,7 @@ export interface Data {
 export interface Address {
   via: string;
   numeroCivico: number;
-  località: string;
+  localita: string;
   cap: string;
   comune: string;
 }

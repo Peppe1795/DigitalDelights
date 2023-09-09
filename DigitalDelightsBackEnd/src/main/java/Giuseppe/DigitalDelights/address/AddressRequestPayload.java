@@ -11,7 +11,7 @@ import lombok.Setter;
 public class AddressRequestPayload {
 	private String via;
 	private int numeroCivico;
-	private String località;
+	private String localita;
 	private String cap;
 	private String comune;
 	private User user;

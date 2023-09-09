@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Address } from './data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,7 @@ export class AuthService {
       })
     );
   }
+
   restore() {
     const user = localStorage.getItem('user');
     if (!user) {
@@ -49,9 +51,21 @@ export class AuthService {
     this.autoLogout(userData);
   }
 
-  signup(data: Data) {
+  signup(data: {
+    name: string;
+    username: string;
+    lastName: string;
+    email: string;
+    password: string;
+    via: string;
+    numeroCivico: number;
+    localita: string;
+    cap: string;
+    comune: string;
+  }) {
     return this.http.post(`${this.baseURL}auth/register`, data);
   }
+
   logout() {
     this.authSubj.next(null);
     localStorage.removeItem('user');
@@ -76,15 +90,10 @@ export class AuthService {
     switch (err.error) {
       case 'Email already exists':
         return throwError('Utente già presente');
-        break;
-
       case 'Email format is invalid':
         return throwError('Formato mail non valido');
-        break;
-
       default:
         return throwError('Errore nella chiamata');
-        break;
     }
   }
 }

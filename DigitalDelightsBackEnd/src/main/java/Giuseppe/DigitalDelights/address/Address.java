@@ -27,7 +27,7 @@ public class Address {
 	private UUID addressId;
 	private String via;
 	private int numeroCivico;
-	private String località;
+	private String localita;
 	private String cap;
 	private String comune;
 
@@ -36,10 +36,10 @@ public class Address {
 	@JsonBackReference
 	private User user;
 
-	public Address(String via, int numeroCivico, String località, String cap, String comune, User user) {
+	public Address(String via, int numeroCivico, String localita, String cap, String comune, User user) {
 		this.via = via;
 		this.numeroCivico = numeroCivico;
-		this.località = località;
+		this.localita = localita;
 		this.cap = cap;
 		this.comune = comune;
 		this.user = user;

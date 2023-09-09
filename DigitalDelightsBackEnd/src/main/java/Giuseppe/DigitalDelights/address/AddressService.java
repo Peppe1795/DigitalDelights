@@ -22,7 +22,7 @@ public class AddressService {
 	}
 
 	public Address create(AddressRequestPayload body) {
-		Address newAddress = new Address(body.getVia(), body.getNumeroCivico(), body.getLocalità(), body.getComune(),
+		Address newAddress = new Address(body.getVia(), body.getNumeroCivico(), body.getLocalita(), body.getComune(),
 				body.getCap(), body.getUser());
 		return addressRepo.save(newAddress);
 	}
@@ -40,7 +40,7 @@ public class AddressService {
 		Address found = this.findById(id);
 		found.setVia(body.getVia());
 		found.setNumeroCivico(body.getNumeroCivico());
-		found.setLocalità(body.getLocalità());
+		found.setLocalita(body.getLocalita());
 		found.setCap(body.getCap());
 
 		return addressRepo.save(found);

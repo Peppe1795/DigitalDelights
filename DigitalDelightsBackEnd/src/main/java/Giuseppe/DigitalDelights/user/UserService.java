@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Giuseppe.DigitalDelights.address.Address;
+import Giuseppe.DigitalDelights.address.AddressRepository;
 import Giuseppe.DigitalDelights.exception.NotFoundException;
 import Giuseppe.DigitalDelights.products.Product;
 import Giuseppe.DigitalDelights.products.ProductRepository;
@@ -19,16 +21,29 @@ import Giuseppe.DigitalDelights.products.ProductRepository;
 public class UserService {
 	private final UserRepository userRepo;
 	private final ProductRepository pr;
+	private final AddressRepository ar;
 
 	@Autowired
-	public UserService(UserRepository userRepo, ProductRepository pr) {
+	public UserService(UserRepository userRepo, ProductRepository pr, AddressRepository ar) {
 		this.userRepo = userRepo;
 		this.pr = pr;
+		this.ar = ar;
 	}
 
 	public User create(UserRequestPayload body) {
+		Address address = null;
+		System.out.println(body);
+		if (body.getAddress() != null) {
+			System.out.println("sono qui");
+			address = new Address(body.getAddress().getVia(), body.getAddress().getNumeroCivico(),
+					body.getAddress().getLocalita(), body.getAddress().getCap(), body.getAddress().getComune(), null);
+			// Salva l'indirizzo
+			address = ar.save(address);
+		}
+
 		User newUser = new User(body.getName(), body.getUsername(), body.getLastName(), body.getEmail(),
-				body.getPassword(), body.getAddress(), Role.USER);
+				body.getPassword(), address, Role.USER);
+
 		return userRepo.save(newUser);
 	}
 
