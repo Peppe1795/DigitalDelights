@@ -21,7 +21,7 @@ public class OrderService {
 	}
 
 	public Order create(OrderRequestPayload body) {
-		Order newOrder = new Order(body.getUser(), body.getProducts(), body.getOrderDate(), body.getTotalPrice());
+		Order newOrder = new Order(body.getUser(), body.getProducts(), body.getOrderDate());
 		return orderSrv.save(newOrder);
 	}
 

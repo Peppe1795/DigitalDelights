@@ -72,4 +72,10 @@ public class ProductService {
 
 		productRepo.delete(productToDelete);
 	}
+
+	public Page<Product> findFilteredProducts(String name, Category category, Double minPrice, Double maxPrice,
+			String sortBy, Pageable pageable) {
+		return productRepo.findFilteredProducts(name, category, minPrice, maxPrice, sortBy, pageable);
+	}
+
 }

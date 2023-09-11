@@ -4,6 +4,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +41,21 @@ public class ProductController {
 	public Product findById(@PathVariable UUID productId) {
 		return productSrv.findById(productId);
 
+	}
+
+	@GetMapping("/filter")
+	public ResponseEntity<Page<Product>> getFilteredProducts(@RequestParam(required = false) String name,
+			@RequestParam(required = false) Category category, @RequestParam(required = false) Double minPrice,
+			@RequestParam(required = false) Double maxPrice, @RequestParam(defaultValue = "productId") String sortBy,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+		Page<Product> products = productSrv.findFilteredProducts(name, category, minPrice, maxPrice, sortBy, pageable);
+
+		if (products.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(products);
+		}
 	}
 
 	@PostMapping

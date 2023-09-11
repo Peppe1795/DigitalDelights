@@ -41,11 +41,11 @@ public class Order {
 
 	private double totalPrice;
 
-	public Order(User user, List<Product> products, Date orderDate, double totalPrice) {
+	public Order(User user, List<Product> products, Date orderDate) {
 		this.user = user;
 		this.products = products;
 		this.orderDate = orderDate;
-		this.totalPrice = totalPrice;
+		this.totalPrice = products.stream().mapToDouble(Product::getPrice).sum();
 	}
 
 }
