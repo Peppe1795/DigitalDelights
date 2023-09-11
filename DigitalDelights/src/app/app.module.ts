@@ -21,6 +21,10 @@ const routes: Route[] = [
     component: ProductsComponent,
   },
   {
+    path: 'products/:category',
+    component: ProductsComponent,
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },

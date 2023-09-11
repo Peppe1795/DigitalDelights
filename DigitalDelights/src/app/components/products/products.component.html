@@ -1,29 +1,102 @@
 <div class="container">
-  <div class="row mt-3">
-    <div *ngFor="let product of products">
-      <!-- Usando classi responsive di Bootstrap -->
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">{{ product.description }}</p>
-            <p class="card-text">Prezzo: ${{ product.price }}</p>
-            <p class="card-text">
-              Disponibili in magazzino: {{ product.unitsInStock }}
-            </p>
-            <p class="card-text">Categoria: {{ product.category }}</p>
-            <p class="card-text">
-              Data di creazione: {{ product.dateCreated | date : "short" }}
-            </p>
-            <p class="card-text">
-              Ultimo aggiornamento: {{ product.lastUpdated | date : "short" }}
-            </p>
+  <!-- Gestione del caricamento dei prodotti -->
+  <ng-container *ngIf="loading; else productsLoaded">
+    <p>Caricamento prodotti in corso...</p>
+  </ng-container>
+
+  <ng-template #productsLoaded>
+    <!-- Ciclo esterno per le categorie -->
+    <div *ngFor="let categoryKey of objectKeys">
+      <h2>{{ categoryKey }}</h2>
+
+      <div class="row mt-3">
+        <!-- Ciclo interno per i prodotti di una data categoria -->
+        <div *ngFor="let product of categoriesWithProducts[categoryKey]">
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="card h-100">
+              <!-- Potresti voler aggiungere un'immagine qui -->
+              <h5 class="card-title text-center mt-2">{{ product.name }}</h5>
+
+              <div class="card-body">
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text">Prezzo: ${{ product.price }}</p>
+                <p class="card-text">Disponibili: {{ product.unitsInStock }}</p>
+                <p class="card-text">Categoria: {{ product.category }}</p>
+                <p class="card-text">
+                  Creazione: {{ product.dateCreated | date : "short" }}
+                </p>
+                <p class="card-text">
+                  Ultimo aggiornamento:
+                  {{ product.lastUpdated | date : "short" }}
+                </p>
+              </div>
+
+              <div class="card-footer">
+                <div class="d-flex justify-content-center align-items-center">
+                  <button type="button" class="btn btn-light btn-sm mx-1">
+                    Dettagli
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm mx-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reviewModal"
+                  >
+                    Recensione
+                  </button>
+                  <button type="button" class="btn btn-success btn-sm mx-1">
+                    Carrello
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm mx-1"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="d-flex justify-content-center align-items-center">
-            <button type="button" class="text-center backg border-0">
-              Dettagli Prodotto
-            </button>
-          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Modal per recensioni -->
+  <div
+    class="modal fade"
+    id="reviewModal"
+    tabindex="-1"
+    aria-labelledby="reviewModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reviewModalLabel">Aggiungi recensione</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <textarea
+            class="form-control"
+            rows="4"
+            placeholder="Scrivi la tua recensione qui..."
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Chiudi
+          </button>
+          <button type="button" class="btn btn-primary">Invia</button>
         </div>
       </div>
     </div>

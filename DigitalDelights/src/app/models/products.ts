@@ -1,3 +1,7 @@
+import { Category } from '../enum/category';
+export interface ApiResponse {
+  content: Product[];
+}
 export interface Product {
   productId: string;
   name: string;
@@ -8,10 +12,6 @@ export interface Product {
   unitsInStock: number;
   dateCreated: Date;
   lastUpdated: Date;
-  category: ProductCategory;
+  category: Category;
   reviews: string[]; // Supponendo che sia una lista di stringhe
-}
-export enum ProductCategory {
-  SMARTPHONE = 'SMARTPHONE',
-  // Aggiungi altre categorie qui se necessario
 }

@@ -7,8 +7,9 @@
         <!-- Left elements -->
         <div class="col-lg-2 col-sm-4 col-4">
           <a
-            href="https://mdbootstrap.com/"
-            target="_blank"
+            [routerLink]="['/']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
             class="float-start"
           >
             <img
@@ -40,6 +41,7 @@
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">login</p>
             </a>
+            <!-- I prossimi due link sono esterni, quindi non ho apportato modifiche -->
             <a
               href="https://github.com/mdbootstrap/bootstrap-material-design"
               class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
@@ -101,41 +103,17 @@
       <div class="collapse navbar-collapse" id="navbarLeftAlignExample">
         <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-dark" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Smartphone</a>
-          </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngFor="let categoryKey of objectKeys">
             <a
               class="nav-link text-dark"
-              [routerLink]="['/products']"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >Laptop</a
+              [routerLink]="['/products', categoryKey]"
+              >{{ categoryKey }}</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Smarthwatch</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Tablet</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Tv</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Pc</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Audio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Camera</a>
-          </li>
         </ul>
+        <!-- Left links -->
       </div>
+      <!-- Collapsible wrapper -->
     </div>
     <!-- Container wrapper -->
   </nav>
