@@ -1,7 +1,7 @@
 package Giuseppe.DigitalDelights.reviews;
 
-import Giuseppe.DigitalDelights.products.Product;
-import Giuseppe.DigitalDelights.user.User;
+import java.util.UUID;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ public class ReviewsRequestPayload {
 
 	private String reviewText;
 
-	private User user;
+	private UUID userId;
 
-	private Product product;
+	private UUID productId;
 
 }

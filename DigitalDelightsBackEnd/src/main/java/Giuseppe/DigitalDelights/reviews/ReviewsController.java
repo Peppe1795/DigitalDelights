@@ -1,10 +1,9 @@
 package Giuseppe.DigitalDelights.reviews;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -23,44 +20,43 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/reviews")
 public class ReviewsController {
+
 	private final ReviewsService reviewsSrv;
 
 	@Autowired
 	public ReviewsController(ReviewsService reviewsSrv) {
-
 		this.reviewsSrv = reviewsSrv;
 	}
 
-	@GetMapping
-	public Page<Reviews> getReviews(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "reviewId") String sortBy) {
-		return reviewsSrv.find(page, size, sortBy);
+	// Endpoint per ottenere una recensione specifica tramite il suo ID
+	@GetMapping("/{reviewId}")
+	public Reviews getReviewById(@PathVariable UUID reviewId) {
+		return reviewsSrv.findById(reviewId);
 	}
 
-	@GetMapping("/{reviewsId}")
-	public Reviews findById(@PathVariable UUID reviewsId) {
-		return reviewsSrv.findById(reviewsId);
-
+	// Endpoint per creare una nuova recensione per un determinato prodotto
+	@PostMapping("/product/{productId}")
+	public Reviews addReviewToProduct(@PathVariable UUID productId, @RequestBody @Valid ReviewsRequestPayload payload) {
+		return reviewsSrv.createReviewForProduct(productId, payload.getRating(), payload.getReviewText());
 	}
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Reviews saveReviews(@Valid @RequestBody ReviewsRequestPayload body) {
-		Reviews created = reviewsSrv.create(body);
-
-		return created;
+	// Endpoint per ottenere tutte le recensioni di un determinato prodotto
+	@GetMapping("/product/{productId}")
+	public List<Reviews> getReviewsForProduct(@PathVariable UUID productId) {
+		return reviewsSrv.getReviewsForProduct(productId);
 	}
 
-	@PutMapping("/{reviewsId}")
-	public Reviews updateReviews(@PathVariable UUID reviewsId, @Valid @RequestBody ReviewsRequestPayload body) {
-		return reviewsSrv.findByIdAndUpdate(reviewsId, body);
+	// Endpoint per aggiornare una recensione esistente
+	@PutMapping("/{reviewId}")
+	public Reviews updateReview(@PathVariable UUID reviewId, @RequestBody @Valid ReviewsRequestPayload payload) {
+		return reviewsSrv.findByIdAndUpdate(reviewId, payload);
 	}
 
-	@DeleteMapping("/{reviewsId}")
+	// Endpoint per eliminare una recensione
+	@DeleteMapping("/{reviewId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> deleteReviews(@PathVariable UUID reviewsId) {
-		reviewsSrv.findByIdAndDelete(reviewsId);
+	public ResponseEntity<String> deleteReview(@PathVariable UUID reviewId) {
+		reviewsSrv.findByIdAndDelete(reviewId);
 		return ResponseEntity.ok("Recensione eliminata con successo.");
-
 	}
 }

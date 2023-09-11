@@ -75,7 +75,9 @@ public class ProductService {
 
 	public Page<Product> findFilteredProducts(String name, Category category, Double minPrice, Double maxPrice,
 			String sortBy, Pageable pageable) {
-		return productRepo.findFilteredProducts(name, category, minPrice, maxPrice, sortBy, pageable);
+// Usa l'ordinamento di Pageable basato sul valore di 'sortBy'
+		Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy));
+		return productRepo.findFilteredProducts(name, category, minPrice, maxPrice, sortedPageable);
 	}
 
 }

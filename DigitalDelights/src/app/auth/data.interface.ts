@@ -1,6 +1,7 @@
 export interface Data {
   accessToken: string;
   user: {
+    id: number;
     name: string;
     username: string;
     lastName: string;

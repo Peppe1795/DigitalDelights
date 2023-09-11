@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import Giuseppe.DigitalDelights.reviews.Reviews;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -49,7 +48,7 @@ public class Product {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@OneToMany
 	private List<Reviews> reviews = new ArrayList<>();
 
 	public Product(String name, String description, double price, String imageUrl, boolean active, int unitsInStock,

@@ -51,7 +51,7 @@ public class ProductController {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 		Page<Product> products = productSrv.findFilteredProducts(name, category, minPrice, maxPrice, sortBy, pageable);
 
-		if (products.isEmpty()) {
+		if (products.getContent().isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
 			return ResponseEntity.ok(products);

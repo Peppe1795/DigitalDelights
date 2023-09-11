@@ -56,17 +56,12 @@ public class Reviews {
 	@UpdateTimestamp
 	private Date lastUpdated;
 
-	public Reviews(int rating, String reviewText, User user, Product product) {
+	public Reviews(@Min(0) @Max(5) int rating, String reviewText, User user, Product product) {
+		super();
 		this.rating = rating;
 		this.reviewText = reviewText;
 		this.user = user;
 		this.product = product;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-		if (!user.getReviews().contains(this)) {
-			user.getReviews().add(this);
-		}
-	}
 }

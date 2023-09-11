@@ -6,9 +6,8 @@
 
   <ng-template #productsLoaded>
     <!-- Ciclo esterno per le categorie -->
-    <div *ngFor="let categoryKey of objectKeys">
+    <div *ngFor="let categoryKey of getObjectKeys(categoriesWithProducts)">
       <h2>{{ categoryKey }}</h2>
-
       <div class="row mt-3">
         <!-- Ciclo interno per i prodotti di una data categoria -->
         <div *ngFor="let product of categoriesWithProducts[categoryKey]">
@@ -39,8 +38,7 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-sm mx-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reviewModal"
+                    (click)="openReviewModal(product)"
                   >
                     Recensione
                   </button>
@@ -79,10 +77,12 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="closeReviewModal()"
           ></button>
         </div>
         <div class="modal-body">
           <textarea
+            [(ngModel)]="reviewText"
             class="form-control"
             rows="4"
             placeholder="Scrivi la tua recensione qui..."
@@ -93,10 +93,24 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            (click)="closeReviewModal()"
           >
             Chiudi
           </button>
-          <button type="button" class="btn btn-primary">Invia</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="submitReview()"
+            *ngIf="authService.isAuthenticated() && selectedProductForReview"
+          >
+            Invia
+          </button>
+          <p *ngIf="!authService.isAuthenticated()">
+            Effettua il login per lasciare una recensione.
+          </p>
+          <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
+            Seleziona un prodotto per lasciare una recensione.
+          </p>
         </div>
       </div>
     </div>

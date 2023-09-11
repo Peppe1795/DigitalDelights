@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import Giuseppe.DigitalDelights.exception.NotFoundException;
 import Giuseppe.DigitalDelights.exception.UnauthorizedException;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserService;
@@ -26,7 +27,7 @@ public class JWTFilter extends OncePerRequestFilter {
 	@Autowired
 	UserService uS;
 
-	private static final String[] PUBLIC_GET_ROUTES = { "/product/**", "/reviews/**" };
+	private static final String[] PUBLIC_ROUTES = { "/product/**", "/reviews/**" };
 	private static final String[] ADMIN_ROUTES = { "/product", // POST per creare un nuovo prodotto
 			"/product/*", // PUT e DELETE per modificare o eliminare un prodotto
 			"/reviews", // POST per creare una nuova recensione
@@ -45,31 +46,35 @@ public class JWTFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String servletPath = request.getServletPath();
 
-		// Controlla se la richiesta è una richiesta GET per una route pubblica
-		if (isPublicGetRoute(servletPath) && request.getMethod().equals("GET")) {
-			filterChain.doFilter(request, response); // Passa direttamente alla catena di filtri successiva
+		if (isPublicRoute(servletPath) && (request.getMethod().equals("GET")
+				|| (request.getMethod().equals("POST") && "/reviews".equals(servletPath)))) {
+			filterChain.doFilter(request, response);
 			return;
 		}
 
-		// Richiedi il token JWT
 		String authHeader = request.getHeader("Authorization");
-		if (authHeader == null || !authHeader.startsWith("Bearer "))
+		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 			throw new UnauthorizedException("Per favore passa il token nell'authorization header");
-		String token = authHeader.substring(7);
-		System.out.println("TOKEN = " + token);
-		jwttools.verificaToken(token);
-		String id = jwttools.extractSubject(token);
-		User currentUser = uS.findById(UUID.fromString(id));
-
-		// Verifica il ruolo dell'utente
-		if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(currentUser.getRole().toString())) {
-			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
 		}
 
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
-				currentUser.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		filterChain.doFilter(request, response);
+		String token = authHeader.substring(7);
+		try {
+			jwttools.verificaToken(token);
+			String id = jwttools.extractSubject(token);
+			User currentUser = uS.findById(UUID.fromString(id));
+
+			if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(currentUser.getRole().toString())) {
+				throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
+			}
+
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
+					currentUser.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authToken);
+			filterChain.doFilter(request, response);
+		} catch (NotFoundException ex) {
+			// L'utente non è stato trovato nel database
+			throw new UnauthorizedException("Utente non trovato nel database");
+		}
 	}
 
 	@Override
@@ -79,8 +84,8 @@ public class JWTFilter extends OncePerRequestFilter {
 	}
 
 	// Verifica se la route è pubblica per le richieste GET
-	private boolean isPublicGetRoute(String servletPath) {
-		for (String publicRoute : PUBLIC_GET_ROUTES) {
+	private boolean isPublicRoute(String servletPath) {
+		for (String publicRoute : PUBLIC_ROUTES) {
 			if (new AntPathMatcher().match(publicRoute, servletPath)) {
 				return true;
 			}

@@ -7,9 +7,8 @@
         <!-- Left elements -->
         <div class="col-lg-2 col-sm-4 col-4">
           <a
-            [routerLink]="['/']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
+            href="https://mdbootstrap.com/"
+            target="_blank"
             class="float-start"
           >
             <img
@@ -41,7 +40,6 @@
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">login</p>
             </a>
-            <!-- I prossimi due link sono esterni, quindi non ho apportato modifiche -->
             <a
               href="https://github.com/mdbootstrap/bootstrap-material-design"
               class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
@@ -103,17 +101,46 @@
       <div class="collapse navbar-collapse" id="navbarLeftAlignExample">
         <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" *ngFor="let categoryKey of objectKeys">
-            <a
-              class="nav-link text-dark"
-              [routerLink]="['/products', categoryKey]"
-              >{{ categoryKey }}</a
+          <li class="nav-item">
+            <a class="nav-link text-dark" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/SMARTPHONE"
+              >Smartphone</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/LAPTOP"
+              >Laptop</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/SMARTWATCH"
+              >Smartwatch</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/TABLET"
+              >Tablet</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/TV">Tv</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/PC">Pc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/AUDIO">Audio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" routerLink="/products/CAMERA"
+              >Camera</a
             >
           </li>
         </ul>
-        <!-- Left links -->
+        <!-- ... (altre parti della navigazione) -->
       </div>
-      <!-- Collapsible wrapper -->
     </div>
     <!-- Container wrapper -->
   </nav>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/enum/category';
 import { ProductsService } from 'src/app/services/products.service';
+import { Product } from 'src/app/models/products';
 
 @Component({
   selector: 'app-navbar',

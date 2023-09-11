@@ -43,6 +43,17 @@ public class UserController {
 
 	}
 
+	@GetMapping("/current")
+	public ResponseEntity<User> getCurrentUser() {
+		User user = userSrv.getCurrentUser();
+
+		if (user != null) {
+			return ResponseEntity.ok(user);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public User saveUser(@RequestBody UserRequestPayload body) {

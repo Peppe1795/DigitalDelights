@@ -26,10 +26,12 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        this.errorMessage = 'Email o password non valide. Riprova.'; // mostrare questo messaggio di errore nel template
+        this.errorMessage =
+          error.error.message || 'Email o password non valide. Riprova.'; // Qui ho aggiunto un messaggio di errore più dinamico
       }
     );
   }
+
   redirectToRegister() {
     this.router.navigate(['/singin']);
   }

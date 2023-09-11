@@ -7,11 +7,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ReviewsService {
-  baseUrl = `${environment.baseURL}reviews`;
+  baseUrl = `${environment.baseURL}reviews/product/{productId}`;
 
   constructor(private http: HttpClient) {}
 
-  createReview(review: any): Observable<any> {
-    return this.http.post(this.baseUrl, review);
+  createReview(productId: string, review: any): Observable<any> {
+    // Aggiungi l'ID del prodotto al percorso dell'endpoint
+    const endpoint = `${this.baseUrl}/${productId}`;
+
+    return this.http.post(endpoint, review);
   }
 }

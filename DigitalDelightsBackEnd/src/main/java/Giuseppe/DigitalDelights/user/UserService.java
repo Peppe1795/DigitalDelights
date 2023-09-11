@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.user;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,20 +83,38 @@ public class UserService {
 				.orElseThrow(() -> new NotFoundException("Username" + username + "non corrispondente"));
 	}
 
-	// PRENDI L'ID DELL'UTENTE LOGGATO
+//	// PRENDI L'ID DELL'UTENTE LOGGATO
+//	public User getCurrentUser() {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Object principal = authentication.getPrincipal();
+//
+//		String currentEmail;
+//		if (principal instanceof User) {
+//			currentEmail = ((User) principal).getEmail();
+//		} else {
+//			throw new NotFoundException("Utente non trovato nel contesto di autenticazione");
+//		}
+//
+//		return userRepo.findByEmail(currentEmail)
+//				.orElseThrow(() -> new NotFoundException("Utente con email " + currentEmail + " non trovato"));
+//	}
+
 	public User getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
 
-		String currentEmail;
 		if (principal instanceof User) {
-			currentEmail = ((User) principal).getEmail();
-		} else {
-			throw new NotFoundException("Utente non trovato nel contesto di autenticazione");
+			User user = (User) principal;
+			String currentUserName = user.getName();
+			Optional<User> userOptional = userRepo.findByName(currentUserName);
+
+			if (userOptional.isPresent()) {
+				return userOptional.get();
+			}
 		}
 
-		return userRepo.findByEmail(currentEmail)
-				.orElseThrow(() -> new NotFoundException("Utente con email " + currentEmail + " non trovato"));
+		// Se l'utente non è autenticato, restituisci null o un utente anonimo
+		return null;
 	}
 
 	public void addFavoriteProduct(UUID productId) {
