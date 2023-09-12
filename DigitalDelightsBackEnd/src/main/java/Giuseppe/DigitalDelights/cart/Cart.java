@@ -7,6 +7,9 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Giuseppe.DigitalDelights.cartitem.CartItem;
 import Giuseppe.DigitalDelights.user.User;
 import jakarta.persistence.CascadeType;
@@ -31,9 +34,11 @@ public class Cart {
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user;
 
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<CartItem> cartItems = new ArrayList<>();
 
 	@CreationTimestamp
@@ -44,4 +49,13 @@ public class Cart {
 		this.user = user;
 	}
 
+	public void addCartItem(CartItem item) {
+		cartItems.add(item);
+		item.setCart(this);
+	}
+
+	public void removeCartItem(CartItem item) {
+		cartItems.remove(item);
+		item.setCart(null);
+	}
 }

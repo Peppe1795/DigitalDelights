@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import Giuseppe.DigitalDelights.address.Address;
 import Giuseppe.DigitalDelights.address.AddressRepository;
+import Giuseppe.DigitalDelights.cart.Cart;
+import Giuseppe.DigitalDelights.cart.CartRepository;
 import Giuseppe.DigitalDelights.exception.NotFoundException;
 import Giuseppe.DigitalDelights.products.Product;
 import Giuseppe.DigitalDelights.products.ProductRepository;
@@ -23,12 +25,14 @@ public class UserService {
 	private final UserRepository userRepo;
 	private final ProductRepository pr;
 	private final AddressRepository ar;
+	private final CartRepository cr;
 
 	@Autowired
-	public UserService(UserRepository userRepo, ProductRepository pr, AddressRepository ar) {
+	public UserService(UserRepository userRepo, ProductRepository pr, AddressRepository ar, CartRepository cr) {
 		this.userRepo = userRepo;
 		this.pr = pr;
 		this.ar = ar;
+		this.cr = cr;
 	}
 
 	public User create(UserRequestPayload body) {
@@ -45,7 +49,19 @@ public class UserService {
 		User newUser = new User(body.getName(), body.getUsername(), body.getLastName(), body.getEmail(),
 				body.getPassword(), address, Role.USER);
 
-		return userRepo.save(newUser);
+		// Crea un nuovo carrello vuoto e associalo all'utente
+		Cart newCart = new Cart();
+		newUser.setCart(newCart); // Presuppone che tu abbia un metodo setCart() in User
+		newCart.setUser(newUser); // Presuppone che tu abbia un metodo setUser() in Cart
+
+		// Nota: a seconda della tua configurazione di JPA/Hibernate, potrebbe essere
+		// necessario
+		// salvare prima l'utente e poi il carrello per gestire le dipendenze
+		// correttamente
+		userRepo.save(newUser);
+		cr.save(newCart);
+
+		return newUser;
 	}
 
 	public Page<User> find(int page, int size, String sort) {
@@ -146,4 +162,9 @@ public class UserService {
 
 		return favorites;
 	}
+
+//	public boolean isProductInFavorites(UUID productId) {
+//		User user = this.getCurrentUser();
+//		return user.getFavoriteProducts().stream().anyMatch(product -> product.getProductId().equals(productId));
+//	}
 }

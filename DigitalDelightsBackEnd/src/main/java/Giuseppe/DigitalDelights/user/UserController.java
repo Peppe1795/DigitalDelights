@@ -72,19 +72,19 @@ public class UserController {
 		return ResponseEntity.ok("User eliminato con successo.");
 	}
 
-	@PostMapping("/aggiungiPreferiti/{productId}")
+	@PostMapping("/addWishList/{productId}")
 	public ResponseEntity<?> addFavorite(@PathVariable UUID productId) {
 		userSrv.addFavoriteProduct(productId);
 		return ResponseEntity.ok("Prodotto aggiunto ai preferiti");
 	}
 
-	@DeleteMapping("/rimuoviPreferiti/{productId}")
+	@DeleteMapping("/removeWishList/{productId}")
 	public ResponseEntity<?> removeFavorite(@PathVariable UUID productId) {
 		userSrv.removeFavoriteProduct(productId);
 		return ResponseEntity.ok("Prodotto rimosso dai preferiti");
 	}
 
-	@GetMapping("/preferiti")
+	@GetMapping("/wishList")
 	public ResponseEntity<Page<Product>> getUserPreferiti(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size) {
 

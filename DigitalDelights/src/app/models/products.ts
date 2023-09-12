@@ -13,5 +13,6 @@ export interface Product {
   dateCreated: Date;
   lastUpdated: Date;
   category: Category;
-  reviews: string[]; // Supponendo che sia una lista di stringhe
+  reviews: string[];
+  isFavorited?: boolean; // Supponendo che sia una lista di stringhe
 }

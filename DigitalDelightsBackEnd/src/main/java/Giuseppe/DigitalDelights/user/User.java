@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -63,6 +64,7 @@ public class User implements UserDetails {
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private Cart cart;
 
 	@ManyToMany
@@ -84,6 +86,7 @@ public class User implements UserDetails {
 		this.role = role;
 		this.favoriteProducts = new ArrayList<>();
 		this.reviews = new ArrayList<>();
+		this.cart = new Cart(this);
 	}
 
 	@Override

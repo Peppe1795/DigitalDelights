@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductsComponent } from './components/products/products.component';
 import { SinginComponent } from './auth/singin/singin.component';
 import { LoginComponent } from './auth/login/login.component';
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Route[] = [
   {
@@ -21,6 +22,10 @@ const routes: Route[] = [
   {
     path: 'products',
     component: ProductsComponent,
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
   },
   {
     path: 'products/:category',
@@ -44,6 +49,7 @@ const routes: Route[] = [
     ProductsComponent,
     SinginComponent,
     LoginComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,8 @@ package Giuseppe.DigitalDelights.cartitem;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import Giuseppe.DigitalDelights.cart.Cart;
 import Giuseppe.DigitalDelights.products.Product;
 import jakarta.persistence.Entity;
@@ -30,10 +32,12 @@ public class CartItem {
 
 	@ManyToOne
 	@JoinColumn(name = "cart_id")
+	@JsonManagedReference
 	private Cart cart;
 
-	public CartItem(Product product, int quantity) {
+	public CartItem(Product product, Cart cart, int quantity) {
 		this.product = product;
+		this.cart = cart;
 		this.quantity = quantity;
 	}
 

@@ -12,7 +12,7 @@ import { ApiResponse } from '../models/products';
 })
 export class ProductsService {
   baseUrl = `${environment.baseURL}product`;
-
+  baseURL = `${environment.baseURL}user`;
   constructor(private http: HttpClient) {}
 
   getProducts(page: number, order: string): Observable<Product[]> {
@@ -29,5 +29,15 @@ export class ProductsService {
     return this.http.get<ApiResponse>(
       `${this.baseUrl}/filter?category=${category}`
     );
+  }
+
+  addToFavorites(productId: string): Observable<any> {
+    const url = `${this.baseURL}/addWishList/${productId}`;
+    return this.http.post(url, {});
+  }
+
+  removeFromFavorites(productId: string): Observable<any> {
+    const url = `${this.baseURL}/removeWishList/${productId}`;
+    return this.http.delete(url);
   }
 }

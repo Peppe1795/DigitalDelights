@@ -5,6 +5,8 @@ import { ProductsService } from 'src/app/services/products.service';
 import { Category } from 'src/app/enum/category';
 import { ReviewsService } from 'src/app/services/reviews.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CartService } from 'src/app/services/cart.service';
+import { Observable } from 'rxjs';
 
 declare var bootstrap: any;
 @Component({
@@ -27,7 +29,8 @@ export class ProductsComponent implements OnInit {
     private productSrv: ProductsService,
     private route: ActivatedRoute, // Injectiamo ActivatedRoute nel costruttore
     public authService: AuthService,
-    public reviewsService: ReviewsService
+    public reviewsService: ReviewsService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +68,25 @@ export class ProductsComponent implements OnInit {
       );
     });
   }
+  addToCart(product: Product): void {
+    if (!product) {
+      console.error('Nessun prodotto fornito.');
+      return;
+    }
 
+    this.cartService.addProductToCart(product.productId, 1).subscribe(
+      () => {
+        console.log('Prodotto aggiunto al carrello con successo!');
+        // Aggiorna il carrello o mostra una notifica, a tua scelta.
+      },
+      (error) => {
+        console.error(
+          'Errore:',
+          error.message || "Errore nell'aggiunta del prodotto al carrello."
+        );
+      }
+    );
+  }
   loadProductsBySelectedCategory(): void {
     if (!this.selectedCategory) return;
 
@@ -138,5 +159,47 @@ export class ProductsComponent implements OnInit {
     if (this.modalInstance) {
       this.modalInstance.hide();
     }
+  }
+
+  toggleFavorite(product: Product): void {
+    if (!product) {
+      console.error('Nessun prodotto fornito.');
+      return;
+    }
+
+    // Controlla se l'utente è autenticato
+    if (!this.authService.isAuthenticated()) {
+      console.error("L'utente non è autenticato. Devi effettuare il login.");
+      // Qui potresti mostrare una notifica o reindirizzare all'accesso.
+      return;
+    }
+
+    let actionObservable: Observable<any>;
+
+    if (product.isFavorited) {
+      actionObservable = this.productSrv.removeFromFavorites(product.productId);
+    } else {
+      actionObservable = this.productSrv.addToFavorites(product.productId);
+    }
+
+    actionObservable.subscribe(
+      () => {
+        product.isFavorited = !product.isFavorited;
+        console.log(
+          `Prodotto ${
+            product.isFavorited ? 'aggiunto ai' : 'rimosso dai'
+          } preferiti con successo!`
+        );
+      },
+      (error) => {
+        console.error(
+          'Errore:',
+          error.message ||
+            `Errore ${
+              product.isFavorited ? 'nella rimozione del' : "nell'aggiunta del"
+            } prodotto dai preferiti.`
+        );
+      }
+    );
   }
 }

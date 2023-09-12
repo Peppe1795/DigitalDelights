@@ -48,7 +48,9 @@
               <p class="d-none d-md-block mb-0">Wishlist</p>
             </a>
             <a
-              href="https://github.com/mdbootstrap/bootstrap-material-design"
+              [routerLink]="['/cart']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               class="border rounded py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-shopping-cart m-1 me-md-2"></i>
