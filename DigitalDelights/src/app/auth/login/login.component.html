@@ -1,35 +1,14 @@
-<div class="row h-100">
-  <div class="col-12 d-flex justify-content-center align-items-center mt-5">
-    <form #form="ngForm" (ngSubmit)="login()">
-      <div class="mb-3">
-        <label for="formGroupExampleInput2" class="form-label text-white"
-          >Email</label
-        >
-        <input
-          type="email"
-          class="form-control"
-          required
-          [(ngModel)]="email"
-          id="email"
-          name="email"
-          placeholder="Inserisci l'email"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="formGroupExampleInput2" class="form-label text-white"
-          >Password</label
-        >
-        <input
-          type="password"
-          class="form-control"
-          required
-          [(ngModel)]="password"
-          id="password"
-          name="password"
-          placeholder="Inserisci password"
-        />
-      </div>
-      <button class="btn buttons" type="submit">LOGIN</button>
-    </form>
+<form (ngSubmit)="onLogin()">
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" required />
   </div>
-</div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" [(ngModel)]="password" name="password" required />
+  </div>
+  <div *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <button type="submit">Login</button>
+</form>

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ReviewsService {
-  baseUrl = `${environment.baseURL}reviews/product/{productId}`;
+  baseUrl = `${environment.baseURL}reviews/product`;
 
   constructor(private http: HttpClient) {}
 

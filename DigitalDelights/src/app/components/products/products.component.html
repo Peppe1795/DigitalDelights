@@ -81,6 +81,13 @@
           ></button>
         </div>
         <div class="modal-body">
+          <div class="rating">
+            <span (click)="setRating(5)" [class.selected]="rating >= 5">☆</span>
+            <span (click)="setRating(4)" [class.selected]="rating >= 4">☆</span>
+            <span (click)="setRating(3)" [class.selected]="rating >= 3">☆</span>
+            <span (click)="setRating(2)" [class.selected]="rating >= 2">☆</span>
+            <span (click)="setRating(1)" [class.selected]="rating >= 1">☆</span>
+          </div>
           <textarea
             [(ngModel)]="reviewText"
             class="form-control"

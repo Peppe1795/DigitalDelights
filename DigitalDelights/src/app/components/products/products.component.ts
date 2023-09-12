@@ -21,6 +21,7 @@ export class ProductsComponent implements OnInit {
   selectedProductForReview?: Product;
   modalInstance?: any;
   selectedProduct?: Product;
+  rating = 0;
 
   constructor(
     private productSrv: ProductsService,
@@ -105,8 +106,9 @@ export class ProductsComponent implements OnInit {
 
     const reviewPayload = {
       userId: userId,
-      productId: productId, // Utilizza l'ID del prodotto selezionato
+      productId: productId,
       reviewText: this.reviewText,
+      rating: this.rating, // aggiunge il punteggio delle stelle
     };
 
     // Chiamata al servizio delle recensioni con l'ID del prodotto
@@ -120,9 +122,12 @@ export class ProductsComponent implements OnInit {
       }
     );
   }
-
+  setRating(starValue: number): void {
+    this.rating = starValue;
+  }
   openReviewModal(product: Product): void {
     this.selectedProduct = product;
+    this.selectedProductForReview = product;
     console.log('Is Authenticated:', this.authService.isAuthenticated()); // verifica lo stato dell'autenticazione
     console.log('Selected Product for Review:', this.selectedProductForReview); // verifica il prodotto selezionato
     const modalElement = document.getElementById('reviewModal');

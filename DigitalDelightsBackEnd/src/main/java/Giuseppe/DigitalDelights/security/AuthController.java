@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import Giuseppe.DigitalDelights.exception.UnauthorizedException;
+import Giuseppe.DigitalDelights.login.LoginSuccesfully;
+import Giuseppe.DigitalDelights.login.UserLoginPayload;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserRequestPayload;
 import Giuseppe.DigitalDelights.user.UserService;
@@ -37,19 +39,17 @@ public class AuthController {
 
 	@PostMapping("/login")
 
-	public ResponseEntity<TokenResponse> login(@RequestBody UserRequestPayload body) {
+	public ResponseEntity<?> login(@RequestBody UserLoginPayload body) {
 
 		User user = null;
 
 		if (body.getEmail() != null) {
 			user = userService.findByEmail(body.getEmail());
-		} else {
-			user = userService.findByUsername(body.getUsername());
 		}
 
 		if (user != null && bcrypt.matches(body.getPassword(), user.getPassword())) {
 			String token = jwtTools.creaToken(user);
-			return new ResponseEntity<>(new TokenResponse(token), HttpStatus.OK);
+			return new ResponseEntity<>(new LoginSuccesfully(token), HttpStatus.OK);
 
 		} else {
 			throw new UnauthorizedException(

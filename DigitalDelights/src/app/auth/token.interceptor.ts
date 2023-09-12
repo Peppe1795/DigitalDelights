@@ -13,32 +13,17 @@ import { switchMap, take } from 'rxjs/operators';
 export class TokenInterceptor implements HttpInterceptor {
   constructor(private authSrv: AuthService) {}
 
-  newReq!: HttpRequest<any>;
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
+    const token = this.authSrv.getToken();
 
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    return this.authSrv.user$.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          console.log(request);
-          console.log(this.newReq);
-          return next.handle(request);
-        }
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
 
-        this.newReq = request.clone({
-          headers: request.headers.set(
-            'Authorization',
-            `Bearer ${user.accessToken}`
-          ),
-        });
-
-        console.log(request);
-        console.log(this.newReq);
-        return next.handle(this.newReq);
-      })
-    );
+    return next.handle(request);
   }
 }

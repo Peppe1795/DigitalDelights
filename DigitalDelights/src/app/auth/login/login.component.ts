@@ -1,38 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  isLoading = false;
+export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+
   constructor(private authSrv: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
-
-  login(): void {
+  onLogin(): void {
     this.authSrv.login(this.email, this.password).subscribe(
       (response) => {
         if (response.accessToken) {
-          this.router.navigate(['/home']); // reindirizza l'utente alla dashboard o alla home dopo il login
+          this.router.navigate(['/']);
         }
       },
       (error) => {
         this.errorMessage =
-          error.error.message || 'Email o password non valide. Riprova.'; // Qui ho aggiunto un messaggio di errore più dinamico
+          error.error?.message || 'Email o password non valide. Riprova.';
       }
     );
-  }
-
-  redirectToRegister() {
-    this.router.navigate(['/singin']);
   }
 }
