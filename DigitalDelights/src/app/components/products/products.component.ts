@@ -180,7 +180,6 @@ export class ProductsComponent implements OnInit {
       this.modalInstance.hide();
     }
   }
-
   toggleFavorite(product: Product): void {
     if (!product) {
       console.error('Nessun prodotto fornito.');
@@ -200,25 +199,26 @@ export class ProductsComponent implements OnInit {
       actionObservable = this.productSrv.addToFavorites(product.productId);
     }
 
-    actionObservable
-      .pipe(switchMap(() => this.productSrv.getFavorites()))
-      .subscribe(
-        (response: any) => {
-          this.favoriteProductIds = response.content.map(
-            (product: any) => product.productId
+    actionObservable.subscribe(
+      () => {
+        if (this.favoriteProductIds.includes(product.productId)) {
+          // Se l'azione era una rimozione, rimuovi l'ID del prodotto dai preferiti
+          this.favoriteProductIds = this.favoriteProductIds.filter(
+            (id) => id !== product.productId
           );
-          console.log(
-            'Prodotti preferiti aggiornati:',
-            this.favoriteProductIds
-          );
-          this.cdr.detectChanges();
-        },
-        (error) => {
-          console.error(
-            'Errore:',
-            error.message || "Errore nell'aggiornamento dei prodotti preferiti."
-          );
+        } else {
+          // Altrimenti, se l'azione era un'aggiunta, aggiungi l'ID del prodotto ai preferiti
+          this.favoriteProductIds.push(product.productId);
         }
-      );
+        console.log('Prodotti preferiti aggiornati:', this.favoriteProductIds);
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error(
+          'Errore:',
+          error.message || "Errore nell'aggiornamento dei prodotti preferiti."
+        );
+      }
+    );
   }
 }
