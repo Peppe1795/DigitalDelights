@@ -99,22 +99,6 @@ public class UserService {
 				.orElseThrow(() -> new NotFoundException("Username" + username + "non corrispondente"));
 	}
 
-//	// PRENDI L'ID DELL'UTENTE LOGGATO
-//	public User getCurrentUser() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		Object principal = authentication.getPrincipal();
-//
-//		String currentEmail;
-//		if (principal instanceof User) {
-//			currentEmail = ((User) principal).getEmail();
-//		} else {
-//			throw new NotFoundException("Utente non trovato nel contesto di autenticazione");
-//		}
-//
-//		return userRepo.findByEmail(currentEmail)
-//				.orElseThrow(() -> new NotFoundException("Utente con email " + currentEmail + " non trovato"));
-//	}
-
 	public User getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
@@ -163,8 +147,22 @@ public class UserService {
 		return favorites;
 	}
 
-//	public boolean isProductInFavorites(UUID productId) {
-//		User user = this.getCurrentUser();
-//		return user.getFavoriteProducts().stream().anyMatch(product -> product.getProductId().equals(productId));
-//	}
+	public Page<Product> getUserFavoriteProducts(UUID userId, int page, int size) {
+		User user = userRepo.findById(userId)
+				.orElseThrow(() -> new NotFoundException("L'utente con l'ID " + userId + " non è stato trovato."));
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Product> favorites = userRepo.findFavoriteProductsByUserId(userId, pageable);
+
+		if (favorites.isEmpty()) {
+			throw new NotFoundException("L'utente non ha prodotti preferiti");
+		}
+
+		return favorites;
+	}
+
+	public boolean isProductInFavorites(UUID productId) {
+		User user = this.getCurrentUser();
+		return user.getFavoriteProducts().stream().anyMatch(product -> product.getProductId().equals(productId));
+	}
 }

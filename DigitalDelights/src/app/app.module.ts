@@ -13,6 +13,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { SinginComponent } from './auth/singin/singin.component';
 import { LoginComponent } from './auth/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
+import { WishListComponent } from './components/wish-list/wish-list.component';
 
 const routes: Route[] = [
   {
@@ -22,6 +23,10 @@ const routes: Route[] = [
   {
     path: 'products',
     component: ProductsComponent,
+  },
+  {
+    path: 'wishlist',
+    component: WishListComponent,
   },
   {
     path: 'cart',
@@ -50,6 +55,7 @@ const routes: Route[] = [
     SinginComponent,
     LoginComponent,
     CartComponent,
+    WishListComponent,
   ],
   imports: [
     BrowserModule,

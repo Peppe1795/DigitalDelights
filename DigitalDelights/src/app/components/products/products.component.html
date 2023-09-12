@@ -56,7 +56,9 @@
                   >
                     <i
                       [class]="
-                        product.isFavorited ? 'fas fa-heart' : 'far fa-heart'
+                        favoriteProductIds.includes(product.productId)
+                          ? 'fas fa-heart'
+                          : 'far fa-heart'
                       "
                     ></i>
                   </button>

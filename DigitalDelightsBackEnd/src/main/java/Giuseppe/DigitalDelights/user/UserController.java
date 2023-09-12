@@ -84,11 +84,10 @@ public class UserController {
 		return ResponseEntity.ok("Prodotto rimosso dai preferiti");
 	}
 
-	@GetMapping("/wishList")
-	public ResponseEntity<Page<Product>> getUserPreferiti(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size) {
-
-		Page<Product> favorites = userSrv.getUserProductPreferite(page, size);
+	@GetMapping("/{userId}/wishList")
+	public ResponseEntity<Page<Product>> getUserPreferiti(@PathVariable UUID userId,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		Page<Product> favorites = userSrv.getUserFavoriteProducts(userId, page, size);
 		return ResponseEntity.ok(favorites);
 	}
 }

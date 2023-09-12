@@ -41,7 +41,9 @@
               <p class="d-none d-md-block mb-0">login</p>
             </a>
             <a
-              href="https://github.com/mdbootstrap/bootstrap-material-design"
+              [routerLink]="['/wishlist']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-heart m-1 me-md-2"></i>

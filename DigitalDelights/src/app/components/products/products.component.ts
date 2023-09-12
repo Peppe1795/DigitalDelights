@@ -7,6 +7,8 @@ import { ReviewsService } from 'src/app/services/reviews.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { Observable } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
 
 declare var bootstrap: any;
 @Component({
@@ -24,16 +26,20 @@ export class ProductsComponent implements OnInit {
   modalInstance?: any;
   selectedProduct?: Product;
   rating = 0;
+  favoriteProductIds: string[] = [];
 
   constructor(
     private productSrv: ProductsService,
     private route: ActivatedRoute, // Injectiamo ActivatedRoute nel costruttore
     public authService: AuthService,
     public reviewsService: ReviewsService,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.loadFavorites();
+    console.log('Trying to reload favorites...');
     this.route.params.subscribe((params) => {
       if (params['category']) {
         this.selectedCategory = params['category'] as Category;
@@ -68,6 +74,20 @@ export class ProductsComponent implements OnInit {
       );
     });
   }
+  loadFavorites(): void {
+    this.productSrv.getFavorites().subscribe(
+      (response: any) => {
+        this.favoriteProductIds = response.content.map(
+          (product: any) => product.productId
+        );
+        console.log('Favorites loaded:', this.favoriteProductIds);
+      },
+      (error) => {
+        console.error('Errore nel caricamento dei prodotti preferiti:', error);
+      }
+    );
+  }
+
   addToCart(product: Product): void {
     if (!product) {
       console.error('Nessun prodotto fornito.');
@@ -167,39 +187,38 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    // Controlla se l'utente è autenticato
     if (!this.authService.isAuthenticated()) {
       console.error("L'utente non è autenticato. Devi effettuare il login.");
-      // Qui potresti mostrare una notifica o reindirizzare all'accesso.
       return;
     }
 
     let actionObservable: Observable<any>;
 
-    if (product.isFavorited) {
+    if (this.favoriteProductIds.includes(product.productId)) {
       actionObservable = this.productSrv.removeFromFavorites(product.productId);
     } else {
       actionObservable = this.productSrv.addToFavorites(product.productId);
     }
 
-    actionObservable.subscribe(
-      () => {
-        product.isFavorited = !product.isFavorited;
-        console.log(
-          `Prodotto ${
-            product.isFavorited ? 'aggiunto ai' : 'rimosso dai'
-          } preferiti con successo!`
-        );
-      },
-      (error) => {
-        console.error(
-          'Errore:',
-          error.message ||
-            `Errore ${
-              product.isFavorited ? 'nella rimozione del' : "nell'aggiunta del"
-            } prodotto dai preferiti.`
-        );
-      }
-    );
+    actionObservable
+      .pipe(switchMap(() => this.productSrv.getFavorites()))
+      .subscribe(
+        (response: any) => {
+          this.favoriteProductIds = response.content.map(
+            (product: any) => product.productId
+          );
+          console.log(
+            'Prodotti preferiti aggiornati:',
+            this.favoriteProductIds
+          );
+          this.cdr.detectChanges();
+        },
+        (error) => {
+          console.error(
+            'Errore:',
+            error.message || "Errore nell'aggiornamento dei prodotti preferiti."
+          );
+        }
+      );
   }
 }

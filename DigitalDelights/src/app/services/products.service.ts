@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { Product } from '../models/products';
 import { Category } from '../enum/category';
 import { ApiResponse } from '../models/products';
+import { AuthService } from '../auth/auth.service';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ import { ApiResponse } from '../models/products';
 export class ProductsService {
   baseUrl = `${environment.baseURL}product`;
   baseURL = `${environment.baseURL}user`;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authSrv: AuthService) {}
 
   getProducts(page: number, order: string): Observable<Product[]> {
     const params = new HttpParams()
@@ -31,13 +33,26 @@ export class ProductsService {
     );
   }
 
+  getFavorites(): Observable<any> {
+    const userId = this.authSrv.getCurrentUserId();
+    if (!userId) {
+      // Qui potresti gestire l'errore come preferisci. Ad esempio, potresti ritornare un Observable vuoto o lanciare un errore.
+      console.error('User ID non trovato.');
+      return throwError("Errore nel recupero dell'ID utente.");
+    }
+
+    // Usa l'userId per costruire l'URL corretto
+    const url = `${this.baseURL}/${userId}/wishList`;
+
+    return this.http.get<string[]>(url);
+  }
   addToFavorites(productId: string): Observable<any> {
     const url = `${this.baseURL}/addWishList/${productId}`;
-    return this.http.post(url, {});
+    return this.http.post(url, {}, { responseType: 'text' });
   }
 
   removeFromFavorites(productId: string): Observable<any> {
     const url = `${this.baseURL}/removeWishList/${productId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { responseType: 'text' });
   }
 }
