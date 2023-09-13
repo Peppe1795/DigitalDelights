@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { StripeService } from 'src/app/services/stripe.service';
 
 @Component({
   selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  template: `
+    <button (click)="handlePayment()" class="btn btn-primary">
+      Go to Stripe Checkout
+    </button>
+  `,
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent {
+  constructor(private stripeService: StripeService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  handlePayment() {
+    this.stripeService.redirectToCheckout();
   }
-
 }

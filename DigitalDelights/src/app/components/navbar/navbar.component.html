@@ -135,7 +135,13 @@
             <a class="nav-link text-dark" routerLink="/products/PC">Pc</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/AUDIO">Audio</a>
+            <a
+              class="nav-link text-dark"
+              [routerLink]="['/checkout']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Audio</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark" routerLink="/products/CAMERA"

@@ -8,7 +8,7 @@ import { WishList } from '../models/wish-list.interface';
   providedIn: 'root',
 })
 export class WishListService {
-  private baseUrl = `${environment.baseURL}user`; // Assicurati che l'URL sia corretto
+  private baseUrl = `${environment.baseURL}user`;
 
   constructor(private http: HttpClient) {}
 

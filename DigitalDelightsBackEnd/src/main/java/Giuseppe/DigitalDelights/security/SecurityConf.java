@@ -33,6 +33,7 @@ public class SecurityConf {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/product/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/reviews/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/orders/**").authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/stripe/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/cart/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/indirizzo/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/shipping/**").authenticated());

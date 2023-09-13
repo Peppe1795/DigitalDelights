@@ -42,22 +42,16 @@ public class UserService {
 			System.out.println("sono qui");
 			address = new Address(body.getAddress().getVia(), body.getAddress().getNumeroCivico(),
 					body.getAddress().getLocalita(), body.getAddress().getCap(), body.getAddress().getComune(), null);
-			// Salva l'indirizzo
+
 			address = ar.save(address);
 		}
 
 		User newUser = new User(body.getName(), body.getUsername(), body.getLastName(), body.getEmail(),
 				body.getPassword(), address, Role.USER);
 
-		// Crea un nuovo carrello vuoto e associalo all'utente
 		Cart newCart = new Cart();
-		newUser.setCart(newCart); // Presuppone che tu abbia un metodo setCart() in User
-		newCart.setUser(newUser); // Presuppone che tu abbia un metodo setUser() in Cart
-
-		// Nota: a seconda della tua configurazione di JPA/Hibernate, potrebbe essere
-		// necessario
-		// salvare prima l'utente e poi il carrello per gestire le dipendenze
-		// correttamente
+		newUser.setCart(newCart);
+		newCart.setUser(newUser);
 		userRepo.save(newUser);
 		cr.save(newCart);
 
