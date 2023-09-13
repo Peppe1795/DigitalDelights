@@ -19,46 +19,47 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
-	private final OrderService orderSrv;
+	private final OrderService orderService;
 
 	@Autowired
-	public OrderController(OrderService orderSrv) {
-		this.orderSrv = orderSrv;
+	public OrderController(OrderService orderService) {
+		this.orderService = orderService;
 	}
 
 	@GetMapping
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Page<Order> getProduct(@RequestParam(defaultValue = "0") int page,
+	public Page<Order> listOrders(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "orderId") String sortBy) {
-		return orderSrv.find(page, size, sortBy);
+		return orderService.find(page, size, sortBy);
 	}
 
 	@GetMapping("/{orderId}")
-	public Order findById(@PathVariable UUID orderId) {
-		return orderSrv.findById(orderId);
+	public Order getOrderById(@PathVariable UUID orderId) {
+		return orderService.findById(orderId);
+	}
 
+	@PutMapping("/{orderId}/status")
+	public Order updateOrderStatus(@PathVariable UUID orderId, @RequestBody StatusRequestPayload statusPayload) {
+		return orderService.updateOrderStatus(orderId, statusPayload.getStatus());
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Order saveIndirizzo(@RequestBody OrderRequestPayload body) {
-		Order created = orderSrv.create(body);
-
-		return created;
+	public Order createOrder(@RequestBody OrderRequestPayload body) {
+		return orderService.create(body);
 	}
 
 	@PutMapping("/{orderId}")
-	public Order updateProduct(@PathVariable UUID orderId, @RequestBody OrderRequestPayload body) {
-		return orderSrv.findByIdAndUpdate(orderId, body);
+	public Order updateOrder(@PathVariable UUID orderId, @RequestBody OrderRequestPayload body) {
+		return orderService.findByIdAndUpdate(orderId, body);
 	}
 
 	@DeleteMapping("/{orderId}")
-	public ResponseEntity<String> deleteProduct(@PathVariable UUID orderId) {
-		orderSrv.findByIdAndDelete(orderId);
-		return ResponseEntity.ok("Ordine eliminato con successo.");
-
+	public ResponseEntity<String> deleteOrder(@PathVariable UUID orderId) {
+		orderService.findByIdAndDelete(orderId);
+		return ResponseEntity.ok("Order successfully deleted.");
 	}
 }

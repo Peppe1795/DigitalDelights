@@ -6,15 +6,19 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import Giuseppe.DigitalDelights.products.Product;
+import Giuseppe.DigitalDelights.orderitem.OrderItem;
+import Giuseppe.DigitalDelights.shippingdetails.ShippingInfo;
 import Giuseppe.DigitalDelights.user.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,19 +37,26 @@ public class Order {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToMany
-	@JoinTable(name = "order_items", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
-	private List<Product> products;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderItem> orderItems;
+
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
 	@CreationTimestamp
 	private Date orderDate;
 
 	private double totalPrice;
 
-	public Order(User user, List<Product> products, Date orderDate) {
-		this.user = user;
-		this.products = products;
-		this.orderDate = orderDate;
-		this.totalPrice = products.stream().mapToDouble(Product::getPrice).sum();
-	}
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "shipping_info_id")
+	private ShippingInfo shippingInfo;
 
+	public Order(User user, Status status, double totalPrice, ShippingInfo shippingInfo, List<OrderItem> orderItems) {
+		this.user = user;
+		this.status = status;
+		this.totalPrice = totalPrice;
+		this.shippingInfo = shippingInfo;
+		this.orderItems = orderItems;
+	}
 }

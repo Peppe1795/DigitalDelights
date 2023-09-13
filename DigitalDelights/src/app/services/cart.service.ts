@@ -54,7 +54,8 @@ export class CartService {
         // Esegui la richiesta per aggiungere il prodotto al carrello utilizzando l'ID del carrello recuperato
         return this.http.post(
           `${this.baseURL}/${cartId}/product/${productId}?quantity=${quantity}`,
-          {}
+          null,
+          { responseType: 'text' as 'json' }
         );
       }),
       catchError((error) => throwError(error))

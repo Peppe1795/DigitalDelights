@@ -14,6 +14,8 @@ import { SinginComponent } from './auth/singin/singin.component';
 import { LoginComponent } from './auth/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
+import { OrderComponent } from './components/order/order.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 const routes: Route[] = [
   {
@@ -27,6 +29,14 @@ const routes: Route[] = [
   {
     path: 'wishlist',
     component: WishListComponent,
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+  },
+  {
+    path: 'order',
+    component: OrderComponent,
   },
   {
     path: 'cart',
@@ -56,6 +66,8 @@ const routes: Route[] = [
     LoginComponent,
     CartComponent,
     WishListComponent,
+    OrderComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

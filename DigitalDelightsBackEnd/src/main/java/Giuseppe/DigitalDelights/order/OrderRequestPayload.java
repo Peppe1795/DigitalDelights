@@ -1,10 +1,10 @@
 package Giuseppe.DigitalDelights.order;
 
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-import Giuseppe.DigitalDelights.products.Product;
-import Giuseppe.DigitalDelights.user.User;
+import Giuseppe.DigitalDelights.orderitem.OrderItemRequestPayload;
+import Giuseppe.DigitalDelights.shippingdetails.ShippingInfoRequestPayload;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequestPayload {
-
-	private User user;
-
-	private List<Product> products;
-
-	private Date orderDate;
-
+	private UUID userId;
 	private double totalPrice;
+	private ShippingInfoRequestPayload shippingInfoRequestPayload;
+	private List<OrderItemRequestPayload> orderItems;
 }

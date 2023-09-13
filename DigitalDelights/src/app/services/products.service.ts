@@ -36,12 +36,10 @@ export class ProductsService {
   getFavorites(): Observable<any> {
     const userId = this.authSrv.getCurrentUserId();
     if (!userId) {
-      // Qui potresti gestire l'errore come preferisci. Ad esempio, potresti ritornare un Observable vuoto o lanciare un errore.
       console.error('User ID non trovato.');
       return throwError("Errore nel recupero dell'ID utente.");
     }
 
-    // Usa l'userId per costruire l'URL corretto
     const url = `${this.baseURL}/${userId}/wishList`;
 
     return this.http.get<string[]>(url);
