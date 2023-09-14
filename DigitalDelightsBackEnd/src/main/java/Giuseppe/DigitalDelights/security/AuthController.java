@@ -38,9 +38,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-
-	public ResponseEntity<?> login(@RequestBody UserLoginPayload body) {
-
+	public ResponseEntity<LoginSuccesfully> login(@RequestBody UserLoginPayload body) {
 		User user = null;
 
 		if (body.getEmail() != null) {
@@ -49,11 +47,11 @@ public class AuthController {
 
 		if (user != null && bcrypt.matches(body.getPassword(), user.getPassword())) {
 			String token = jwtTools.creaToken(user);
-			return new ResponseEntity<>(new LoginSuccesfully(token), HttpStatus.OK);
-
+			return new ResponseEntity<>(new LoginSuccesfully(token, user.getRole()), HttpStatus.OK);
 		} else {
 			throw new UnauthorizedException(
 					"Credenziali non valide, verifica che la password o Email ed Username siano corrette");
 		}
 	}
+
 }

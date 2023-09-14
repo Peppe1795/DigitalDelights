@@ -17,6 +17,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrderComponent } from './components/order/order.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { NavbardashboardComponent } from './components/navbardashboard/navbardashboard.component';
 
 const routes: Route[] = [
   {
@@ -69,6 +70,7 @@ const routes: Route[] = [
     WishListComponent,
     OrderComponent,
     CheckoutComponent,
+    NavbardashboardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 export interface Data {
   accessToken: string;
+  role: string;
   user: {
     id: number;
     name: string;
@@ -8,6 +9,7 @@ export interface Data {
     email: string;
     password: string;
     address: Address;
+    role: string;
   };
 }
 

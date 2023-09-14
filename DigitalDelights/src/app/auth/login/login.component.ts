@@ -18,10 +18,16 @@ export class LoginComponent {
     this.authSrv.login(this.email, this.password).subscribe(
       (response) => {
         if (response.accessToken) {
-          this.router.navigate(['/']);
+          const role = this.authSrv.getUserRole();
+          if (role === 'ADMIN') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/']);
+          }
         }
       },
       (error) => {
+        console.error('Errore durante il login:', error);
         this.errorMessage =
           error.error?.message || 'Email o password non valide. Riprova.';
       }
