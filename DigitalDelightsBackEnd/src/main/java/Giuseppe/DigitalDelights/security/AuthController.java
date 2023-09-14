@@ -47,7 +47,7 @@ public class AuthController {
 
 		if (user != null && bcrypt.matches(body.getPassword(), user.getPassword())) {
 			String token = jwtTools.creaToken(user);
-			return new ResponseEntity<>(new LoginSuccesfully(token, user.getRole()), HttpStatus.OK);
+			return new ResponseEntity<>(new LoginSuccesfully(token), HttpStatus.OK);
 		} else {
 			throw new UnauthorizedException(
 					"Credenziali non valide, verifica che la password o Email ed Username siano corrette");

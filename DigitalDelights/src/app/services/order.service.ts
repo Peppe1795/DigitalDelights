@@ -6,6 +6,7 @@ import { CartItem } from '../models/cart-item.interface';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ShippingInfo } from '../models/shipping-info.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,10 @@ import { ShippingInfo } from '../models/shipping-info.interface';
 export class OrderService {
   private baseURL = `${environment.baseURL}orders`;
   private shippingURL = `${environment.baseURL}shipping`; // URL per le chiamate API di spedizione
+  private totalPriceSubject: BehaviorSubject<number> =
+    new BehaviorSubject<number>(0);
+  public totalPrice$: Observable<number> =
+    this.totalPriceSubject.asObservable();
 
   constructor(private http: HttpClient, private authSrv: AuthService) {}
 
@@ -39,5 +44,12 @@ export class OrderService {
       })),
     };
     return this.http.post(`${this.baseURL}`, orderPayload);
+  }
+  setTotalPrice(price: number): void {
+    this.totalPriceSubject.next(price);
+  }
+
+  getTotalPrice(): Observable<number> {
+    return this.totalPrice$;
   }
 }

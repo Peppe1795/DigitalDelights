@@ -18,12 +18,14 @@ export class LoginComponent {
     this.authSrv.login(this.email, this.password).subscribe(
       (response) => {
         if (response.accessToken) {
-          const role = this.authSrv.getUserRole();
-          if (role === 'ADMIN') {
-            this.router.navigate(['/dashboard']);
-          } else {
-            this.router.navigate(['/']);
-          }
+          // Modificato per utilizzare userRole$ al posto di userRoleSubject
+          this.authSrv.userRole$.subscribe((role) => {
+            if (role === 'ADMIN') {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          });
         }
       },
       (error) => {

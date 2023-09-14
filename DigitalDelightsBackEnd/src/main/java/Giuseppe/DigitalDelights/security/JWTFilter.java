@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import Giuseppe.DigitalDelights.exception.NotFoundException;
 import Giuseppe.DigitalDelights.exception.UnauthorizedException;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserService;
@@ -28,13 +27,18 @@ public class JWTFilter extends OncePerRequestFilter {
 	UserService uS;
 
 	private static final String[] PUBLIC_ROUTES = { "/product/**", "/reviews/**" };
+
+	private static final String[] USER_ROUTES = { "/{cartId}/product/{productId}", "/current-user-cart-id",
+			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", // Aggiunto
+			"/removeWishList/{productId}", // Aggiunto
+			"/{userId}/wishList" // Aggiunto
+	};
+
 	private static final String[] ADMIN_ROUTES = { "/product", // POST per creare un nuovo prodotto
 			"/product/*", // PUT e DELETE per modificare o eliminare un prodotto
 			"/reviews", // POST per creare una nuova recensione
 			"/reviews/*", // PUT e DELETE per modificare o eliminare una recensione
 			"/indirizzo", // GET per vedere tutti gli indirizzi
-			"/cart", // POST per creare un nuovo carrello, DELETE per eliminare un carrello
-			"/cart/*", // PUT per modificare un carrello
 			"/order", // POST per creare un nuovo ordine
 			"/order/*", // PUT e DELETE per modificare o eliminare un ordine
 			"/user", // GET per vedere tutti gli utenti
@@ -46,8 +50,7 @@ public class JWTFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String servletPath = request.getServletPath();
 
-		if (isPublicRoute(servletPath) && (request.getMethod().equals("GET")
-				|| (request.getMethod().equals("POST") && "/reviews".equals(servletPath)))) {
+		if (isPublicRoute(servletPath)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -58,23 +61,25 @@ public class JWTFilter extends OncePerRequestFilter {
 		}
 
 		String token = authHeader.substring(7);
-		try {
-			jwttools.verificaToken(token);
-			String id = jwttools.extractSubject(token);
-			User currentUser = uS.findById(UUID.fromString(id));
+		jwttools.verificaToken(token);
+		String roleFromToken = jwttools.extractRole(token); // Estrai il ruolo dal token
 
-			if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(currentUser.getRole().toString())) {
-				throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
-			}
-
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
-					currentUser.getAuthorities());
-			SecurityContextHolder.getContext().setAuthentication(authToken);
-			filterChain.doFilter(request, response);
-		} catch (NotFoundException ex) {
-			// L'utente non è stato trovato nel database
-			throw new UnauthorizedException("Utente non trovato nel database");
+		if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(roleFromToken)) {
+			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
 		}
+
+		if (isUserRoute(servletPath) && !"USER".equalsIgnoreCase(roleFromToken)) {
+			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di user");
+		}
+
+		// Poiché stai usando Spring Security, potresti ancora voler ottenere l'utente
+		// dal servizio e impostarlo nel contesto
+		String id = jwttools.extractSubject(token);
+		User currentUser = uS.findById(UUID.fromString(id));
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
+				currentUser.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		filterChain.doFilter(request, response);
 	}
 
 	@Override
@@ -83,7 +88,6 @@ public class JWTFilter extends OncePerRequestFilter {
 		return request.getServletPath().startsWith("/auth");
 	}
 
-	// Verifica se la route è pubblica per le richieste GET
 	private boolean isPublicRoute(String servletPath) {
 		for (String publicRoute : PUBLIC_ROUTES) {
 			if (new AntPathMatcher().match(publicRoute, servletPath)) {
@@ -93,7 +97,15 @@ public class JWTFilter extends OncePerRequestFilter {
 		return false;
 	}
 
-	// Verifica se la route richiede il ruolo di admin
+	private boolean isUserRoute(String servletPath) {
+		for (String userRoute : USER_ROUTES) {
+			if (new AntPathMatcher().match(userRoute, servletPath)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private boolean isAdminRoute(String servletPath) {
 		for (String adminRoute : ADMIN_ROUTES) {
 			if (new AntPathMatcher().match(adminRoute, servletPath)) {
@@ -102,4 +114,5 @@ public class JWTFilter extends OncePerRequestFilter {
 		}
 		return false;
 	}
+
 }

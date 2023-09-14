@@ -23,7 +23,7 @@ public class StripeService {
 		Stripe.apiKey = stripeSecretKey;
 	}
 
-	public Map<String, String> createCheckoutSession() throws Exception {
+	public Map<String, String> createCheckoutSession(double totalPrice) throws Exception {
 		Stripe.apiKey = stripeSecretKey;
 
 		Map<String, Object> params = new HashMap<>();
@@ -39,7 +39,7 @@ public class StripeService {
 				put("name", "Total Amount");
 			}
 		});
-		priceData.put("unit_amount", 2000); //
+		priceData.put("unit_amount", (int) (totalPrice * 100)); //
 		lineItem.put("price_data", priceData);
 		lineItem.put("quantity", 1);
 

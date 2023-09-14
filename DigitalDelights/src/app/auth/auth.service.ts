@@ -5,14 +5,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { Data } from './data.interface';
-import { map } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 interface DecodedToken {
   sub: string;
+  role: string;
   iat: number;
   exp: number;
-  role: string;
 }
 
 @Injectable({
@@ -25,7 +24,7 @@ export class AuthService {
   private userRoleSubject = new BehaviorSubject<string | null>(null);
   userRole$ = this.userRoleSubject.asObservable();
 
-  private userSubject = new BehaviorSubject<any>(null); // Aggiunto userSubject
+  private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
 
   timeoutLogout: any;
@@ -36,15 +35,12 @@ export class AuthService {
     const credentials = { email, password };
     return this.http.post<Data>(`${this.baseURL}auth/login`, credentials).pipe(
       map((response) => {
-        console.log('Server Response:', response);
         if (response.accessToken) {
           localStorage.setItem('token', response.accessToken);
 
-          // Correzione: impostazione diretta del ruolo dalla risposta
-          this.userRoleSubject.next(response.role);
-
           const decodedUser = this.jwtHelper.decodeToken(response.accessToken);
           this.userSubject.next(decodedUser);
+          this.userRoleSubject.next(decodedUser.role);
         }
         return response;
       }),
@@ -57,7 +53,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    this.userSubject.next(null); // Reset valore userSubject
+    this.userSubject.next(null);
     this.userRoleSubject.next(null);
   }
 
@@ -73,33 +69,20 @@ export class AuthService {
   restore(): void {
     const token = this.getToken();
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      this.userSubject.next({ token }); // Aggiunto il restore dell'utente basato sul token
-    }
-  }
-
-  getUserRole(): string | null {
-    const token = this.getToken();
-    if (!token) {
-      console.error('Token non trovato nel localStorage.');
-      return null;
-    }
-
-    try {
       const decodedToken: DecodedToken | null =
         this.jwtHelper.decodeToken(token);
-      if (!decodedToken || !decodedToken.role) {
-        console.error('Il ruolo non è presente nel token decodificato.');
-        return null;
+
+      if (decodedToken) {
+        this.userSubject.next(decodedToken); // invece di { token }
+        this.userRoleSubject.next(decodedToken.role);
+      } else {
+        console.error('Token decodificato è null.');
       }
-      return decodedToken.role;
-    } catch (error) {
-      console.error('Errore nella decodifica del token:', error);
-      return null;
     }
   }
 
   getUser(): Observable<any> {
-    return this.userSubject.asObservable(); // Fornisce l'Observable per l'utente
+    return this.userSubject.asObservable();
   }
 
   signup(data: Data) {

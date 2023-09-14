@@ -35,6 +35,7 @@ export class OrderComponent implements OnInit {
       (items: CartItem[]) => {
         this.cartItems = items;
         this.calculateTotal();
+        this.orderService.setTotalPrice(this.totalPrice); // Imposta il prezzo totale nel servizio dell'ordine
       },
       (error) => {
         console.error('Error fetching cart items', error);
