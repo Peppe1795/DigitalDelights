@@ -1,9 +1,9 @@
 <!--Main Navigation-->
 <header>
   <!-- Jumbotron -->
-  <div class="p-3 text-center bg-white border-bottom">
+  <div class="p-3 text-center navColor">
     <div class="container">
-      <div class="row gy-3">
+      <div class="row gy-3 d-flex align-items-center">
         <!-- Left elements -->
         <div class="col-lg-2 col-sm-4 col-4">
           <a
@@ -26,7 +26,7 @@
               [routerLink]="['/register']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Sign in</p>
@@ -35,7 +35,7 @@
               [routerLink]="['/login']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">login</p>
@@ -44,7 +44,7 @@
               [routerLink]="['/wishlist']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-heart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Wishlist</p>
@@ -53,7 +53,7 @@
               [routerLink]="['/cart']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="border rounded py-1 px-3 nav-link d-flex align-items-center"
+              class="leftButton btn py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-shopping-cart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">My cart</p>
@@ -85,16 +85,16 @@
   <!-- Jumbotron -->
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light navColorBottom mb-5">
     <!-- Container wrapper -->
     <div class="container justify-content-center justify-content-md-between">
       <!-- Toggle button -->
       <button
         class="navbar-toggler border py-2 text-dark"
         type="button"
-        data-mdb-toggle="collapse"
-        data-mdb-target="#navbarLeftAlignExample"
-        aria-controls="navbarLeftAlignExample"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
@@ -102,41 +102,40 @@
       </button>
 
       <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse" id="navbarLeftAlignExample">
-        <!-- Left links -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link text-dark" aria-current="page" href="#">Home</a>
+            <a class="nav-link text-white" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/SMARTPHONE"
+            <a class="nav-link text-white" routerLink="/products/SMARTPHONE"
               >Smartphone</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/LAPTOP"
+            <a class="nav-link text-white" routerLink="/products/LAPTOP"
               >Laptop</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/SMARTWATCH"
+            <a class="nav-link text-white" routerLink="/products/SMARTWATCH"
               >Smartwatch</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/TABLET"
+            <a class="nav-link text-white" routerLink="/products/TABLET"
               >Tablet</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/TV">Tv</a>
+            <a class="nav-link text-white" routerLink="/products/TV">Tv</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/PC">Pc</a>
+            <a class="nav-link text-white" routerLink="/products/PC">Pc</a>
           </li>
           <li class="nav-item">
             <a
-              class="nav-link text-dark"
+              class="nav-link text-white"
               [routerLink]="['/checkout']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
@@ -144,7 +143,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" routerLink="/products/CAMERA"
+            <a class="nav-link text-white" routerLink="/products/CAMERA"
               >Camera</a
             >
           </li>

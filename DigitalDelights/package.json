@@ -24,7 +24,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@stripe/stripe-js": "^2.1.5",
-    "bootstrap": "^5.3.1",
+    "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.10.5",
     "jwt-decode": "^3.1.2",
     "rxjs": "~7.5.0",
