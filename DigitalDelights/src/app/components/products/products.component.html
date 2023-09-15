@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Gestione del caricamento dei prodotti -->
   <ng-container *ngIf="loading; else productsLoaded">
-    <p>Caricamento prodotti in corso...</p>
+    <div class="loader"></div>
   </ng-container>
 
   <ng-template #productsLoaded>
