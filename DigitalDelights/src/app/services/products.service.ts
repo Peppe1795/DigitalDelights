@@ -27,6 +27,10 @@ export class ProductsService {
       .pipe(map((response) => response.content));
   }
 
+  getProductById(productId: string): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/${productId}`);
+  }
+
   getProductsByCategory(category: Category): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(
       `${this.baseUrl}/filter?category=${category}`
