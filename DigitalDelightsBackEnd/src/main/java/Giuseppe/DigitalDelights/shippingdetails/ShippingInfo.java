@@ -2,6 +2,8 @@ package Giuseppe.DigitalDelights.shippingdetails;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Giuseppe.DigitalDelights.order.Order;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ public class ShippingInfo {
 	private String postalCode;
 	private String country;
 	private String phoneNumber;
-
+	@JsonIgnore
 	@OneToOne(mappedBy = "shippingInfo")
 	private Order order;
 

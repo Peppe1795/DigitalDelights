@@ -20,6 +20,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { NavbardashboardComponent } from './components/navbardashboard/navbardashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DetailsComponent } from './components/details/details.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { FindproductsComponent } from './components/findproducts/findproducts.component';
 
 const routes: Route[] = [
   {
@@ -51,6 +53,14 @@ const routes: Route[] = [
     component: CartComponent,
   },
   {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
+    path: 'findproducts',
+    component: FindproductsComponent,
+  },
+  {
     path: 'products/:category',
     component: ProductsComponent,
   },
@@ -79,6 +89,8 @@ const routes: Route[] = [
     NavbardashboardComponent,
     FooterComponent,
     DetailsComponent,
+    ProfileComponent,
+    FindproductsComponent,
   ],
   imports: [
     BrowserModule,

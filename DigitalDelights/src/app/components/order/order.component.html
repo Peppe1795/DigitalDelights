@@ -1,192 +1,182 @@
-<header>
-  <!-- Jumbotron -->
-  <div class="p-3 text-center bg-white border-bottom">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <!-- Left elements -->
-        <div class="">
-          <a href="https://mdbootstrap.com/" target="_blank" class="">
-            <img
-              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
-              height="35"
-            />
-          </a>
-        </div>
-        <!-- Left elements -->
-
-        <!-- right elements -->
-        <div class="">
-          <a
-            href="https://github.com/mdbootstrap/bootstrap-material-design"
-            class="me-1 border rounded py-1 px-3 nav-link"
-            target="_blank"
-          >
-            <i class="fas fa-user-alt me-2"></i>Sign in
-          </a>
-        </div>
-        <!-- right elements -->
-      </div>
-    </div>
-  </div>
-  <!-- Jumbotron -->
-
-  <!-- Heading -->
-  <div class="bg-primary">
-    <div class="container py-4">
-      <!-- Breadcrumb -->
-      <nav class="d-flex">
-        <h6 class="mb-0">
-          <a href="" class="text-white-50">Home</a>
-          <span class="text-white-50 mx-2"> > </span>
-          <a href="" class="text-white-50">2. Shopping cart</a>
-          <span class="text-white-50 mx-2"> > </span>
-          <a href="" class="text-white"><u>3. Order info</u></a>
-          <span class="text-white-50 mx-2"> > </span>
-          <a href="" class="text-white-50">4. Payment</a>
-        </h6>
-      </nav>
-      <!-- Breadcrumb -->
-    </div>
-  </div>
-  <!-- Heading -->
-</header>
-
 <section class="bg-light py-5">
   <div class="container">
     <div class="row">
+      <div *ngIf="notificationMessage" class="alert alert-info">
+        {{ notificationMessage }}
+      </div>
       <div class="col-xl-8 col-lg-8 mb-4">
-        <div class="card mb-4 border shadow-0">
-          <div class="p-4 d-flex justify-content-between">
-            <div class="">
-              <h5>Have an account?</h5>
-              <p class="mb-0 text-wrap">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit
-              </p>
-            </div>
-            <div
-              class="d-flex align-items-center justify-content-center flex-column flex-md-row"
-            >
-              <a
-                href="#"
-                class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100"
-                >Register</a
-              >
-              <a href="#" class="btn btn-primary shadow-0 text-nowrap w-100"
-                >Sign in</a
-              >
-            </div>
-          </div>
-        </div>
-
         <!-- Checkout -->
         <div class="card shadow-0 border">
           <div class="p-4">
-            <h5 class="card-title mb-3">Guest checkout</h5>
+            <h5 class="card-title mb-3">Checkout</h5>
 
-            <div class="row">
-              <!-- Recipient Name -->
-              <div class="col-6 mb-3">
-                <p class="mb-0">Recipient Name</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.recipientName"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
+            <form #checkoutForm="ngForm">
+              <div class="row">
+                <!-- Nome del destinatario -->
+                <div class="col-6 mb-3">
+                  <p class="mb-0">Nome del destinatario</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.recipientName"
+                      #recipientName="ngModel"
+                      name="recipientName"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="recipientName.invalid && recipientName.touched"
+                    class="text-danger"
+                  >
+                    Il nome del destinatario è obbligatorio.
+                  </div>
+                </div>
+
+                <!-- Indirizzo di spedizione -->
+                <div class="col-6 mb-3">
+                  <p class="mb-0">Indirizzo di spedizione</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.shippingAddress"
+                      #shippingAddress="ngModel"
+                      name="shippingAddress"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="shippingAddress.invalid && shippingAddress.touched"
+                    class="text-danger"
+                  >
+                    L'indirizzo di spedizione è obbligatorio.
+                  </div>
+                </div>
+
+                <!-- Città -->
+                <div class="col-4 mb-3">
+                  <p class="mb-0">Città</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.city"
+                      #city="ngModel"
+                      name="city"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div *ngIf="city.invalid && city.touched" class="text-danger">
+                    La città è obbligatoria.
+                  </div>
+                </div>
+
+                <!-- Provincia -->
+                <div class="col-4 mb-3">
+                  <p class="mb-0">Provincia</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.state"
+                      #state="ngModel"
+                      name="state"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="state.invalid && state.touched"
+                    class="text-danger"
+                  >
+                    La provincia è obbligatoria.
+                  </div>
+                </div>
+
+                <!-- Codice Postale -->
+                <div class="col-4 mb-3">
+                  <p class="mb-0">Codice Postale</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.postalCode"
+                      #postalCode="ngModel"
+                      name="postalCode"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="postalCode.invalid && postalCode.touched"
+                    class="text-danger"
+                  >
+                    Il codice postale è obbligatorio.
+                  </div>
+                </div>
+
+                <!-- Nazione -->
+                <div class="col-6 mb-3">
+                  <p class="mb-0">Nazione</p>
+                  <div class="form-outline">
+                    <input
+                      type="text"
+                      [(ngModel)]="shippingInfo.country"
+                      #country="ngModel"
+                      name="country"
+                      placeholder="Scrivi qui"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="country.invalid && country.touched"
+                    class="text-danger"
+                  >
+                    La nazione è obbligatoria.
+                  </div>
+                </div>
+
+                <!-- Numero di telefono -->
+                <div class="col-6 mb-3">
+                  <p class="mb-0">Numero di telefono</p>
+                  <div class="form-outline">
+                    <input
+                      type="tel"
+                      [(ngModel)]="shippingInfo.phoneNumber"
+                      #phoneNumber="ngModel"
+                      name="phoneNumber"
+                      placeholder="+39"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div
+                    *ngIf="phoneNumber.invalid && phoneNumber.touched"
+                    class="text-danger"
+                  >
+                    Il numero di telefono è obbligatorio.
+                  </div>
                 </div>
               </div>
 
-              <!-- Shipping Address -->
-              <div class="col-6 mb-3">
-                <p class="mb-0">Shipping Address</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.shippingAddress"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
-                </div>
+              <div class="float-end">
+                <button class="btn btn-light border" (click)="onCancelClick()">
+                  Annulla
+                </button>
+                <button
+                  class="btn btn-success shadow-0 border"
+                  [disabled]="!checkoutForm.valid"
+                  (click)="onContinueClick()"
+                >
+                  Continua
+                </button>
               </div>
-
-              <!-- City -->
-              <div class="col-4 mb-3">
-                <p class="mb-0">City</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.city"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-
-              <!-- State -->
-              <div class="col-4 mb-3">
-                <p class="mb-0">State</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.state"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-
-              <!-- Postal Code -->
-              <div class="col-4 mb-3">
-                <p class="mb-0">Postal Code</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.postalCode"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-
-              <!-- Country -->
-              <div class="col-6 mb-3">
-                <p class="mb-0">Country</p>
-                <div class="form-outline">
-                  <input
-                    type="text"
-                    [(ngModel)]="shippingInfo.country"
-                    placeholder="Type here"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-
-              <!-- Phone Number -->
-              <div class="col-6 mb-3">
-                <p class="mb-0">Phone Number</p>
-                <div class="form-outline">
-                  <input
-                    type="tel"
-                    [(ngModel)]="shippingInfo.phoneNumber"
-                    placeholder="+48"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="float-end">
-              <button class="btn btn-light border" (click)="onCancelClick()">
-                Cancel
-              </button>
-              <button
-                class="btn btn-success shadow-0 border"
-                (click)="onContinueClick()"
-              >
-                Continue
-              </button>
-            </div>
+            </form>
           </div>
         </div>
         <!-- Checkout -->
@@ -195,25 +185,25 @@
         class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end"
       >
         <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px">
-          <h6 class="mb-3">Summary</h6>
+          <h6 class="mb-3">Sommario</h6>
 
           <div class="d-flex justify-content-between">
-            <p class="mb-2">Total price:</p>
-            <p class="mb-2">${{ totalPrice.toFixed(2) }}</p>
+            <p class="mb-2">Prezzo totale:</p>
+            <p class="mb-2">€{{ totalPrice.toFixed(2) }}</p>
           </div>
           <div class="d-flex justify-content-between">
-            <p class="mb-2">Discount:</p>
-            <p class="mb-2 text-danger">- ${{ discount.toFixed(2) }}</p>
+            <p class="mb-2">Sconto:</p>
+            <p class="mb-2 text-danger">- €{{ discount.toFixed(2) }}</p>
           </div>
           <div class="d-flex justify-content-between">
-            <p class="mb-2">Shipping cost:</p>
-            <p class="mb-2">+ ${{ shippingCost.toFixed(2) }}</p>
+            <p class="mb-2">Costi di spedizione:</p>
+            <p class="mb-2">+ € 0</p>
           </div>
           <hr />
           <div class="d-flex justify-content-between">
-            <p class="mb-2">Total to pay:</p>
+            <p class="mb-2">Totale da pagare:</p>
             <p class="mb-2 fw-bold">
-              ${{ (totalPrice - discount + shippingCost).toFixed(2) }}
+              €{{ (totalPrice - discount + shippingCost).toFixed(2) }}
             </p>
           </div>
 
@@ -221,14 +211,19 @@
             <input
               type="text"
               class="form-control border"
-              name=""
-              placeholder="Promo code"
+              [(ngModel)]="promoCode"
+              placeholder="Inserisci qui il tuo promoCode"
             />
-            <button class="btn btn-light text-primary border">Apply</button>
+            <button
+              class="btn btn-light text-primary border"
+              (click)="applyDiscount()"
+            >
+              Applica
+            </button>
           </div>
 
           <hr />
-          <h6 class="text-dark my-4">Items in cart</h6>
+          <h6 class="text-dark my-4">Articoli nel carrello</h6>
 
           <div
             *ngFor="let item of cartItems"
@@ -248,7 +243,7 @@
             <div class="">
               <a href="#" class="nav-link"> {{ item.product.name }} <br /> </a>
               <div class="price text-muted">
-                Total: ${{ (item.product.price * item.quantity).toFixed(2) }}
+                Totale: €{{ (item.product.price * item.quantity).toFixed(2) }}
               </div>
             </div>
           </div>
@@ -257,180 +252,3 @@
     </div>
   </div>
 </section>
-
-<!-- Footer -->
-<footer class="text-center text-lg-start text-muted bg-primary mt-3">
-  <!-- Section: Links  -->
-  <section class="">
-    <div class="container text-center text-md-start pt-4 pb-4">
-      <!-- Grid row -->
-      <div class="row mt-3">
-        <!-- Grid column -->
-        <div class="col-12 col-lg-3 col-sm-12 mb-2">
-          <!-- Content -->
-          <a
-            href="https://mdbootstrap.com/"
-            target="_blank"
-            class="text-white h2"
-          >
-            MDB
-          </a>
-          <p class="mt-1 text-white">© 2023 Copyright: MDBootstrap.com</p>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-6 col-sm-4 col-lg-2">
-          <!-- Links -->
-          <h6 class="text-uppercase text-white fw-bold mb-2">Store</h6>
-          <ul class="list-unstyled mb-4">
-            <li><a class="text-white-50" href="#">About us</a></li>
-            <li><a class="text-white-50" href="#">Find store</a></li>
-            <li><a class="text-white-50" href="#">Categories</a></li>
-            <li><a class="text-white-50" href="#">Blogs</a></li>
-          </ul>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-6 col-sm-4 col-lg-2">
-          <!-- Links -->
-          <h6 class="text-uppercase text-white fw-bold mb-2">Information</h6>
-          <ul class="list-unstyled mb-4">
-            <li><a class="text-white-50" href="#">Help center</a></li>
-            <li><a class="text-white-50" href="#">Money refund</a></li>
-            <li><a class="text-white-50" href="#">Shipping info</a></li>
-            <li><a class="text-white-50" href="#">Refunds</a></li>
-          </ul>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-6 col-sm-4 col-lg-2">
-          <!-- Links -->
-          <h6 class="text-uppercase text-white fw-bold mb-2">Support</h6>
-          <ul class="list-unstyled mb-4">
-            <li><a class="text-white-50" href="#">Help center</a></li>
-            <li><a class="text-white-50" href="#">Documents</a></li>
-            <li><a class="text-white-50" href="#">Account restore</a></li>
-            <li><a class="text-white-50" href="#">My orders</a></li>
-          </ul>
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-12 col-sm-12 col-lg-3">
-          <!-- Links -->
-          <h6 class="text-uppercase text-white fw-bold mb-2">Newsletter</h6>
-          <p class="text-white">
-            Stay in touch with latest updates about our products and offers
-          </p>
-          <div class="input-group mb-3">
-            <input
-              type="email"
-              class="form-control border"
-              placeholder="Email"
-              aria-label="Email"
-              aria-describedby="button-addon2"
-            />
-            <button
-              class="btn btn-light border shadow-0"
-              type="button"
-              id="button-addon2"
-              data-mdb-ripple-color="dark"
-            >
-              Join
-            </button>
-          </div>
-        </div>
-        <!-- Grid column -->
-      </div>
-      <!-- Grid row -->
-    </div>
-  </section>
-  <!-- Section: Links  -->
-
-  <div class="">
-    <div class="container">
-      <div class="d-flex justify-content-between py-4 border-top">
-        <!--- payment --->
-        <div>
-          <i class="fab fa-lg fa-cc-visa text-white"></i>
-          <i class="fab fa-lg fa-cc-amex text-white"></i>
-          <i class="fab fa-lg fa-cc-mastercard text-white"></i>
-          <i class="fab fa-lg fa-cc-paypal text-white"></i>
-        </div>
-        <!--- payment --->
-
-        <!--- language selector --->
-        <div class="dropdown dropup">
-          <a
-            class="dropdown-toggle text-white"
-            href="#"
-            id="Dropdown"
-            role="button"
-            data-mdb-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="flag-united-kingdom flag m-0 me-1"></i>English
-          </a>
-
-          <ul
-            class="dropdown-menu dropdown-menu-endp"
-            aria-labelledby="Dropdown"
-          >
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-united-kingdom flag"></i>English
-                <i class="fa fa-check text-success ms-2"></i
-              ></a>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-poland flag"></i>Polski</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-china flag"></i>中文</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-japan flag"></i>日本語</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-germany flag"></i>Deutsch</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-france flag"></i>Français</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-spain flag"></i>Español</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-russia flag"></i>Русский</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#"
-                ><i class="flag-portugal flag"></i>Português</a
-              >
-            </li>
-          </ul>
-        </div>
-        <!--- language selector --->
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- Footer -->

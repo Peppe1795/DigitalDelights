@@ -1,0 +1,11 @@
+<!-- findproducts.component.html -->
+<div *ngIf="products.length > 0">
+  <div *ngFor="let product of products">
+    <!-- Esempio di visualizzazione. Adatta a seconda delle tue esigenze -->
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+  </div>
+</div>
+<div *ngIf="products.length === 0">
+  <p>Nessun risultato trovato per "{{ searchQuery }}"</p>
+</div>

@@ -8,6 +8,7 @@ import { Category } from '../enum/category';
 import { ApiResponse } from '../models/products';
 import { AuthService } from '../auth/auth.service';
 import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -56,5 +57,23 @@ export class ProductsService {
   removeFromFavorites(productId: string): Observable<any> {
     const url = `${this.baseURL}/removeWishList/${productId}`;
     return this.http.delete(url, { responseType: 'text' });
+  }
+
+  searchProducts(query: string): Observable<Product[]> {
+    console.log('Searching for:', query);
+    return this.http
+      .get<Product[]>(
+        `${this.baseUrl}/partOfName?partOfName=${encodeURIComponent(query)}`
+      )
+      .pipe(
+        map((response) => {
+          console.log('Search response:', response);
+          return response;
+        }),
+        catchError((error) => {
+          console.error('Error during search:', error);
+          return throwError(error);
+        })
+      );
   }
 }

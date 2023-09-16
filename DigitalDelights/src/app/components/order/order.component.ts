@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { CartItem } from 'src/app/models/cart-item.interface';
 import { ShippingInfo } from 'src/app/models/shipping-info.interface';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-order',
@@ -12,9 +13,14 @@ import { ShippingInfo } from 'src/app/models/shipping-info.interface';
 export class OrderComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
-  discount: number = 60;
+  discount: number = 0;
   shippingCost: number = 14;
-
+  promoCode: string = '';
+  promoCodes: { [key: string]: number } = {
+    PROMO10: 0.1,
+    PROMO20: 0.2,
+    PROMO30: 0.3,
+  };
   shippingInfo: ShippingInfo = {
     recipientName: '',
     shippingAddress: '',
@@ -24,6 +30,9 @@ export class OrderComponent implements OnInit {
     country: '',
     phoneNumber: '',
   };
+  notificationMessage: string = '';
+
+  @ViewChild('checkoutForm') checkoutForm!: NgForm;
 
   constructor(
     private cartService: CartService,
@@ -35,7 +44,7 @@ export class OrderComponent implements OnInit {
       (items: CartItem[]) => {
         this.cartItems = items;
         this.calculateTotal();
-        this.orderService.setTotalPrice(this.totalPrice); // Imposta il prezzo totale nel servizio dell'ordine
+        this.orderService.setTotalPrice(this.totalPrice);
       },
       (error) => {
         console.error('Error fetching cart items', error);
@@ -50,8 +59,24 @@ export class OrderComponent implements OnInit {
     );
   }
 
+  applyDiscount(): void {
+    if (this.promoCodes[this.promoCode.toUpperCase()]) {
+      this.discount =
+        this.totalPrice * this.promoCodes[this.promoCode.toUpperCase()];
+      this.calculateTotal();
+    } else {
+      alert('Codice promozionale non valido!');
+      this.discount = 0;
+      this.calculateTotal();
+    }
+  }
+
   onContinueClick(): void {
-    const tax = 0.1; // Supponiamo che la tassa sia del 10%. Modifica come necessario.
+    if (!this.checkoutForm.valid) {
+      alert('Per favore, completa tutti i campi richiesti.');
+      return;
+    }
+    const tax = 0.1;
     this.orderService
       .createOrderWithShippingInfo(
         this.cartItems,
@@ -63,15 +88,39 @@ export class OrderComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Order created successfully', response);
+          this.notificationMessage = 'Ordine creato con successo!';
+
+          // Reset the form and shipping info after order creation
+          this.checkoutForm.reset();
+          this.shippingInfo = {
+            recipientName: '',
+            shippingAddress: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            country: '',
+            phoneNumber: '',
+          };
+          this.promoCode = '';
+          this.discount = 0;
+          this.calculateTotal();
+
+          setTimeout(() => {
+            this.notificationMessage = '';
+          }, 3000); // Removes the message after 3 seconds
         },
         (error) => {
           console.error('Error creating order', error);
+          this.notificationMessage =
+            "Errore nella creazione dell'ordine. Riprova.";
+          setTimeout(() => {
+            this.notificationMessage = '';
+          }, 3000);
         }
       );
   }
 
   onCancelClick(): void {
-    // Resetta i valori del form
     this.shippingInfo = {
       recipientName: '',
       shippingAddress: '',

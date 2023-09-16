@@ -7,7 +7,9 @@
   <ng-template #productsLoaded>
     <!-- Ciclo esterno per le categorie -->
     <div *ngFor="let categoryKey of getObjectKeys(categoriesWithProducts)">
-      <h2>{{ categoryKey }}</h2>
+      <h2 class="text-center mt-4 mb-4 categoryAnimation">
+        <Span>{{ categoryKey }}</Span>
+      </h2>
       <div class="row mt-3">
         <!-- Ciclo interno per i prodotti di una data categoria -->
         <ng-container

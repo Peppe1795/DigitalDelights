@@ -26,6 +26,7 @@
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
             <a
+              *ngIf="!isUserLoggedIn"
               [routerLink]="['/register']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
@@ -35,13 +36,35 @@
               <p class="d-none d-md-block mb-0">Sign in</p>
             </a>
             <a
+              *ngIf="!isUserLoggedIn"
               [routerLink]="['/login']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
               class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
-              <p class="d-none d-md-block mb-0">login</p>
+              <p class="d-none d-md-block mb-0">Login</p>
+            </a>
+            <a
+              *ngIf="isUserLoggedIn"
+              [routerLink]="['/profile']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+            >
+              <i class="fas fa-user-alt m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">Profilo</p>
+            </a>
+            <a
+              *ngIf="isUserLoggedIn"
+              (click)="logout()"
+              [routerLink]="['/']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+            >
+              <i class="fas fa-user-alt m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">logout</p>
             </a>
             <a
               [routerLink]="['/wishlist']"
@@ -74,10 +97,15 @@
                 id="form1"
                 class="form-control"
                 placeholder="Search"
+                [(ngModel)]="searchQuery"
               />
             </div>
-            <button type="button" class="btn btn-primary shadow-0">
-              <i class="bi bi-apple"></i>
+            <button
+              type="button"
+              class="btn btn-primary shadow-0"
+              (click)="onSearchButtonClick()"
+            >
+              <i class="bi bi-search"></i>
             </button>
           </div>
         </div>

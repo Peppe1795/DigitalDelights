@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/enum/category';
 import { ProductsService } from 'src/app/services/products.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Product } from 'src/app/models/products';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +12,25 @@ import { Product } from 'src/app/models/products';
 })
 export class NavbarComponent implements OnInit {
   categoriesWithProducts: Category[] = [];
+  searchResults: Product[] = [];
+  searchQuery: string = '';
 
-  constructor(private productSrv: ProductsService) {}
+  constructor(
+    private productSrv: ProductsService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadCategoriesWithProducts();
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  get isUserLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   loadCategoriesWithProducts(): void {
@@ -29,7 +45,6 @@ export class NavbarComponent implements OnInit {
           }
           completedRequests++;
           if (completedRequests === allCategories.length) {
-            // Tutte le richieste sono complete, puoi eseguire qualsiasi altra logica qui se necessario
           }
         },
         (error) => {
@@ -39,7 +54,6 @@ export class NavbarComponent implements OnInit {
           );
           completedRequests++;
           if (completedRequests === allCategories.length) {
-            // Tutte le richieste sono complete, puoi eseguire qualsiasi altra logica qui se necessario
           }
         }
       );
@@ -48,5 +62,13 @@ export class NavbarComponent implements OnInit {
 
   get objectKeys(): Category[] {
     return this.categoriesWithProducts;
+  }
+
+  onSearchButtonClick(): void {
+    if (this.searchQuery.trim() !== '') {
+      this.router.navigate(['/findproducts'], {
+        queryParams: { q: this.searchQuery },
+      });
+    }
   }
 }

@@ -1,3 +1,5 @@
+//STELLE RECENSIONE MODALE
+
 .rating span {
   cursor: pointer;
   font-size: 2rem;
@@ -10,6 +12,8 @@
 .rating span.hovered /* Regola per l'effetto hover fino all'elemento corrente */ {
   color: gold;
 }
+
+//CARD PRODOTTI
 
 .card {
   background: #fff;
@@ -190,4 +194,28 @@
 }
 .fa-chevron-circle-right:before {
   color: darkgray;
+}
+
+//ANIMAZIONE TITOLO CATEGORIA PRODOTTI
+
+.categoryAnimation {
+  overflow: hidden;
+  line-height: 1;
+}
+
+.categoryAnimation span {
+  display: block;
+  opacity: 0;
+  animation: reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0.5s forwards;
+}
+
+@keyframes reveal {
+  0% {
+    transform: translate(0, 100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
 }
