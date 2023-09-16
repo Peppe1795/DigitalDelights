@@ -20,17 +20,20 @@ export class ProductsComponent implements OnInit {
   categoriesWithProducts: { [key: string]: Product[] } = {};
   objectKeys = Object.keys;
   loading = true;
-  selectedCategory?: Category; // Aggiunto per gestire la categoria selezionata
+  selectedCategory?: Category;
   reviewText = '';
   selectedProductForReview?: Product;
   modalInstance?: any;
   selectedProduct?: Product;
   rating = 0;
+  hoverRating: number = 0;
   favoriteProductIds: string[] = [];
+  showFeedback = false; // Mostra o nasconde il feedback
+  feedbackMessage = ''; // Messaggio di feedback da mostrare all'utente
 
   constructor(
     private productSrv: ProductsService,
-    private route: ActivatedRoute, // Injectiamo ActivatedRoute nel costruttore
+    private route: ActivatedRoute,
     public authService: AuthService,
     public reviewsService: ReviewsService,
     private cartService: CartService,
@@ -107,6 +110,16 @@ export class ProductsComponent implements OnInit {
       }
     );
   }
+
+  setHover(star: number): void {
+    // Aggiunto
+    this.hoverRating = star;
+  }
+
+  removeHover(): void {
+    // Aggiunto
+    this.hoverRating = 0;
+  }
   loadProductsBySelectedCategory(): void {
     if (!this.selectedCategory) return;
 
@@ -157,12 +170,21 @@ export class ProductsComponent implements OnInit {
       (response) => {
         console.log('Recensione inviata con successo', response);
         this.reviewText = '';
+        this.showFeedback = true; // Mostra il feedback
+        this.feedbackMessage = 'Recensione inviata con successo!'; // Imposta il messaggio di feedback
+        setTimeout(() => {
+          this.closeReviewModal(); // Chiudi la modale dopo un breve ritardo per permettere all'utente di leggere il feedback
+          this.showFeedback = false; // Nascondi il feedback dopo la chiusura della modale
+        }, 1500);
       },
       (error) => {
         console.error('Impossibile inviare la recensione', error);
+        this.feedbackMessage = "Errore durante l'invio della recensione."; // Imposta un messaggio di feedback per errori
+        this.showFeedback = true; // Mostra il feedback
       }
     );
   }
+
   setRating(starValue: number): void {
     this.rating = starValue;
   }

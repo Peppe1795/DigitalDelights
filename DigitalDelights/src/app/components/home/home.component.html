@@ -142,30 +142,23 @@
     <div class="row">
       <div
         *ngFor="let product of randomProducts"
-        class="col-lg-3 col-md-6 col-sm-6 d-flex"
+        class="col-lg-3 col-md-6 col-sm-6 mb-2"
       >
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img
-            [src]="product.imageUrl"
-            class="card-img-top"
-            style="aspect-ratio: 1 / 1"
-            alt="{{ product.name }}"
-          />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">${{ product.price }}</p>
-            <div
-              class="card-footer d-flex justify-content-center align-items-center px-0 pb-0 mt-auto"
+        <div class="card">
+          <img [src]="product.imageUrl" class="first-image" />
+          <div class="card-body">
+            <a
+              [routerLink]="['/details', product.productId]"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="btn detailsButton me-1"
             >
-              <a
-                [routerLink]="['/details', product.productId]"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="btn detailsButton me-1"
-              >
-                Dettagli</a
-              >
-            </div>
+              Dettagli</a
+            >
+            <hr />
+
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">€ {{ product.price }}</p>
           </div>
         </div>
       </div>
@@ -175,7 +168,7 @@
 <!-- Products -->
 
 <!-- Feature -->
-<section class="mt-5" style="background-color: #f5f5f5">
+<section class="mt-5 bg-white">
   <div class="container text-dark pt-3">
     <header class="pt-4 pb-3">
       <h3>Perche scegliere noi</h3>

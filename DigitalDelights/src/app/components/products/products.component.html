@@ -10,126 +10,141 @@
       <h2>{{ categoryKey }}</h2>
       <div class="row mt-3">
         <!-- Ciclo interno per i prodotti di una data categoria -->
-        <div *ngFor="let product of categoriesWithProducts[categoryKey]">
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3">
-            <div class="card h-100">
-              <!-- Potresti voler aggiungere un'immagine qui -->
-              <h5 class="card-title text-center mt-2">{{ product.name }}</h5>
+        <ng-container
+          *ngFor="let product of categoriesWithProducts[categoryKey]"
+        >
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3 hp">
+            <div class="card h-100 shadow-sm">
+              <a>
+                <img
+                  [src]="product.imageUrl"
+                  class="card-img-top"
+                  [alt]="product.name"
+                />
+              </a>
 
-              <div class="card-body">
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">Prezzo: ${{ product.price }}</p>
-                <p class="card-text">Disponibili: {{ product.unitsInStock }}</p>
-                <p class="card-text">Categoria: {{ product.category }}</p>
-                <p class="card-text">
-                  Creazione: {{ product.dateCreated | date : "short" }}
-                </p>
-                <p class="card-text">
-                  Ultimo aggiornamento:
-                  {{ product.lastUpdated | date : "short" }}
-                </p>
+              <div class="label-top shadow-sm">
+                <a class="text-white" target="_blank" [href]=""></a>
               </div>
 
-              <div class="card-footer">
-                <div class="d-flex justify-content-center align-items-center">
-                  <button type="button" class="btn btn-light btn-sm mx-1">
-                    Dettagli
-                  </button>
+              <div class="card-body">
+                <div class="clearfix mb-3">
+                  <span class="float-start badge rounded-pill bg-success">{{
+                    product.price
+                  }}</span>
+                  <span class="float-end">
+                    <a
+                      class="small text-muted text-uppercase aff-link"
+                      (click)="openReviewModal(product)"
+                      >reviews</a
+                    >
+                  </span>
+                </div>
+
+                <div class="card-title">
+                  <h5>{{ product.name }}</h5>
+                </div>
+
+                <div class="d-grid gap-2 my-4">
                   <button
-                    type="button"
-                    class="btn btn-primary btn-sm mx-1"
-                    (click)="openReviewModal(product)"
-                  >
-                    Recensione
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-success btn-sm mx-1"
+                    class="btn btn-warning bold-btn"
                     (click)="addToCart(product)"
                   >
-                    Carrello
+                    add to cart
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm mx-1"
-                    (click)="toggleFavorite(product)"
-                  >
+                </div>
+                <div class="clearfix mb-1">
+                  <span class="float-start">
+                    <a href="#"><i class="fas fa-question-circle"></i></a>
+                  </span>
+                  <span class="float-end">
                     <i
-                      [class]="
+                      class="far fa-heart"
+                      (click)="toggleFavorite(product)"
+                      [class.fas]="
                         favoriteProductIds.includes(product.productId)
-                          ? 'fas fa-heart'
-                          : 'far fa-heart'
+                      "
+                      [class.far]="
+                        !favoriteProductIds.includes(product.productId)
                       "
                     ></i>
-                  </button>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </ng-template>
+</div>
 
-  <!-- Modal per recensioni -->
-  <div
-    class="modal fade"
-    id="reviewModal"
-    tabindex="-1"
-    aria-labelledby="reviewModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reviewModalLabel">Aggiungi recensione</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            (click)="closeReviewModal()"
-          ></button>
+<!-- Modal per recensioni -->
+<div
+  class="modal fade"
+  id="reviewModal"
+  tabindex="-1"
+  aria-labelledby="reviewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalLabel">Aggiungi recensione</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeReviewModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="showFeedback" class="alert alert-success mb-3">
+          {{ feedbackMessage }}
         </div>
-        <div class="modal-body">
-          <div class="rating">
-            <span (click)="setRating(5)" [class.selected]="rating >= 5">☆</span>
-            <span (click)="setRating(4)" [class.selected]="rating >= 4">☆</span>
-            <span (click)="setRating(3)" [class.selected]="rating >= 3">☆</span>
-            <span (click)="setRating(2)" [class.selected]="rating >= 2">☆</span>
-            <span (click)="setRating(1)" [class.selected]="rating >= 1">☆</span>
-          </div>
-          <textarea
-            [(ngModel)]="reviewText"
-            class="form-control"
-            rows="4"
-            placeholder="Scrivi la tua recensione qui..."
-          ></textarea>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            (click)="closeReviewModal()"
+        <div class="rating">
+          <span
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            (click)="setRating(star)"
+            (mouseover)="setHover(star)"
+            (mouseout)="removeHover()"
+            [class.selected]="rating >= star"
+            [class.hovered]="hoverRating >= star"
           >
-            Chiudi
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="submitReview()"
-            *ngIf="authService.isAuthenticated() && selectedProductForReview"
-          >
-            Invia
-          </button>
-          <p *ngIf="!authService.isAuthenticated()">
-            Effettua il login per lasciare una recensione.
-          </p>
-          <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
-            Seleziona un prodotto per lasciare una recensione.
-          </p>
+            ☆
+          </span>
         </div>
+        <textarea
+          [(ngModel)]="reviewText"
+          class="form-control"
+          rows="4"
+          placeholder="Scrivi la tua recensione qui..."
+        ></textarea>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="closeReviewModal()"
+        >
+          Chiudi
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="submitReview()"
+          *ngIf="authService.isAuthenticated() && selectedProductForReview"
+        >
+          Invia
+        </button>
+        <p *ngIf="!authService.isAuthenticated()">
+          Effettua il login per lasciare una recensione.
+        </p>
+        <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
+          Seleziona un prodotto per lasciare una recensione.
+        </p>
       </div>
     </div>
   </div>
