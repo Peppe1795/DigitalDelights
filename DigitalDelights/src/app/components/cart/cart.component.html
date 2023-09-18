@@ -1,14 +1,11 @@
-<!-- cart + summary -->
-<section class="bg-light my-5">
+<section class="my-5">
   <div class="container">
     <div class="row">
-      <!-- cart -->
       <div class="col-lg-9">
         <div class="card border shadow-0 cartColor">
           <div class="m-4">
             <h4 class="card-title mb-4">Il tuo carrello</h4>
 
-            <!-- Loop over cart items -->
             <div class="row gy-3 mb-4" *ngFor="let item of cartItems">
               <div class="col-lg-5">
                 <div class="me-lg-5">
@@ -94,9 +91,7 @@
           </div>
         </div>
       </div>
-      <!-- cart -->
 
-      <!-- summary -->
       <div class="col-lg-3 sticky-summary">
         <div class="card shadow-0 border cartColor">
           <div class="card-body">
@@ -137,7 +132,6 @@
           </div>
         </div>
       </div>
-      <!-- summary -->
     </div>
   </div>
 </section>

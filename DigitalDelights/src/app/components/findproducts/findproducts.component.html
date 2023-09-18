@@ -1,11 +1,51 @@
-<!-- findproducts.component.html -->
-<div *ngIf="products.length > 0">
-  <div *ngFor="let product of products">
-    <!-- Esempio di visualizzazione. Adatta a seconda delle tue esigenze -->
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.description }}</p>
+<div class="container mt-4">
+  <div class="row">
+    <div
+      *ngFor="let product of products"
+      class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3 hp"
+    >
+      <div class="card h-100">
+        <a>
+          <img [src]="product.imageUrl" class="card-img-top" />
+        </a>
+        <div class="label-top shadow-sm">
+          <p class="text-white">Offerta</p>
+        </div>
+        <div class="card-body">
+          <div class="clearfix mb-3">
+            <span class="float-start badge rounded-pill bg-success">
+              €{{ product.price }}
+            </span>
+          </div>
+          <div class="card-title">
+            <h5>{{ product.name }}</h5>
+          </div>
+          <div class="d-grid gap-2 my-4">
+            <button
+              class="btn btn-warning productsButton bold-btn"
+              (click)="addToCart(product)"
+            >
+              Aggiungi al carrello
+            </button>
+            <button
+              class="btn btn-danger productsButton bold-btn"
+              (click)="showDetails(product)"
+            >
+              Dettagli
+            </button>
+          </div>
+          <div class="clearfix mb-1">
+            <span class="d-flex justify-content-center align-items-center">
+              <i
+                class="far fa-heart"
+                (click)="toggleFavorite(product)"
+                [class.fas]="favoriteProductIds.includes(product.productId)"
+                [class.far]="!favoriteProductIds.includes(product.productId)"
+              ></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<div *ngIf="products.length === 0">
-  <p>Nessun risultato trovato per "{{ searchQuery }}"</p>
 </div>

@@ -1,16 +1,12 @@
-<!--Main Navigation-->
 <header>
-  <!-- Jumbotron -->
   <div class="p-3 text-center navColor">
     <div class="container">
       <div class="row gy-3 d-flex align-items-center">
-        <!-- Left elements -->
         <div class="col-lg-2 col-sm-4 col-4">
           <a
             [routerLink]="['/']"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            target="_blank"
             class="float-start"
           >
             <img
@@ -20,9 +16,7 @@
             />
           </a>
         </div>
-        <!-- Left elements -->
 
-        <!-- Center elements -->
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
             <a
@@ -83,13 +77,11 @@
               class="leftButton btn py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-shopping-cart m-1 me-md-2"></i>
-              <p class="d-none d-md-block mb-0">My cart</p>
+              <p class="d-none d-md-block mb-0">Carrello</p>
             </a>
           </div>
         </div>
-        <!-- Center elements -->
 
-        <!-- Right elements -->
         <div class="col-lg-5 col-md-12 col-12">
           <div class="input-group float-center">
             <div class="form-outline">
@@ -110,17 +102,12 @@
             </button>
           </div>
         </div>
-        <!-- Right elements -->
       </div>
     </div>
   </div>
-  <!-- Jumbotron -->
 
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light navColorBottom">
-    <!-- Container wrapper -->
     <div class="container justify-content-center justify-content-md-between">
-      <!-- Toggle button -->
       <button
         class="navbar-toggler border py-2 text-dark"
         type="button"
@@ -133,11 +120,17 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link text-white" aria-current="page" href="#">Home</a>
+            <a
+              class="nav-link text-white"
+              aria-current="page"
+              [routerLink]="['/']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Home</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" routerLink="/products/SMARTPHONE"
@@ -166,10 +159,7 @@
             <a class="nav-link text-white" routerLink="/products/PC">Pc</a>
           </li>
         </ul>
-        <!-- ... (altre parti della navigazione) -->
       </div>
     </div>
-    <!-- Container wrapper -->
   </nav>
-  <!-- Navbar -->
 </header>

@@ -66,7 +66,6 @@ export class WishListComponent implements OnInit {
   }
 
   loadMoreProducts(): void {
-    // Incrementa la pagina corrente prima di caricare più prodotti
     this.currentPage++;
     const userId = this.authSrv.getCurrentUserId();
     if (userId) {
