@@ -221,7 +221,13 @@
               Applica
             </button>
           </div>
-
+          <button
+            *ngIf="isOrderCreated"
+            (click)="handlePayment()"
+            class="btn btn-warning payment"
+          >
+            Vai al pagamento
+          </button>
           <hr />
           <h6 class="text-dark my-4">Articoli nel carrello</h6>
 

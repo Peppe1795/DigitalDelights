@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem } from 'src/app/models/cart-item.interface';
 import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/app/models/products';
-import { OrderService } from 'src/app/services/order.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ProductsService } from 'src/app/services/products.service';
+import { Observable } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-cart',
@@ -18,13 +21,17 @@ export class CartComponent implements OnInit {
   discount: number = 0;
   tax: number = 0.05;
   finalTotal: number = 0;
+  favoriteProductIds: string[] = [];
 
   constructor(
     private cartService: CartService,
-    private orderSrv: OrderService
+    public authService: AuthService,
+    private productSrv: ProductsService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.loadFavorites();
     this.cartService.getCartItems().subscribe(
       (data) => {
         this.cartItems = data;
@@ -60,6 +67,59 @@ export class CartComponent implements OnInit {
         console.error(
           'Errore nella rimozione del prodotto dal carrello:',
           error
+        );
+      }
+    );
+  }
+  loadFavorites(): void {
+    this.productSrv.getFavorites().subscribe(
+      (response: any) => {
+        this.favoriteProductIds = response.content.map(
+          (product: any) => product.productId
+        );
+        console.log('Favorites loaded:', this.favoriteProductIds);
+      },
+      (error) => {
+        console.error('Errore nel caricamento dei prodotti preferiti:', error);
+      }
+    );
+  }
+
+  toggleFavorite(product: Product): void {
+    if (!product) {
+      console.error('Nessun prodotto fornito.');
+      return;
+    }
+
+    if (!this.authService.isAuthenticated()) {
+      console.error("L'utente non è autenticato. Devi effettuare il login.");
+      return;
+    }
+
+    let actionObservable: Observable<any>;
+
+    if (this.favoriteProductIds.includes(product.productId)) {
+      actionObservable = this.productSrv.removeFromFavorites(product.productId);
+    } else {
+      actionObservable = this.productSrv.addToFavorites(product.productId);
+    }
+
+    actionObservable.subscribe(
+      () => {
+        if (this.favoriteProductIds.includes(product.productId)) {
+          this.favoriteProductIds = this.favoriteProductIds.filter(
+            (id) => id !== product.productId
+          );
+        } else {
+          this.favoriteProductIds.push(product.productId);
+        }
+        console.log('Prodotti preferiti aggiornati:', this.favoriteProductIds);
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error(
+          'Errore:',
+          error.message || "Errore nell'aggiornamento dei prodotti preferiti."
         );
       }
     );

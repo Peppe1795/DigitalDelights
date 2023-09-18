@@ -4,19 +4,19 @@
   cursor: pointer;
   font-size: 2rem;
   color: #ccc;
-  transition: color 0.3s; /* Aggiunta per una transizione fluida */
+  transition: color 0.3s;
 }
 
 .rating span.selected,
-.rating span:hover, /* Regola per l'effetto hover */
-.rating span.hovered /* Regola per l'effetto hover fino all'elemento corrente */ {
+.rating span:hover,
+.rating span.hovered {
   color: gold;
 }
 
 //CARD PRODOTTI
 
 .card {
-  background: #fff;
+  background: rgb(223, 249, 251);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
   transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
     0.3s box-shadow,
@@ -60,17 +60,16 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Centered text */
 .label-top {
   position: absolute;
-  background-color: var(--label-index);
-  color: #fff;
+
+  background-color: rgb(231, 35, 35);
   top: 8px;
   right: 8px;
-  padding: 5px 10px 5px 10px;
+  padding: 0;
   font-size: 0.7rem;
   font-weight: 600;
-  border-radius: 3px;
+  border-radius: 8px;
   text-transform: uppercase;
 }
 
@@ -93,12 +92,9 @@
 .top-right span {
   display: inline-block;
   vertical-align: middle;
-  /* line-height: normal; */
-  /* padding: 0 25px; */
 }
 
 .aff-link {
-  /* text-decoration: overline; */
   font-weight: 500;
 }
 
@@ -131,43 +127,22 @@
 }
 
 /* START BUTTON */
-.btn-warning {
-  background: var(--btnbg);
-  color: var(--btnfontcolor);
-  fill: #ffffff;
+.productsButton {
   border: none;
   text-decoration: none;
   outline: 0;
-  /* box-shadow: -1px 6px 19px rgba(247, 129, 10, 0.25); */
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
   border-radius: 100px;
 }
-.btn-warning:hover {
-  background: var(--btnbghover);
-  color: var(--btnfontcolorhover);
-  /* box-shadow: -1px 6px 13px rgba(255, 150, 43, 0.35); */
+
+.productsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
 }
-.btn-check:focus + .btn-warning,
-.btn-warning:focus {
-  background: var(--btnbghover);
-  color: var(--btnfontcolorhover);
-  /* box-shadow: -1px 6px 13px rgba(255, 150, 43, 0.35); */
-}
-.btn-warning:active:focus {
-  box-shadow: 0 0 0 0.25rem var(--btnactivefs);
-}
-.btn-warning:active {
-  background: var(--btnbghover);
-  color: var(--btnfontcolorhover);
-  /* box-shadow: -1px 6px 13px rgba(255, 150, 43, 0.35); */
+.productsButton:hover {
+  transform: translateY(-5px); /* Solleva il bottone di 5 pixel */
+  transition: all 0.3s ease; /* Transizione fluida */
 }
 
-/* END BUTTON */
-
-.bg-success {
-  font-size: 1rem;
-  background-color: var(--btnbg) !important;
-  color: var(--btnfontcolor) !important;
-}
 .bg-danger {
   font-size: 1rem;
 }
@@ -185,7 +160,6 @@
 }
 
 .fa-question-circle:before {
-  /* content: "\f059"; */
   color: darkgray;
 }
 

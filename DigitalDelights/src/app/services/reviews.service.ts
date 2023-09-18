@@ -12,9 +12,12 @@ export class ReviewsService {
   constructor(private http: HttpClient) {}
 
   createReview(productId: string, review: any): Observable<any> {
-    // Aggiungi l'ID del prodotto al percorso dell'endpoint
     const endpoint = `${this.baseUrl}/${productId}`;
-
     return this.http.post(endpoint, review);
+  }
+
+  getReviewsByProductId(productId: string): Observable<any> {
+    const endpoint = `${this.baseUrl}/${productId}`;
+    return this.http.get(endpoint);
   }
 }

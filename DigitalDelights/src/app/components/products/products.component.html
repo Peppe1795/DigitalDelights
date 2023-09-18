@@ -1,17 +1,14 @@
 <div class="container">
-  <!-- Gestione del caricamento dei prodotti -->
   <ng-container *ngIf="loading; else productsLoaded">
     <div class="loader"></div>
   </ng-container>
 
   <ng-template #productsLoaded>
-    <!-- Ciclo esterno per le categorie -->
     <div *ngFor="let categoryKey of getObjectKeys(categoriesWithProducts)">
       <h2 class="text-center mt-4 mb-4 categoryAnimation">
         <Span>{{ categoryKey }}</Span>
       </h2>
       <div class="row mt-3">
-        <!-- Ciclo interno per i prodotti di una data categoria -->
         <ng-container
           *ngFor="let product of categoriesWithProducts[categoryKey]"
         >
@@ -26,14 +23,14 @@
               </a>
 
               <div class="label-top shadow-sm">
-                <a class="text-white" target="_blank" [href]=""></a>
+                <p class="text-white">Offerta</p>
               </div>
 
               <div class="card-body">
                 <div class="clearfix mb-3">
-                  <span class="float-start badge rounded-pill bg-success">{{
-                    product.price
-                  }}</span>
+                  <span class="float-start badge rounded-pill bg-success"
+                    >€{{ product.price }}</span
+                  >
                   <span class="float-end">
                     <a
                       class="small text-muted text-uppercase aff-link"
@@ -49,17 +46,22 @@
 
                 <div class="d-grid gap-2 my-4">
                   <button
-                    class="btn btn-warning bold-btn"
+                    class="btn btn-warning productsButton bold-btn"
                     (click)="addToCart(product)"
                   >
-                    add to cart
+                    Aggiungi al carrello
+                  </button>
+                  <button
+                    class="btn btn-danger productsButton bold-btn"
+                    (click)="showDetails(product)"
+                  >
+                    Dettagli
                   </button>
                 </div>
                 <div class="clearfix mb-1">
-                  <span class="float-start">
-                    <a href="#"><i class="fas fa-question-circle"></i></a>
-                  </span>
-                  <span class="float-end">
+                  <span
+                    class="d-flex justify-content-center align-items-center"
+                  >
                     <i
                       class="far fa-heart"
                       (click)="toggleFavorite(product)"

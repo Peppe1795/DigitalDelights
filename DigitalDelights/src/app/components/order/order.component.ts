@@ -4,6 +4,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { CartItem } from 'src/app/models/cart-item.interface';
 import { ShippingInfo } from 'src/app/models/shipping-info.interface';
 import { NgForm } from '@angular/forms';
+import { StripeService } from 'src/app/services/stripe.service';
 
 @Component({
   selector: 'app-order',
@@ -16,11 +17,13 @@ export class OrderComponent implements OnInit {
   discount: number = 0;
   shippingCost: number = 14;
   promoCode: string = '';
+  isOrderCreated: boolean = false;
   promoCodes: { [key: string]: number } = {
     PROMO10: 0.1,
     PROMO20: 0.2,
     PROMO30: 0.3,
   };
+  loaded: boolean = false;
   shippingInfo: ShippingInfo = {
     recipientName: '',
     shippingAddress: '',
@@ -36,7 +39,8 @@ export class OrderComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private stripeService: StripeService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +54,22 @@ export class OrderComponent implements OnInit {
         console.error('Error fetching cart items', error);
       }
     );
+    this.orderService.getTotalPrice().subscribe((price) => {
+      if (price !== 0) {
+        // Se il prezzo è diverso da 0, allora è stato caricato
+        this.totalPrice = price;
+        this.loaded = true; // Imposta il flag di caricamento a true
+      }
+    });
+  }
+
+  handlePayment() {
+    if (this.loaded) {
+      // Esegui il pagamento solo se i dati sono stati caricati
+      this.stripeService.redirectToCheckout(this.totalPrice);
+    } else {
+      console.error('Total price data not loaded yet.');
+    }
   }
 
   calculateTotal(): void {
@@ -89,7 +109,7 @@ export class OrderComponent implements OnInit {
         (response) => {
           console.log('Order created successfully', response);
           this.notificationMessage = 'Ordine creato con successo!';
-
+          this.isOrderCreated = true;
           // Reset the form and shipping info after order creation
           this.checkoutForm.reset();
           this.shippingInfo = {

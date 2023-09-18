@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 declare var bootstrap: any;
 @Component({
@@ -37,7 +37,8 @@ export class ProductsComponent implements OnInit {
     public authService: AuthService,
     public reviewsService: ReviewsService,
     private cartService: CartService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -100,7 +101,6 @@ export class ProductsComponent implements OnInit {
     this.cartService.addProductToCart(product.productId, 1).subscribe(
       () => {
         console.log('Prodotto aggiunto al carrello con successo!');
-        // Aggiorna il carrello o mostra una notifica, a tua scelta.
       },
       (error) => {
         console.error(
@@ -112,12 +112,10 @@ export class ProductsComponent implements OnInit {
   }
 
   setHover(star: number): void {
-    // Aggiunto
     this.hoverRating = star;
   }
 
   removeHover(): void {
-    // Aggiunto
     this.hoverRating = 0;
   }
   loadProductsBySelectedCategory(): void {
@@ -127,7 +125,6 @@ export class ProductsComponent implements OnInit {
       (response) => {
         this.categoriesWithProducts = {};
         if (this.selectedCategory) {
-          // Questo controllo è superfluo, ma serve per soddisfare TypeScript
           this.categoriesWithProducts[this.selectedCategory] = response.content;
         }
         this.loading = false;
@@ -156,13 +153,13 @@ export class ProductsComponent implements OnInit {
     }
 
     const userId = this.authService.getCurrentUserId();
-    const productId = this.selectedProductForReview.productId; // Ottieni l'ID del prodotto selezionato
+    const productId = this.selectedProductForReview.productId;
 
     const reviewPayload = {
       userId: userId,
       productId: productId,
       reviewText: this.reviewText,
-      rating: this.rating, // aggiunge il punteggio delle stelle
+      rating: this.rating,
     };
 
     // Chiamata al servizio delle recensioni con l'ID del prodotto
@@ -170,17 +167,17 @@ export class ProductsComponent implements OnInit {
       (response) => {
         console.log('Recensione inviata con successo', response);
         this.reviewText = '';
-        this.showFeedback = true; // Mostra il feedback
-        this.feedbackMessage = 'Recensione inviata con successo!'; // Imposta il messaggio di feedback
+        this.showFeedback = true;
+        this.feedbackMessage = 'Recensione inviata con successo!';
         setTimeout(() => {
-          this.closeReviewModal(); // Chiudi la modale dopo un breve ritardo per permettere all'utente di leggere il feedback
-          this.showFeedback = false; // Nascondi il feedback dopo la chiusura della modale
+          this.closeReviewModal();
+          this.showFeedback = false;
         }, 1500);
       },
       (error) => {
         console.error('Impossibile inviare la recensione', error);
-        this.feedbackMessage = "Errore durante l'invio della recensione."; // Imposta un messaggio di feedback per errori
-        this.showFeedback = true; // Mostra il feedback
+        this.feedbackMessage = "Errore durante l'invio della recensione.";
+        this.showFeedback = true;
       }
     );
   }
@@ -191,8 +188,8 @@ export class ProductsComponent implements OnInit {
   openReviewModal(product: Product): void {
     this.selectedProduct = product;
     this.selectedProductForReview = product;
-    console.log('Is Authenticated:', this.authService.isAuthenticated()); // verifica lo stato dell'autenticazione
-    console.log('Selected Product for Review:', this.selectedProductForReview); // verifica il prodotto selezionato
+    console.log('Is Authenticated:', this.authService.isAuthenticated());
+    console.log('Selected Product for Review:', this.selectedProductForReview);
     const modalElement = document.getElementById('reviewModal');
     this.modalInstance = new bootstrap.Modal(modalElement);
     this.modalInstance.show();
@@ -224,12 +221,10 @@ export class ProductsComponent implements OnInit {
     actionObservable.subscribe(
       () => {
         if (this.favoriteProductIds.includes(product.productId)) {
-          // Se l'azione era una rimozione, rimuovi l'ID del prodotto dai preferiti
           this.favoriteProductIds = this.favoriteProductIds.filter(
             (id) => id !== product.productId
           );
         } else {
-          // Altrimenti, se l'azione era un'aggiunta, aggiungi l'ID del prodotto ai preferiti
           this.favoriteProductIds.push(product.productId);
         }
         console.log('Prodotti preferiti aggiornati:', this.favoriteProductIds);
@@ -242,5 +237,9 @@ export class ProductsComponent implements OnInit {
         );
       }
     );
+  }
+
+  showDetails(product: Product): void {
+    this.router.navigate(['/details', product.productId]);
   }
 }

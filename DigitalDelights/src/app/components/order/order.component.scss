@@ -1,0 +1,25 @@
+.payment {
+  font-family: Roboto, sans-serif;
+  font-weight: 0;
+  font-size: 14px;
+  color: #fff;
+  padding: 10px 30px;
+  border: 2px solid #cc9600;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 728ms;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.payment:hover {
+  transition: 728ms;
+  padding: 10px 25px;
+  transform: translateY(-17px);
+  background-color: #49d684;
+  color: #080808;
+  border: solid 2px #00cc5f;
+}

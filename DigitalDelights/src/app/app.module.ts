@@ -16,7 +16,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrderComponent } from './components/order/order.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
 import { NavbardashboardComponent } from './components/navbardashboard/navbardashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DetailsComponent } from './components/details/details.component';
@@ -37,15 +36,15 @@ const routes: Route[] = [
     component: WishListComponent,
   },
   {
-    path: 'checkout',
-    component: CheckoutComponent,
-  },
-  {
     path: 'order',
     component: OrderComponent,
   },
   {
     path: 'details/:id',
+    component: DetailsComponent,
+  },
+  {
+    path: 'product/:id',
     component: DetailsComponent,
   },
   {
@@ -85,7 +84,6 @@ const routes: Route[] = [
     CartComponent,
     WishListComponent,
     OrderComponent,
-    CheckoutComponent,
     NavbardashboardComponent,
     FooterComponent,
     DetailsComponent,

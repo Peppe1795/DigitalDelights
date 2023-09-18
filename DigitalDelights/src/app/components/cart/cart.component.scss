@@ -14,3 +14,23 @@
 .icon-hover-danger:hover i {
   color: #dc4c64 !important;
 }
+
+.sticky-summary {
+  position: sticky;
+  top: 10px;
+}
+
+.cartColor {
+  background: rgb(223, 249, 251);
+}
+
+.fa-question-circle:before {
+  color: darkgray;
+}
+
+.fa-heart:before {
+  color: crimson;
+}
+.fa-chevron-circle-right:before {
+  color: darkgray;
+}
