@@ -1,0 +1,40 @@
+// BOTTONI
+.productsButton {
+  border: none;
+  text-decoration: none;
+  outline: 0;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.productsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.productsButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+.fa-heart:before {
+  color: crimson;
+}
+.fa-chevron-circle-right:before {
+  color: darkgray;
+}
+//COLORE CARD
+.cardColor {
+  background: rgb(223, 249, 251);
+}
+.colorCardBottom {
+  background: rgb(108, 215, 222);
+}
+
+//STELLE
+.star {
+  font-size: 24px;
+  color: #ccc;
+}
+
+.star.checked {
+  color: gold;
+}

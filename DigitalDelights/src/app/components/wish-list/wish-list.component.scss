@@ -1,0 +1,150 @@
+.card {
+  background: rgb(223, 249, 251);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
+  transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
+    0.3s box-shadow,
+    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
+  border: 0;
+  border-radius: 1rem;
+}
+
+.card-img,
+.card-img-top {
+  border-top-left-radius: calc(1rem - 1px);
+  border-top-right-radius: calc(1rem - 1px);
+}
+
+.card h5 {
+  overflow: hidden;
+  height: 55px;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.card h5 a {
+  color: black;
+  text-decoration: none;
+}
+
+.card-img-top {
+  width: 100%;
+  min-height: 250px;
+  max-height: 250px;
+  object-fit: contain;
+  padding: 30px;
+}
+
+.card h2 {
+  font-size: 1rem;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.label-top {
+  position: absolute;
+
+  background-color: rgb(231, 35, 35);
+  top: 8px;
+  right: 8px;
+  padding: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.top-right {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 900;
+  background: #8bc34a;
+  line-height: 90px;
+  text-align: center;
+  color: white;
+}
+
+.top-right span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.aff-link {
+  font-weight: 500;
+}
+
+.over-bg {
+  background: rgba(53, 53, 53, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  border-radius: 10px;
+}
+.bold-btn {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 5px 50px 5px 50px;
+}
+.box .btn {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 1025px) {
+  .btn {
+    padding: 5px 40px 5px 40px;
+  }
+}
+@media (max-width: 250px) {
+  .btn {
+    padding: 5px 30px 5px 30px;
+  }
+}
+
+/* START BUTTON */
+.productsButton {
+  border: none;
+  text-decoration: none;
+  outline: 0;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.productsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.productsButton:hover {
+  transform: translateY(-5px); /* Solleva il bottone di 5 pixel */
+  transition: all 0.3s ease; /* Transizione fluida */
+}
+
+.bg-danger {
+  font-size: 1rem;
+}
+
+.price-hp {
+  font-size: 1rem;
+  font-weight: 600;
+  color: darkgray;
+}
+
+.amz-hp {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: darkgray;
+}
+
+.fa-heart:before {
+  color: crimson;
+}
+.fa-chevron-circle-right:before {
+  color: darkgray;
+}

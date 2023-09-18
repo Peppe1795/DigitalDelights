@@ -28,8 +28,8 @@ export class ProductsComponent implements OnInit {
   rating = 0;
   hoverRating: number = 0;
   favoriteProductIds: string[] = [];
-  showFeedback = false; // Mostra o nasconde il feedback
-  feedbackMessage = ''; // Messaggio di feedback da mostrare all'utente
+  showFeedback = false;
+  feedbackMessage = '';
 
   constructor(
     private productSrv: ProductsService,
@@ -162,7 +162,6 @@ export class ProductsComponent implements OnInit {
       rating: this.rating,
     };
 
-    // Chiamata al servizio delle recensioni con l'ID del prodotto
     this.reviewsService.createReview(productId, reviewPayload).subscribe(
       (response) => {
         console.log('Recensione inviata con successo', response);

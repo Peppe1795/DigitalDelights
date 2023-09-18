@@ -31,7 +31,7 @@ public class JWTFilter extends OncePerRequestFilter {
 	private static final String[] USER_ROUTES = { "/{cartId}/product/{productId}", "/current-user-cart-id",
 			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", // Aggiunto
 			"/removeWishList/{productId}", // Aggiunto
-			"/{userId}/wishList" // Aggiunto
+			"/{userId}/wishList", "user/{userId}"// Aggiunto
 	};
 
 	private static final String[] ADMIN_ROUTES = { "/product", // POST per creare un nuovo prodotto
@@ -41,8 +41,7 @@ public class JWTFilter extends OncePerRequestFilter {
 			"/indirizzo", // GET per vedere tutti gli indirizzi
 			"/order", // POST per creare un nuovo ordine
 			"/order/*", // PUT e DELETE per modificare o eliminare un ordine
-			"/user", // GET per vedere tutti gli utenti
-			"/user/*" // PUT e DELETE per modificare o eliminare un utente
+
 	};
 
 	@Override

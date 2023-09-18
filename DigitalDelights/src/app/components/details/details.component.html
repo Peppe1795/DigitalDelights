@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container mt-5">
   <div class="card mb-3">
-    <div class="row g-0">
+    <div class="row g-0 cardColor">
       <div class="col-md-4">
         <img
           [src]="product?.imageUrl"
@@ -8,25 +8,54 @@
           alt="{{ product?.name }}"
         />
       </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ product?.name }}</h5>
-          <p class="card-text">{{ product?.description }}</p>
+      <div class="col-md-8 d-flex flex-column">
+        <div class="card-body flex-grow-1">
+          <h5 class="card-title">Nome Prodotto:</h5>
+          <p class="card-text">{{ product?.name }}</p>
+          <h5 class="card-title">Scheda tecnica:</h5>
           <p class="card-text">
-            <small class="text-body-secondary"
-              >Last updated {{ product?.price }}</small
-            >
+            {{ product?.description }}
           </p>
+          <h5 class="card-title">Prezzo:</h5>
+          <p class="card-text">€{{ product?.price }}</p>
+          <h5 class="card-title">Categoria:</h5>
+          <p class="card-text">{{ product?.category }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between colorCardBottom">
+          <button
+            class="btn btn-warning productsButton bold-btn"
+            (click)="product && addToCart(product)"
+          >
+            Aggiungi al carrello
+          </button>
+          <span>
+            <i
+              class="far fa-heart"
+              (click)="product && toggleFavorite(product)"
+              [class.fas]="isFavorite(product)"
+              [class.far]="!isFavorite(product)"
+            ></i>
+          </span>
         </div>
       </div>
     </div>
   </div>
+  <h2 class="text-center">Recensioni</h2>
   <div *ngFor="let review of reviews">
-    <p>
-      <strong>{{ review.username }}</strong
-      >: {{ review.reviewText }}
-    </p>
-    <p>Valutazione: {{ review.rating }} / 5</p>
-    <hr />
+    <div class="card">
+      <div class="card-header text-center colorCardBottom">
+        <!-- Visualizzazione stelle -->
+        <div class="stars">
+          <i
+            class="fas fa-star star"
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            [class.checked]="star <= review.rating"
+          ></i>
+        </div>
+      </div>
+      <div class="card-body text-center cardColor">
+        <p class="card-text">{{ review.reviewText }}</p>
+      </div>
+    </div>
   </div>
 </div>

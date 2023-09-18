@@ -26,7 +26,7 @@
                 </div>
               </div>
               <div
-                class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap"
+                class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap align-items-center"
               >
                 <div class="">
                   <select
@@ -102,25 +102,25 @@
           <div class="card-body">
             <div class="d-flex justify-content-between">
               <p class="mb-2">Total price:</p>
-              <p class="mb-2">{{ totalPrice | currency : "USD" : "symbol" }}</p>
+              <p class="mb-2">{{ totalPrice | currency : "EUR" : "symbol" }}</p>
             </div>
             <div class="d-flex justify-content-between">
               <p class="mb-2">Discount:</p>
               <p class="mb-2 text-success">
-                -{{ discount | currency : "USD" : "symbol" }}
+                -{{ discount | currency : "EUR" : "symbol" }}
               </p>
             </div>
             <div class="d-flex justify-content-between">
               <p class="mb-2">TAX:</p>
               <p class="mb-2">
-                {{ totalPrice * tax | currency : "USD" : "symbol" }}
+                {{ totalPrice * tax | currency : "EUR" : "symbol" }}
               </p>
             </div>
             <hr />
             <div class="d-flex justify-content-between">
               <p class="mb-2">Total price:</p>
               <p class="mb-2 fw-bold">
-                {{ finalTotal | currency : "USD" : "symbol" }}
+                {{ finalTotal | currency : "EUR" : "symbol" }}
               </p>
             </div>
 

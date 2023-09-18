@@ -1,13 +1,54 @@
-<div *ngFor="let product of favorites" class="card">
-  <h5 class="card-header">{{ product.name }}</h5>
-  <div class="card-body">
-    <h5 class="card-title">{{ product.price }}</h5>
-    <p class="card-text">{{ product.description }}</p>
-    <a [routerLink]="['/product', product.productId]" class="btn btn-primary"
-      >View Details</a
+<div class="container mt-4">
+  <div class="row">
+    <div
+      *ngFor="let product of favorites"
+      class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3 hp"
     >
+      <div class="card h-100 shadow-sm">
+        <a>
+          <img [src]="product.imageUrl" class="card-img-top" />
+        </a>
+        <div class="label-top shadow-sm">
+          <p class="text-white">Offerta</p>
+        </div>
+        <div class="card-body">
+          <div class="clearfix mb-3">
+            <span class="float-start badge rounded-pill bg-success">
+              €{{ product.price }}
+            </span>
+          </div>
+          <div class="card-title">
+            <h5>{{ product.name }}</h5>
+          </div>
+          <div class="d-grid gap-2 my-4">
+            <button
+              class="btn btn-warning productsButton bold-btn"
+              (click)="addToCart(product)"
+            >
+              Aggiungi al carrello
+            </button>
+            <button
+              class="btn btn-danger productsButton bold-btn"
+              (click)="showDetails(product)"
+            >
+              Dettagli
+            </button>
+          </div>
+          <div class="clearfix mb-1">
+            <span class="d-flex justify-content-center align-items-center">
+              <i
+                class="far fa-heart"
+                (click)="toggleFavorite(product)"
+                [class.fas]="favoriteProductIds.includes(product.productId)"
+                [class.far]="!favoriteProductIds.includes(product.productId)"
+              ></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <button (click)="loadMoreProducts()" class="btn btn-primary">
+    Carica più risultati
+  </button>
 </div>
-<button (click)="loadMoreProducts()" class="btn btn-primary">
-  Carica più risultati
-</button>
