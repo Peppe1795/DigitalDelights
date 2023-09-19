@@ -1,20 +1,26 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 @import "~bootstrap/scss/bootstrap";
 
 html,
 body {
-  font-family: "Roboto", sans-serif;
-  background: rgb(199, 241, 241) !important;
+  font-family: "Roboto", sans-serif !important;
+  background: rgb(207, 252, 255) !important;
+  background: linear-gradient(
+    0deg,
+    rgba(207, 252, 255, 1) 0%,
+    rgba(165, 249, 255, 1) 100%
+  ) !important;
 }
 
 h1,
 h2,
 h3,
+h4,
 h5,
 h6 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Playfair Display", serif;
 }
 
 button {

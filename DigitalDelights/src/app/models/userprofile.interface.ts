@@ -4,8 +4,8 @@ import { Product } from './products';
 
 export interface UserProfile {
   userId: string;
-  username: string;
   name: string;
+  username: string;
   lastName: string;
   email: string;
   address: Address;

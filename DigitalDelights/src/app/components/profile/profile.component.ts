@@ -70,14 +70,26 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid) {
-      this.authService.updateUserDetails(this.userForm.value).subscribe(
+      const updatedUserDetails = {
+        ...this.user,
+        ...this.userForm.value,
+      };
+
+      this.authService.updateUserDetails(updatedUserDetails).subscribe(
         (response) => {
-          console.log('User details updated!', response);
+          console.log('Dettagli utente aggiornati con successo:', response);
+          alert('Dettagli utente aggiornati con successo!');
         },
         (error) => {
-          console.error('Error updating user details:', error);
+          console.error(
+            "Errore durante l'aggiornamento dei dettagli dell'utente:",
+            error
+          );
+          alert("Si è verificato un errore durante l'aggiornamento. Riprova.");
         }
       );
+    } else {
+      alert('Assicurati che tutti i campi siano compilati correttamente.');
     }
   }
 }

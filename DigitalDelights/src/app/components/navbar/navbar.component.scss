@@ -1,17 +1,33 @@
+//COLORE DELLA NAV SUPERIORE
 .navColor {
-  background-color: rgb(4, 4, 58);
+  background: rgb(56, 228, 241);
+  background: linear-gradient(
+    0deg,
+    rgba(56, 228, 241, 1) 0%,
+    rgba(53, 65, 222, 1) 100%
+  );
 }
-
+//INPUT TRASPARENTE
+.transparent-input {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+// COLORE DELLA NAV INFERIORE
 .navColorBottom {
-  background-color: #090a6d;
+  background: rgb(165, 249, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(165, 249, 255, 1) 0%,
+    rgba(56, 228, 241, 1) 100%
+  );
 }
 
-.leftButton {
-  --border-color: linear-gradient(-45deg, #ffae00, #7e03aa, #00fffb);
+// BOTTONI
+.rightButton {
+  --border-color: linear-gradient(-45deg, #0022ff, #23278b, #00fffb);
   --border-width: 0.125em;
   --curve-size: 0.5em;
   --blur: 30px;
-  --bg: #080312;
+  --bg: #0a113f;
   --color: #afffff;
   color: var(--color);
   display: inline-grid;
@@ -22,24 +38,29 @@
   text-transform: uppercase;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.6);
   clip-path: polygon(
-    /* Top-left */ 0% var(--curve-size),
+    0% var(--curve-size),
     var(--curve-size) 0,
-    /* top-right */ 100% 0,
+    100% 0,
     100% calc(100% - var(--curve-size)),
-    /* bottom-right 1 */ calc(100% - var(--curve-size)) 100%,
-    /* bottom-right 2 */ 0 100%
+    calc(100% - var(--curve-size)) 100%,
+    0 100%
   );
-  transition: color 250ms;
+  transition: color 250ms, background 250ms;
 }
 
-.leftButton::after,
-.leftButton::before {
+.rightButton:hover {
+  --bg: #0a0a2b;
+  color: #fff;
+}
+
+.rightButton::after,
+.rightButton::before {
   content: "";
   position: absolute;
   inset: 0;
 }
 
-.leftButton::before {
+.rightButton::before {
   background: var(--border-color);
   background-size: 300% 300%;
   animation: move-bg7234 5s ease infinite;
@@ -50,52 +71,48 @@
   0% {
     background-position: 31% 0%;
   }
-
   50% {
     background-position: 70% 100%;
   }
-
   100% {
     background-position: 31% 0%;
   }
 }
 
-.leftButton::after {
+.rightButton::after {
   background: var(--bg);
   z-index: -1;
   clip-path: polygon(
-    /* Top-left */ var(--border-width)
-      calc(var(--curve-size) + var(--border-width) * 0.5),
+    var(--border-width) calc(var(--curve-size) + var(--border-width) * 0.5),
     calc(var(--curve-size) + var(--border-width) * 0.5) var(--border-width),
-    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width)) var(--border-width),
     calc(100% - var(--border-width))
       calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    /* bottom-right 1 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+    calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
       calc(100% - var(--border-width)),
-    /* bottom-right 2 */ var(--border-width) calc(100% - var(--border-width))
+    var(--border-width) calc(100% - var(--border-width))
   );
   transition: clip-path 500ms;
 }
 
-.leftButton:where(:hover, :focus)::after {
+.rightButton:where(:hover, :focus)::after {
   clip-path: polygon(
-    /* Top-left */ calc(100% - var(--border-width))
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    calc(100% - var(--border-width)) var(--border-width),
-    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
     calc(100% - var(--border-width))
       calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
-    /* bottom-right 1 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+    calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width))
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+    calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
       calc(100% - var(--border-width)),
-    /* bottom-right 2 */
-      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+    calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
       calc(100% - var(--border-width))
   );
   transition: 200ms;
 }
 
-.leftButton:where(:hover, :focus) {
-  color: #fff;
+// HOVER LINK DELLA NAVBAR
+.nav-link:hover {
+  color: #020f0c;
+  transition: color 250ms;
 }

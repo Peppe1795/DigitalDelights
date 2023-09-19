@@ -18,13 +18,13 @@
         </div>
 
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
-          <div class="d-flex float-end">
+          <div class="d-flex float-end fw-bold">
             <a
               *ngIf="!isUserLoggedIn"
               [routerLink]="['/register']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Sign in</p>
@@ -34,7 +34,7 @@
               [routerLink]="['/login']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Login</p>
@@ -44,7 +44,7 @@
               [routerLink]="['/profile']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Profilo</p>
@@ -55,7 +55,7 @@
               [routerLink]="['/']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fa-solid fa-power-off m-1 me-md-2"></i>
 
@@ -65,7 +65,7 @@
               [routerLink]="['/wishlist']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="me-1 btn leftButton py-1 px-3 nav-link d-flex align-items-center"
+              class="me-1 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-heart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Wishlist</p>
@@ -74,7 +74,7 @@
               [routerLink]="['/cart']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="leftButton btn py-1 px-3 nav-link d-flex align-items-center"
+              class="rightButton btn py-1 px-3 nav-link d-flex align-items-center"
             >
               <i class="fas fa-shopping-cart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Carrello</p>
@@ -88,7 +88,7 @@
               <input
                 type="search"
                 id="form1"
-                class="form-control"
+                class="form-control transparent-input border-0"
                 placeholder="Search"
                 [(ngModel)]="searchQuery"
               />
@@ -121,10 +121,10 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold text-dark fs-5">
           <li class="nav-item">
             <a
-              class="nav-link text-white"
+              class="nav-link"
               aria-current="page"
               [routerLink]="['/']"
               routerLinkActive="active"
@@ -133,30 +133,22 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/SMARTPHONE"
-              >Smartphone</a
-            >
+            <a class="nav-link" routerLink="/products/SMARTPHONE">Smartphone</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/LAPTOP"
-              >Laptop</a
-            >
+            <a class="nav-link" routerLink="/products/LAPTOP">Laptop</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/SMARTWATCH"
-              >Smartwatch</a
-            >
+            <a class="nav-link" routerLink="/products/SMARTWATCH">Smartwatch</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/TABLET"
-              >Tablet</a
-            >
+            <a class="nav-link" routerLink="/products/TABLET">Tablet</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/TV">Tv</a>
+            <a class="nav-link" routerLink="/products/TV">Tv</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/products/PC">Pc</a>
+            <a class="nav-link" routerLink="/products/PC">Pc</a>
           </li>
         </ul>
       </div>
