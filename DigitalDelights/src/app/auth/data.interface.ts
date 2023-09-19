@@ -1,13 +1,18 @@
+import { Product } from '../models/products';
+import { Orders } from '../models/orders.interface';
+
 export interface Data {
   accessToken: string;
   user: {
-    id: number;
-    name: string;
+    userId: string;
     username: string;
+    name: string;
     lastName: string;
     email: string;
-    password: string;
     address: Address;
+    role: string;
+    order: Orders[];
+    favoriteProducts: Product[];
   };
 }
 

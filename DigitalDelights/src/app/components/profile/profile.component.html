@@ -1,1 +1,254 @@
-<p>profile works!</p>
+<div class="container mt-5">
+  <h2 class="mb-4">Profilo Utente</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{ user?.name }} {{ user?.lastName }}</h4>
+          <p class="card-text">{{ user?.email }}</p>
+          <p class="card-text">Username: {{ user?.username }}</p>
+          <p class="card-text">Ruolo: {{ user?.role }}</p>
+          <address>
+            {{ user?.address?.via }}, {{ user?.address?.localita }},
+            {{ user?.address?.cap }},
+            {{ user?.address?.comune }}
+          </address>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header">I miei ordini</div>
+        <ul class="list-group list-group-flush overflow-auto scrollable">
+          <li class="list-group-item" *ngFor="let order of user?.order">
+            Ordine #{{ order.orderId }} - Data: {{ order.orderDate }} - Totale:
+            €{{ order.totalPrice }}
+            <span class="badge badge-success float-end">Consegnato</span>
+          </li>
+          <li class="list-group-item" *ngIf="user?.order?.length === 0">
+            Non hai ancora effettuato ordini.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Aggiorna Dettagli Account</div>
+        <div class="card-body">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <!-- Nome -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+              />
+              <div
+                *ngIf="
+                  userForm?.get('name')?.errors && userForm.get('name')?.touched
+                "
+                class="text-danger"
+              >
+                <div *ngIf="userForm.get('name')?.errors?.['required']">
+                  Il nome è obbligatorio.
+                </div>
+              </div>
+            </div>
+
+            <!-- Cognome -->
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Cognome:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                formControlName="lastName"
+              />
+              <div
+                *ngIf="
+                  userForm?.get('lastName')?.errors &&
+                  userForm.get('lastName')?.touched
+                "
+                class="text-danger"
+              >
+                <div *ngIf="userForm.get('lastName')?.errors?.['required']">
+                  Il cognome è obbligatorio.
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  userForm?.get('email')?.errors &&
+                  userForm.get('email')?.touched
+                "
+                class="text-danger"
+              >
+                <div *ngIf="userForm.get('email')?.errors?.['required']">
+                  L'email è obbligatoria.
+                </div>
+                <div *ngIf="userForm.get('email')?.errors?.['email']">
+                  Inserisci una email valida.
+                </div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+              />
+              <div
+                *ngIf="
+                  userForm?.get('password')?.errors &&
+                  userForm.get('password')?.touched
+                "
+                class="text-danger"
+              >
+                <div *ngIf="userForm.get('password')?.errors?.['minlength']">
+                  La password deve avere almeno 8 caratteri.
+                </div>
+              </div>
+            </div>
+
+            <!-- Indirizzo -->
+            <div formGroupName="address">
+              <!-- Via -->
+              <div class="mb-3">
+                <label for="via" class="form-label">Via:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="via"
+                  formControlName="via"
+                />
+                <div
+                  *ngIf="
+                    userForm?.get('address')?.get('via')?.errors &&
+                    userForm.get('address')?.get('via')?.touched
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="userForm.get('address')?.get('via')?.errors?.['required']"
+                  >
+                    La via è obbligatoria.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Localita -->
+              <div class="mb-3">
+                <label for="localita" class="form-label">Località:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="localita"
+                  formControlName="localita"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="numeroCivico" class="form-label"
+                  >Numero Civico:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="numeroCivico"
+                  formControlName="numeroCivico"
+                />
+                <div
+                  *ngIf="
+                    userForm?.get('address')?.get('numeroCivico')?.errors &&
+                    userForm.get('address')?.get('numeroCivico')?.touched
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="userForm.get('address')?.get('numeroCivico')?.errors?.['required']"
+                  >
+                    Il numero civico è obbligatorio.
+                  </div>
+                </div>
+              </div>
+
+              <!-- CAP -->
+              <div class="mb-3">
+                <label for="cap" class="form-label">CAP:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cap"
+                  formControlName="cap"
+                />
+              </div>
+
+              <!-- Comune -->
+              <div class="mb-3">
+                <label for="comune" class="form-label">Comune:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="comune"
+                  formControlName="comune"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">
+              Aggiorna Profilo
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header">Prodotti Preferiti</div>
+        <ul
+          class="list-group list-group-flush overflow-auto"
+          style="max-height: 300px"
+        >
+          <li
+            class="list-group-item"
+            *ngFor="let product of user?.favoriteProducts"
+          >
+            {{ product.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Le mie recensioni</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let review of user?.reviews">
+            {{ review.content }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

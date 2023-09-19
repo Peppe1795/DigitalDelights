@@ -1,0 +1,70 @@
+.scrollable {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.container {
+  background: rgb(223, 249, 251);
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.card {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: #444;
+}
+
+.card-text {
+  color: #777;
+}
+
+.card-header {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.list-group-item {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+}
+
+.list-group-item:first-child {
+  border-top: none;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}

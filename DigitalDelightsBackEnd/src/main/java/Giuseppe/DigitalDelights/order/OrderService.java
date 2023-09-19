@@ -52,6 +52,10 @@ public class OrderService {
 		return orderRepo.findAll(pageable);
 	}
 
+	public List<Order> findOrdersByUser(User user) {
+		return orderRepo.findAllByUser(user);
+	}
+
 	public Order findById(UUID id) throws NotFoundException {
 		return orderRepo.findById(id).orElseThrow(() -> new NotFoundException("Ordine non trovato con ID: " + id));
 	}

@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.order;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import Giuseppe.DigitalDelights.user.User;
+import Giuseppe.DigitalDelights.user.UserService;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
 	private final OrderService orderService;
+	private final UserService userService;
 
 	@Autowired
-	public OrderController(OrderService orderService) {
+	public OrderController(OrderService orderService, UserService userService) {
 		this.orderService = orderService;
+		this.userService = userService;
 	}
 
 	@GetMapping
@@ -36,9 +42,10 @@ public class OrderController {
 		return orderService.find(page, size, sortBy);
 	}
 
-	@GetMapping("/{orderId}")
-	public Order getOrderById(@PathVariable UUID orderId) {
-		return orderService.findById(orderId);
+	@GetMapping("/my-orders")
+	public List<Order> getMyOrders() {
+		User currentUser = userService.getCurrentUser();
+		return orderService.findOrdersByUser(currentUser);
 	}
 
 	@PutMapping("/{orderId}/status")

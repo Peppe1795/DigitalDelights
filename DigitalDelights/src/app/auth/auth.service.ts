@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { Data } from './data.interface';
 import { map, catchError } from 'rxjs/operators';
+import { UserProfile } from '../models/userprofile.interface';
+import { throwError } from 'rxjs';
 
 interface DecodedToken {
   sub: string;
@@ -88,7 +90,9 @@ export class AuthService {
   signup(data: Data) {
     return this.http.post(`${this.baseURL}auth/register`, data);
   }
-
+  getUserDetails(userId: string): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.baseURL}user/${userId}`);
+  }
   autoLogout(accessToken: string) {
     const expirationDate = this.jwtHelper.getTokenExpirationDate(
       accessToken
@@ -128,5 +132,13 @@ export class AuthService {
 
   isUser(): boolean {
     return this.userRoleSubject.value === 'USER';
+  }
+
+  updateUserDetails(data: any): Observable<any> {
+    const userId = this.getCurrentUserId();
+    if (!userId) {
+      return throwError('User ID not found.');
+    }
+    return this.http.put(`${this.baseURL}user/${userId}`, data);
   }
 }

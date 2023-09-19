@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ShippingInfo } from '../models/shipping-info.interface';
 import { BehaviorSubject } from 'rxjs';
+import { Orders } from '../models/orders.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -51,5 +52,8 @@ export class OrderService {
 
   getTotalPrice(): Observable<number> {
     return this.totalPrice$;
+  }
+  getMyOrders(): Observable<Orders[]> {
+    return this.http.get<Orders[]>(`${this.baseURL}/my-orders`);
   }
 }
