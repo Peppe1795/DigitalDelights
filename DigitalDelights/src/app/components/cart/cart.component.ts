@@ -18,8 +18,6 @@ export class CartComponent implements OnInit {
   quantity: number = 1;
 
   totalPrice: number = 0;
-  discount: number = 0;
-  tax: number = 0.05;
   finalTotal: number = 0;
   favoriteProductIds: string[] = [];
 
@@ -51,8 +49,7 @@ export class CartComponent implements OnInit {
       (sum, item) => sum + item.product.price * item.quantity,
       0
     );
-    this.finalTotal =
-      this.totalPrice - this.discount + this.totalPrice * this.tax;
+    this.finalTotal = this.totalPrice;
   }
 
   onRemove(productId: string): void {
@@ -61,7 +58,7 @@ export class CartComponent implements OnInit {
         this.cartItems = this.cartItems.filter(
           (item) => item.product.productId !== productId
         );
-        this.calculateTotals(); // Update totals whenever an item is removed.
+        this.calculateTotals();
       },
       (error) => {
         console.error(
@@ -123,5 +120,25 @@ export class CartComponent implements OnInit {
         );
       }
     );
+  }
+  updateQuantity(item: CartItem): void {
+    this.cartService
+      .updateProductQuantity(item.product.productId, item.quantity)
+      .subscribe(
+        () => {
+          console.log(
+            'Quantità di prodotto aggiornata con successo nel carrello!'
+          );
+
+          this.calculateTotals();
+        },
+        (error) => {
+          console.error(
+            'Errore:',
+            error.message ||
+              "Errore nell'aggiornamento della quantità di prodotto nel carrello."
+          );
+        }
+      );
   }
 }

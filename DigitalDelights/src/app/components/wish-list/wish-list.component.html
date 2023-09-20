@@ -8,9 +8,6 @@
         <a>
           <img [src]="product.imageUrl" class="card-img-top" />
         </a>
-        <div class="label-top shadow-sm">
-          <p class="text-white">Offerta</p>
-        </div>
         <div class="card-body">
           <div class="clearfix mb-3">
             <span class="float-start badge rounded-pill bg-success">
@@ -22,13 +19,13 @@
           </div>
           <div class="d-grid gap-2 my-4">
             <button
-              class="btn btn-warning productsButton bold-btn"
+              class="btn productsButton bold-btn"
               (click)="addToCart(product)"
             >
               Aggiungi al carrello
             </button>
             <button
-              class="btn btn-danger productsButton bold-btn"
+              class="btn deatilsButton bold-btn"
               (click)="showDetails(product)"
             >
               Dettagli

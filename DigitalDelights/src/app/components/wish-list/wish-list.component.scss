@@ -1,5 +1,5 @@
 .card {
-  background: linear-gradient(135deg, #ffc0cb, #ffa07a);
+  background: rgb(223, 249, 251);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
   transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
     0.3s box-shadow,
@@ -43,40 +43,6 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
-.label-top {
-  position: absolute;
-
-  background-color: rgb(231, 35, 35);
-  top: 8px;
-  right: 8px;
-  padding: 0;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 8px;
-  text-transform: uppercase;
-}
-
-.top-right {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  font-size: 1rem;
-  font-weight: 900;
-  background: #8bc34a;
-  line-height: 90px;
-  text-align: center;
-  color: white;
-}
-
-.top-right span {
-  display: inline-block;
-  vertical-align: middle;
-}
-
 .aff-link {
   font-weight: 500;
 }
@@ -98,22 +64,13 @@
   font-size: 1.5rem;
 }
 
-@media (max-width: 1025px) {
-  .btn {
-    padding: 5px 40px 5px 40px;
-  }
-}
-@media (max-width: 250px) {
-  .btn {
-    padding: 5px 30px 5px 30px;
-  }
-}
-
-/* START BUTTON */
+// BOTTONE AGGIUNGI AL CARRELLO
 .productsButton {
   border: none;
   text-decoration: none;
   outline: 0;
+  color: white;
+  background: #07115d;
   box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
   border-radius: 100px;
 }
@@ -124,6 +81,26 @@
 .productsButton:hover {
   transform: translateY(-5px); /* Solleva il bottone di 5 pixel */
   transition: all 0.3s ease; /* Transizione fluida */
+}
+
+// BOTTONI DETTAGLI
+
+.deatilsButton {
+  border: none;
+  text-decoration: none;
+  color: rgb(21, 18, 18);
+  outline: 0;
+  background-color: #54faf2;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.deatilsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.deatilsButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
 }
 
 .bg-danger {

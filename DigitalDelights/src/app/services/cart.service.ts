@@ -15,8 +15,6 @@ export class CartService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // Supponiamo che ogni utente abbia un solo carrello, quindi l'ID dell'utente sarà usato come cartId
-
   getCartItems(): Observable<CartItem[]> {
     return this.getCurrentUserCartId().pipe(
       switchMap((cartId) => {
@@ -43,7 +41,6 @@ export class CartService {
   }
 
   addProductToCart(productId: string, quantity: number): Observable<any> {
-    // Recupera l'ID del carrello dell'utente
     return this.getCurrentUserCartId().pipe(
       switchMap((cartId) => {
         if (!cartId) {
@@ -51,7 +48,7 @@ export class CartService {
           return throwError("ID del carrello dell'utente non disponibile.");
         }
         console.log(cartId);
-        // Esegui la richiesta per aggiungere il prodotto al carrello utilizzando l'ID del carrello recuperato
+
         return this.http.post(
           `${this.baseURL}/${cartId}/product/${productId}?quantity=${quantity}`,
           null,
@@ -75,6 +72,24 @@ export class CartService {
           {
             responseType: 'text',
           }
+        );
+      }),
+      catchError((error) => throwError(error))
+    );
+  }
+
+  updateProductQuantity(productId: string, quantity: number): Observable<any> {
+    return this.getCurrentUserCartId().pipe(
+      switchMap((cartId) => {
+        if (!cartId) {
+          console.error("ID del carrello dell'utente non disponibile.");
+          return throwError("ID del carrello dell'utente non disponibile.");
+        }
+
+        return this.http.put(
+          `${this.baseURL}/${cartId}/product/${productId}?quantity=${quantity}`,
+          null,
+          { responseType: 'text' as 'json' }
         );
       }),
       catchError((error) => throwError(error))

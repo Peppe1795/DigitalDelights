@@ -34,3 +34,59 @@
 .fa-chevron-circle-right:before {
   color: darkgray;
 }
+
+// BOTTONE RIMUOVI
+
+.remouveButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #e82929;
+  padding: 10px 30px;
+  border: 2px solid #22cad9;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remouveButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #c41c0c;
+  color: #ffffff;
+}
+
+// BOTTONE CHECKOUT
+
+.checkoutButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #29e8db;
+  padding: 10px 30px;
+  border: 2px solid #22cad9;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkoutButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #0cbec4;
+  color: #ffffff;
+}

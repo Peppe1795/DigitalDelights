@@ -14,8 +14,9 @@ import { StripeService } from 'src/app/services/stripe.service';
 export class OrderComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
+  originalTotalPrice: number = 0;
+
   discount: number = 0;
-  shippingCost: number = 14;
   promoCode: string = '';
   isOrderCreated: boolean = false;
   promoCodes: { [key: string]: number } = {
@@ -48,42 +49,45 @@ export class OrderComponent implements OnInit {
       (items: CartItem[]) => {
         this.cartItems = items;
         this.calculateTotal();
-        this.orderService.setTotalPrice(this.totalPrice);
       },
       (error) => {
         console.error('Error fetching cart items', error);
       }
     );
-    this.orderService.getTotalPrice().subscribe((price) => {
-      if (price !== 0) {
-        // Se il prezzo è diverso da 0, allora è stato caricato
-        this.totalPrice = price;
-        this.loaded = true; // Imposta il flag di caricamento a true
-      }
-    });
   }
 
   handlePayment() {
     if (this.loaded) {
-      // Esegui il pagamento solo se i dati sono stati caricati
       this.stripeService.redirectToCheckout(this.totalPrice);
     } else {
       console.error('Total price data not loaded yet.');
     }
   }
 
-  calculateTotal(): void {
-    this.totalPrice = this.cartItems.reduce(
+  calculateTotalWithoutDiscount(): number {
+    return this.cartItems.reduce(
       (acc, item) => acc + item.product.price * item.quantity,
       0
     );
   }
 
+  calculateTotal(): void {
+    const baseTotal = this.calculateTotalWithoutDiscount();
+    if (!this.originalTotalPrice) {
+      this.originalTotalPrice = baseTotal;
+    }
+    if (this.promoCodes[this.promoCode.toUpperCase()]) {
+      this.discount = baseTotal * this.promoCodes[this.promoCode.toUpperCase()];
+    } else {
+      this.discount = 0;
+    }
+    this.totalPrice = baseTotal - this.discount;
+  }
+
   applyDiscount(): void {
     if (this.promoCodes[this.promoCode.toUpperCase()]) {
-      this.discount =
-        this.totalPrice * this.promoCodes[this.promoCode.toUpperCase()];
       this.calculateTotal();
+      console.log('Total Price after discount:', this.totalPrice);
     } else {
       alert('Codice promozionale non valido!');
       this.discount = 0;
@@ -110,7 +114,7 @@ export class OrderComponent implements OnInit {
           console.log('Order created successfully', response);
           this.notificationMessage = 'Ordine creato con successo!';
           this.isOrderCreated = true;
-          // Reset the form and shipping info after order creation
+
           this.checkoutForm.reset();
           this.shippingInfo = {
             recipientName: '',
@@ -124,10 +128,11 @@ export class OrderComponent implements OnInit {
           this.promoCode = '';
           this.discount = 0;
           this.calculateTotal();
+          this.loaded = true;
 
           setTimeout(() => {
             this.notificationMessage = '';
-          }, 3000); // Removes the message after 3 seconds
+          }, 3000);
         },
         (error) => {
           console.error('Error creating order', error);
