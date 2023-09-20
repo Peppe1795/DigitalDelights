@@ -1,9 +1,9 @@
 .payment {
-  font-weight: 0;
+  font-weight: bold;
   font-size: 14px;
   color: #fff;
+  background-color: #034b82;
   padding: 10px 30px;
-  border: 2px solid #cc9600;
   box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
   border-radius: 50px;
   transition: 728ms;
@@ -18,7 +18,10 @@
   transition: 728ms;
   padding: 10px 25px;
   transform: translateY(-17px);
-  background-color: #49d684;
-  color: #080808;
-  border: solid 2px #00cc5f;
+  background-color: #1926b5;
+  color: #ffffff;
+}
+
+.cardColor {
+  background: rgb(223, 249, 251);
 }

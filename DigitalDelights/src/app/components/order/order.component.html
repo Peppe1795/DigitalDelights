@@ -1,11 +1,11 @@
-<section class="bg-light py-5">
+<section class="py-5">
   <div class="container">
     <div class="row">
       <div *ngIf="notificationMessage" class="alert alert-info">
         {{ notificationMessage }}
       </div>
       <div class="col-xl-8 col-lg-8 mb-4">
-        <div class="card shadow-0 border">
+        <div class="card cardColor shadow-0 border">
           <div class="p-4">
             <h5 class="card-title mb-3">Checkout</h5>
 
@@ -173,10 +173,10 @@
         </div>
       </div>
       <div
-        class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end"
+        class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end cardColor"
       >
         <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px">
-          <h6 class="mb-3">Sommario</h6>
+          <h6 class="mb-3 mt-3">Sommario</h6>
 
           <div class="d-flex justify-content-between">
             <p class="mb-2">Prezzo totale:</p>
@@ -213,7 +213,7 @@
           <button
             *ngIf="isOrderCreated"
             (click)="handlePayment()"
-            class="btn btn-warning payment"
+            class="btn payment"
           >
             Vai al pagamento
           </button>
@@ -226,7 +226,7 @@
           >
             <div class="me-3 position-relative">
               <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark"
               >
                 {{ item.quantity }}
               </span>

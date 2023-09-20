@@ -39,6 +39,8 @@ public class ReviewsService {
 		review.setRating(rating);
 		review.setReviewText(reviewText);
 
+		currentUser.getReviews().add(review);
+
 		return reviewsRepo.save(review);
 	}
 

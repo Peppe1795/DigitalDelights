@@ -107,7 +107,6 @@ public class UserService {
 			}
 		}
 
-		// Se l'utente non è autenticato, restituisci null o un utente anonimo
 		return null;
 	}
 

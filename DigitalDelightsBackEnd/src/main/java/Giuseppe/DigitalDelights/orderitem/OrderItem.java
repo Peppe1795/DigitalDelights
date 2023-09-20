@@ -2,6 +2,8 @@ package Giuseppe.DigitalDelights.orderitem;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Giuseppe.DigitalDelights.order.Order;
 import Giuseppe.DigitalDelights.products.Product;
 import jakarta.persistence.Entity;
@@ -25,6 +27,7 @@ public class OrderItem {
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
+	@JsonIgnore
 	private Order order;
 
 	@ManyToOne

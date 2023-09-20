@@ -25,8 +25,9 @@
         <div class="card-header">I miei ordini</div>
         <ul class="list-group list-group-flush overflow-auto scrollable">
           <li class="list-group-item" *ngFor="let order of user?.order">
-            Ordine #{{ order.orderId }} - Data: {{ order.orderDate }} - Totale:
-            €{{ order.totalPrice }}
+            Ordine #{{ order.orderId }} <br />
+            Data: {{ order.orderDate }} <br />
+            Totale: €{{ order.totalPrice }} <br />
             <span class="badge badge-success float-end">Consegnato</span>
           </li>
           <li class="list-group-item" *ngIf="user?.order?.length === 0">
@@ -43,7 +44,6 @@
         <div class="card-header">Aggiorna Dettagli Account</div>
         <div class="card-body">
           <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-            <!-- Nome -->
             <div class="mb-3">
               <label for="name" class="form-label">Nome:</label>
               <input
@@ -64,7 +64,6 @@
               </div>
             </div>
 
-            <!-- Cognome -->
             <div class="mb-3">
               <label for="lastName" class="form-label">Cognome:</label>
               <input
@@ -86,7 +85,6 @@
               </div>
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
               <label for="email" class="form-label">Email:</label>
               <input
@@ -111,7 +109,6 @@
               </div>
             </div>
 
-            <!-- Password -->
             <div class="mb-3">
               <label for="password" class="form-label">Password:</label>
               <input
@@ -133,9 +130,7 @@
               </div>
             </div>
 
-            <!-- Indirizzo -->
             <div formGroupName="address">
-              <!-- Via -->
               <div class="mb-3">
                 <label for="via" class="form-label">Via:</label>
                 <input
@@ -159,7 +154,6 @@
                 </div>
               </div>
 
-              <!-- Localita -->
               <div class="mb-3">
                 <label for="localita" class="form-label">Località:</label>
                 <input
@@ -194,7 +188,6 @@
                 </div>
               </div>
 
-              <!-- CAP -->
               <div class="mb-3">
                 <label for="cap" class="form-label">CAP:</label>
                 <input
@@ -205,7 +198,6 @@
                 />
               </div>
 
-              <!-- Comune -->
               <div class="mb-3">
                 <label for="comune" class="form-label">Comune:</label>
                 <input
@@ -217,7 +209,6 @@
               </div>
             </div>
 
-            <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">
               Aggiorna Profilo
             </button>

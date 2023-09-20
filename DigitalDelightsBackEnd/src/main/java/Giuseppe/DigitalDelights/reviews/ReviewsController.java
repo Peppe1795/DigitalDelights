@@ -28,31 +28,26 @@ public class ReviewsController {
 		this.reviewsSrv = reviewsSrv;
 	}
 
-	// Endpoint per ottenere una recensione specifica tramite il suo ID
 	@GetMapping("/{reviewId}")
 	public Reviews getReviewById(@PathVariable UUID reviewId) {
 		return reviewsSrv.findById(reviewId);
 	}
 
-	// Endpoint per creare una nuova recensione per un determinato prodotto
 	@PostMapping("/product/{productId}")
 	public Reviews addReviewToProduct(@PathVariable UUID productId, @RequestBody @Valid ReviewsRequestPayload payload) {
 		return reviewsSrv.createReviewForProduct(productId, payload.getRating(), payload.getReviewText());
 	}
 
-	// Endpoint per ottenere tutte le recensioni di un determinato prodotto
 	@GetMapping("/product/{productId}")
 	public List<Reviews> getReviewsForProduct(@PathVariable UUID productId) {
 		return reviewsSrv.getReviewsForProduct(productId);
 	}
 
-	// Endpoint per aggiornare una recensione esistente
 	@PutMapping("/{reviewId}")
 	public Reviews updateReview(@PathVariable UUID reviewId, @RequestBody @Valid ReviewsRequestPayload payload) {
 		return reviewsSrv.findByIdAndUpdate(reviewId, payload);
 	}
 
-	// Endpoint per eliminare una recensione
 	@DeleteMapping("/{reviewId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<String> deleteReview(@PathVariable UUID reviewId) {

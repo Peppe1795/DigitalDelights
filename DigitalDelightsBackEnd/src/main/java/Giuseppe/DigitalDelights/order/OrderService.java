@@ -1,5 +1,6 @@
 package Giuseppe.DigitalDelights.order;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,18 +34,24 @@ public class OrderService {
 	}
 
 	public Order create(OrderRequestPayload body) {
-		User currentUser = userService.getCurrentUser(); // Usa direttamente il metodo da UserService
+		User currentUser = userService.getCurrentUser();
+
+		Order initialOrder = new Order(currentUser, Status.PENDING, body.getTotalPrice(),
+				body.getShippingInfoRequestPayload().toShippingInfo(), new ArrayList<>());
+
+		final Order[] savedOrder = new Order[1];
+		savedOrder[0] = orderRepo.save(initialOrder);
 
 		List<OrderItem> orderItems = body.getOrderItems().stream().map(itemPayload -> {
 			Product product = productRepo.findById(itemPayload.getProductId()).orElseThrow(
 					() -> new NotFoundException("Prodotto non trovato con ID: " + itemPayload.getProductId()));
-			return itemPayload.toOrderItem(product);
+
+			return new OrderItem(savedOrder[0], product, itemPayload.getQuantity());
 		}).collect(Collectors.toList());
 
-		Order newOrder = new Order(currentUser, Status.PENDING, body.getTotalPrice(),
-				body.getShippingInfoRequestPayload().toShippingInfo(), orderItems);
+		savedOrder[0].setOrderItems(orderItems);
 
-		return orderRepo.save(newOrder);
+		return orderRepo.save(savedOrder[0]);
 	}
 
 	public Page<Order> find(int page, int size, String sort) {
@@ -69,7 +76,7 @@ public class OrderService {
 			return itemPayload.toOrderItem(product);
 		}).collect(Collectors.toList());
 
-		foundOrder.setUser(userService.getCurrentUser()); // Setta l'utente corrente
+		foundOrder.setUser(userService.getCurrentUser());
 		foundOrder.setTotalPrice(body.getTotalPrice());
 		foundOrder.setShippingInfo(body.getShippingInfoRequestPayload().toShippingInfo());
 		foundOrder.setOrderItems(orderItems);
