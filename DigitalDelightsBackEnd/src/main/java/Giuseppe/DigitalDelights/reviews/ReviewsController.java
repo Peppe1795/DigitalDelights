@@ -33,10 +33,14 @@ public class ReviewsController {
 		return reviewsSrv.findById(reviewId);
 	}
 
-	@PostMapping("/product/{productId}")
-	public Reviews addReviewToProduct(@PathVariable UUID productId, @RequestBody @Valid ReviewsRequestPayload payload) {
-		return reviewsSrv.createReviewForProduct(productId, payload.getRating(), payload.getReviewText());
-	}
+	 @PostMapping("/product/{productId}/user/{userId}")
+	    public Reviews addReviewToProduct(
+	        @PathVariable UUID userId,
+	        @PathVariable UUID productId,
+	        @RequestBody @Valid ReviewsRequestPayload payload
+	    ) {
+	        return reviewsSrv.createReviewForProduct(userId, productId, payload.getRating(), payload.getReviewText());
+	    }
 
 	@GetMapping("/product/{productId}")
 	public List<Reviews> getReviewsForProduct(@PathVariable UUID productId) {

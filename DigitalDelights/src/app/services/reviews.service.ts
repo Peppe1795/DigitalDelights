@@ -11,8 +11,12 @@ export class ReviewsService {
 
   constructor(private http: HttpClient) {}
 
-  createReview(productId: string, review: any): Observable<any> {
-    const endpoint = `${this.baseUrl}/${productId}`;
+  createReview(
+    userId: string,
+    productId: string,
+    review: any
+  ): Observable<any> {
+    const endpoint = `${this.baseUrl}/${productId}/user/${userId}`;
     return this.http.post(endpoint, review);
   }
 

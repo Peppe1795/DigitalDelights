@@ -1,18 +1,3 @@
-//STELLE RECENSIONE MODALE
-
-.rating span {
-  cursor: pointer;
-  font-size: 2rem;
-  color: #ccc;
-  transition: color 0.3s;
-}
-
-.rating span.selected,
-.rating span:hover,
-.rating span.hovered {
-  color: gold;
-}
-
 //CARD PRODOTTI
 
 .card {

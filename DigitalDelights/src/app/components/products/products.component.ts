@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 
-declare var bootstrap: any;
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -21,15 +20,8 @@ export class ProductsComponent implements OnInit {
   objectKeys = Object.keys;
   loading = true;
   selectedCategory?: Category;
-  reviewText = '';
-  selectedProductForReview?: Product;
-  modalInstance?: any;
-  selectedProduct?: Product;
-  rating = 0;
-  hoverRating: number = 0;
+
   favoriteProductIds: string[] = [];
-  showFeedback = false;
-  feedbackMessage = '';
 
   constructor(
     private productSrv: ProductsService,
@@ -111,13 +103,6 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  setHover(star: number): void {
-    this.hoverRating = star;
-  }
-
-  removeHover(): void {
-    this.hoverRating = 0;
-  }
   loadProductsBySelectedCategory(): void {
     if (!this.selectedCategory) return;
 
@@ -136,68 +121,6 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  onReviewClick(product: Product): void {
-    this.selectedProductForReview = product;
-    this.reviewText = '';
-  }
-
-  submitReview(): void {
-    if (!this.selectedProductForReview || !this.reviewText.trim()) {
-      console.error('Nessun prodotto selezionato o recensione vuota');
-      return;
-    }
-
-    if (!this.authService.isAuthenticated()) {
-      console.error("L'utente non è autenticato. Devi effettuare il login.");
-      return;
-    }
-
-    const userId = this.authService.getCurrentUserId();
-    const productId = this.selectedProductForReview.productId;
-
-    const reviewPayload = {
-      userId: userId,
-      productId: productId,
-      reviewText: this.reviewText,
-      rating: this.rating,
-    };
-
-    this.reviewsService.createReview(productId, reviewPayload).subscribe(
-      (response) => {
-        console.log('Recensione inviata con successo', response);
-        this.reviewText = '';
-        this.showFeedback = true;
-        this.feedbackMessage = 'Recensione inviata con successo!';
-        setTimeout(() => {
-          this.closeReviewModal();
-          this.showFeedback = false;
-        }, 1500);
-      },
-      (error) => {
-        console.error('Impossibile inviare la recensione', error);
-        this.feedbackMessage = "Errore durante l'invio della recensione.";
-        this.showFeedback = true;
-      }
-    );
-  }
-
-  setRating(starValue: number): void {
-    this.rating = starValue;
-  }
-  openReviewModal(product: Product): void {
-    this.selectedProduct = product;
-    this.selectedProductForReview = product;
-    console.log('Is Authenticated:', this.authService.isAuthenticated());
-    console.log('Selected Product for Review:', this.selectedProductForReview);
-    const modalElement = document.getElementById('reviewModal');
-    this.modalInstance = new bootstrap.Modal(modalElement);
-    this.modalInstance.show();
-  }
-  closeReviewModal(): void {
-    if (this.modalInstance) {
-      this.modalInstance.hide();
-    }
-  }
   toggleFavorite(product: Product): void {
     if (!product) {
       console.error('Nessun prodotto fornito.');

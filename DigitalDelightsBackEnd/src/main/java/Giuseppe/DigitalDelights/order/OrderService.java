@@ -25,7 +25,7 @@ public class OrderService {
 	private final OrderRepository orderRepo;
 	private final ProductRepository productRepo;
 	@Autowired
-	private UserService userService; // Usa direttamente UserService invece di UserRepository
+	private UserService userService; 
 
 	@Autowired
 	public OrderService(OrderRepository orderRepo, ProductRepository productRepo) {
@@ -36,7 +36,7 @@ public class OrderService {
 	public Order create(OrderRequestPayload body) {
 		User currentUser = userService.getCurrentUser();
 
-		Order initialOrder = new Order(currentUser, Status.PENDING, body.getTotalPrice(),
+		Order initialOrder = new Order(currentUser, Status.DELIVERED, body.getTotalPrice(),
 				body.getShippingInfoRequestPayload().toShippingInfo(), new ArrayList<>());
 
 		final Order[] savedOrder = new Order[1];
@@ -66,6 +66,15 @@ public class OrderService {
 	public Order findById(UUID id) throws NotFoundException {
 		return orderRepo.findById(id).orElseThrow(() -> new NotFoundException("Ordine non trovato con ID: " + id));
 	}
+	public DetailedOrderResponse findDetailedOrderById(UUID id) throws NotFoundException {
+	    Order order = this.findById(id);
+	    
+	    List<Product> products = order.getOrderItems().stream().map(OrderItem::getProduct).collect(Collectors.toList());
+
+	    return new DetailedOrderResponse(order.getOrderId(), order.getStatus(), order.getTotalPrice(), order.getShippingInfo(), products);
+	}
+	
+	
 
 	public Order findByIdAndUpdate(UUID id, OrderRequestPayload body) throws NotFoundException {
 		Order foundOrder = this.findById(id);

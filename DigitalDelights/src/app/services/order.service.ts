@@ -8,13 +8,14 @@ import { AuthService } from '../auth/auth.service';
 import { ShippingInfo } from '../models/shipping-info.interface';
 import { BehaviorSubject } from 'rxjs';
 import { Orders } from '../models/orders.interface';
+import { DetailedOrderResponse } from '../models/detailedorderresponse.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   private baseURL = `${environment.baseURL}orders`;
-  private shippingURL = `${environment.baseURL}shipping`; // URL per le chiamate API di spedizione
+  private shippingURL = `${environment.baseURL}shipping`;
   private totalPriceSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
   public totalPrice$: Observable<number> =
@@ -22,12 +23,10 @@ export class OrderService {
 
   constructor(private http: HttpClient, private authSrv: AuthService) {}
 
-  // Metodo per creare le informazioni di spedizione
   createShippingInfo(shippingInfo: ShippingInfo): Observable<ShippingInfo> {
     return this.http.post<ShippingInfo>(`${this.shippingURL}`, shippingInfo);
   }
 
-  // Metodo per creare un ordine con le informazioni di spedizione
   createOrderWithShippingInfo(
     cartItems: CartItem[],
     totalPrice: number,
@@ -37,7 +36,7 @@ export class OrderService {
   ): Observable<any> {
     const orderPayload = {
       userId: this.authSrv.getCurrentUserId(),
-      shippingInfoRequestPayload: shippingInfo, // Invia l'intero oggetto ShippingInfo
+      shippingInfoRequestPayload: shippingInfo,
       totalPrice: totalPrice + totalPrice * tax - discount,
       orderItems: cartItems.map((item) => ({
         productId: item.product.productId,
@@ -55,5 +54,11 @@ export class OrderService {
   }
   getMyOrders(): Observable<Orders[]> {
     return this.http.get<Orders[]>(`${this.baseURL}/my-orders`);
+  }
+
+  getOrderDetails(orderId: string): Observable<DetailedOrderResponse> {
+    return this.http.get<DetailedOrderResponse>(
+      `${this.baseURL}/${orderId}/details`
+    );
   }
 }

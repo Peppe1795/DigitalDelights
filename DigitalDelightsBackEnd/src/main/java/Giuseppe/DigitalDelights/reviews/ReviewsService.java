@@ -28,21 +28,23 @@ public class ReviewsService {
 		this.reviewsRepo = reviewsRepo;
 	}
 
-	public Reviews createReviewForProduct(UUID productId, int rating, String reviewText) {
-		User currentUser = us.getCurrentUser();
-		Product product = productRepository.findById(productId)
-				.orElseThrow(() -> new NotFoundException("L'id non corrissponde a nessun prodotto " + productId));
+	public Reviews createReviewForProduct(UUID userId, UUID productId, int rating, String reviewText) {
+        User currentUser = userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException("L'id dell'utente non esiste: " + userId));
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new NotFoundException("L'id non corrissponde a nessun prodotto " + productId));
 
-		Reviews review = new Reviews();
-		review.setUser(currentUser);
-		review.setProduct(product);
-		review.setRating(rating);
-		review.setReviewText(reviewText);
+        Reviews review = new Reviews();
+        review.setUser(currentUser);
+        review.setProduct(product);
+        review.setRating(rating);
+        review.setReviewText(reviewText);
 
-		currentUser.getReviews().add(review);
+        currentUser.getReviews().add(review);
 
-		return reviewsRepo.save(review);
-	}
+        return reviewsRepo.save(review);
+    }
+
 
 	public List<Reviews> getReviewsForProduct(UUID productId) {
 		return reviewsRepo.findAllByProduct_productId(productId);

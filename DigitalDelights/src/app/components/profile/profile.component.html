@@ -24,13 +24,34 @@
       <div class="card mb-4">
         <div class="card-header">I miei ordini</div>
         <ul class="list-group list-group-flush overflow-auto scrollable">
-          <li class="list-group-item" *ngFor="let order of user?.order">
-            Ordine #{{ order.orderId }} <br />
-            Data: {{ order.orderDate }} <br />
-            Totale: €{{ order.totalPrice }} <br />
-            <span class="badge badge-success float-end">Consegnato</span>
+          <li class="list-group-item" *ngFor="let order of orders">
+            <strong>Ordine:</strong> #{{ order.orderId }}
+            <br />
+            <strong>Status:</strong> {{ order.status }}
+            <br />
+            <strong>Prezzo totale:</strong> €{{
+              order.totalPrice | number : "1.2-2"
+            }}
+            <br />
+            <strong>Prodotti:</strong>
+            <ul>
+              <li
+                class="list-group-item d-flex justify-content-between"
+                *ngFor="let product of order?.products"
+              >
+                {{ product.name }}
+                <button
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewModal"
+                  (click)="onReviewClick(product)"
+                  class="btn reviewsButton"
+                >
+                  Recensione
+                </button>
+              </li>
+            </ul>
           </li>
-          <li class="list-group-item" *ngIf="user?.order?.length === 0">
+          <li class="list-group-item" *ngIf="orders.length === 0">
             Non hai ancora effettuato ordini.
           </li>
         </ul>
@@ -240,9 +261,80 @@
         <div class="card-header">Le mie recensioni</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let review of user?.reviews">
-            {{ review.content }}
+            {{ review.reviewText }}
           </li>
         </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal per recensioni -->
+<div
+  class="modal fade"
+  id="reviewModal"
+  tabindex="-1"
+  aria-labelledby="reviewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalLabel">Aggiungi recensione</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeReviewModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="showFeedback" class="alert alert-success mb-3">
+          {{ feedbackMessage }}
+        </div>
+        <div class="rating">
+          <span
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            (click)="setRating(star)"
+            (mouseover)="setHover(star)"
+            (mouseout)="removeHover()"
+            [class.selected]="rating >= star"
+            [class.hovered]="hoverRating >= star"
+          >
+            ☆
+          </span>
+        </div>
+        <textarea
+          [(ngModel)]="reviewText"
+          class="form-control"
+          rows="4"
+          placeholder="Scrivi la tua recensione qui..."
+        ></textarea>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="closeReviewModal()"
+        >
+          Chiudi
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="submitReview()"
+          *ngIf="authService.isAuthenticated() && selectedProductForReview"
+        >
+          Invia
+        </button>
+        <p *ngIf="!authService.isAuthenticated()">
+          Effettua il login per lasciare una recensione.
+        </p>
+        <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
+          Seleziona un prodotto per lasciare una recensione.
+        </p>
       </div>
     </div>
   </div>

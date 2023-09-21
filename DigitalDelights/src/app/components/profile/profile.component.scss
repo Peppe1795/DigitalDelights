@@ -136,3 +136,37 @@ div.text-danger {
   margin-top: 5px;
   font-size: 0.875rem;
 }
+// BOTTONE RECENSIONI
+
+.reviewsButton {
+  border: none;
+  text-decoration: none;
+  color: rgb(21, 18, 18);
+  outline: 0;
+  background-color: #54faf2;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.reviewsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.reviewsButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+//STELLE RECENSIONE MODALE
+
+.rating span {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.rating span.selected,
+.rating span:hover,
+.rating span.hovered {
+  color: gold;
+}

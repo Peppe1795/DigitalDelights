@@ -1,12 +1,10 @@
 import { ShippingInfo } from './shipping-info.interface';
-import { UserProfile } from './userprofile.interface';
 import { Product } from './products';
-export interface Orders {
+import { Status } from '../enum/status.enum';
+
+export interface DetailedOrderResponse {
   orderId: string;
-  user?: UserProfile;
-  orderItems?: any[];
-  status: string;
-  orderDate?: string;
+  status: Status;
   totalPrice: number;
   shippingInfo: ShippingInfo;
   products: Product[];

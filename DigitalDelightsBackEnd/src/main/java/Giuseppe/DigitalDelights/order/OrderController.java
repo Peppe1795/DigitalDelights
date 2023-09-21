@@ -47,6 +47,10 @@ public class OrderController {
 		User currentUser = userService.getCurrentUser();
 		return orderService.findOrdersByUser(currentUser);
 	}
+	@GetMapping("/{orderId}/details")
+	public DetailedOrderResponse getOrderDetails(@PathVariable UUID orderId) {
+	    return orderService.findDetailedOrderById(orderId);
+	}
 
 	@PutMapping("/{orderId}/status")
 	public Order updateOrderStatus(@PathVariable UUID orderId, @RequestBody StatusRequestPayload statusPayload) {
