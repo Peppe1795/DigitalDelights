@@ -262,7 +262,17 @@
         <div class="card-header">Le mie recensioni</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let review of user?.reviews">
-            {{ review.reviewText }}
+            <strong>Recensione:</strong> {{ review.reviewText }}
+            <br />
+            <strong>Valutazione:</strong>
+            <span *ngFor="let star of [1, 2, 3, 4, 5]">
+              <i
+                class="fa"
+                [class.fa-star]="review.rating >= star"
+                [class.fa-star-o]="review.rating < star"
+              >
+              </i>
+            </span>
           </li>
         </ul>
       </div>

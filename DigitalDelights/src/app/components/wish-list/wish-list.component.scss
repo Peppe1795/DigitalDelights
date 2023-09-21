@@ -79,8 +79,8 @@
   box-shadow: 0 0 0 0.25rem;
 }
 .productsButton:hover {
-  transform: translateY(-5px); /* Solleva il bottone di 5 pixel */
-  transition: all 0.3s ease; /* Transizione fluida */
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
 }
 
 // BOTTONI DETTAGLI
@@ -124,4 +124,60 @@
 }
 .fa-chevron-circle-right:before {
   color: darkgray;
+}
+
+// BOTTONE INDIETRO
+
+.prevButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #e82929;
+  padding: 10px 30px;
+
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.prevButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #c41c0c;
+  color: #ffffff;
+}
+
+// BOTTONONE AVANTI
+
+.nextButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #07115d;
+  padding: 10px 30px;
+
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nextButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #279ed9;
+  color: #ffffff;
 }

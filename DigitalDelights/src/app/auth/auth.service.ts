@@ -75,7 +75,7 @@ export class AuthService {
         this.jwtHelper.decodeToken(token);
 
       if (decodedToken) {
-        this.userSubject.next(decodedToken); // invece di { token }
+        this.userSubject.next(decodedToken);
         this.userRoleSubject.next(decodedToken.role);
       } else {
         console.error('Token decodificato è null.');

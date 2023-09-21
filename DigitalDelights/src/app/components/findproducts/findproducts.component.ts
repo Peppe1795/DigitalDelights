@@ -17,6 +17,12 @@ export class FindproductsComponent implements OnInit {
   products: Product[] = [];
   searchQuery: string = '';
   favoriteProductIds: string[] = [];
+
+  // Variabili per la paginazione
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private productSrv: ProductsService,
@@ -30,16 +36,21 @@ export class FindproductsComponent implements OnInit {
     this.loadFavorites();
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'];
-      this.productSrv
-        .searchProducts(this.searchQuery)
-        .subscribe((response: any) => {
-          if (Array.isArray(response)) {
-            this.products = response;
-          } else if (response && response.content) {
-            this.products = response.content;
-          }
-        });
+      this.loadProducts();
     });
+  }
+
+  loadProducts(): void {
+    this.productSrv
+      .searchProducts(this.searchQuery, this.currentPage, this.pageSize)
+      .subscribe((response: any) => {
+        if (Array.isArray(response)) {
+          this.products = response;
+        } else if (response && response.content) {
+          this.products = response.content;
+          this.totalPages = response.totalPages;
+        }
+      });
   }
 
   loadFavorites(): void {
@@ -114,7 +125,22 @@ export class FindproductsComponent implements OnInit {
       }
     );
   }
+
   showDetails(product: Product): void {
     this.router.navigate(['/details', product.productId]);
+  }
+
+  goPrevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadProducts();
+    }
+  }
+
+  goNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadProducts();
+    }
   }
 }

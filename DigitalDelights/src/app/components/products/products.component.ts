@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; // Importiamo ActivatedRoute per accedere ai parametri dell'URL
+import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/products';
 import { ProductsService } from 'src/app/services/products.service';
 import { Category } from 'src/app/enum/category';

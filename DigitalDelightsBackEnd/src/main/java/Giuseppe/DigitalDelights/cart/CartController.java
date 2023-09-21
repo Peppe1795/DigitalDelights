@@ -1,6 +1,8 @@
 package Giuseppe.DigitalDelights.cart;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,7 @@ public class CartController {
 			if (cartId != null && !cartId.isEmpty()) {
 				return ResponseEntity.ok(cartId);
 			} else {
-				// Aggiungi un log qui per capire se entra in questa condizione
+		
 				System.out.println("Cart ID non trovato per l'utente corrente.");
 				return ResponseEntity.notFound().build();
 			}
@@ -109,4 +111,18 @@ public class CartController {
 		return ResponseEntity.ok("Carrello eliminato con successo.");
 
 	}
+	
+	@PutMapping("/{cartId}/clear")
+	public ResponseEntity<Map<String, String>> clearCart(@PathVariable UUID cartId) {
+	    Cart clearedCart = cartSrv.clearCart(cartId);
+	    Map<String, String> response = new HashMap<>();
+	    if (clearedCart.getCartItems().isEmpty()) {
+	        response.put("message", "Il carrello è stato svuotato con successo.");
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } else {
+	        response.put("message", "Si è verificato un problema durante lo svuotamento del carrello.");
+	        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
 }

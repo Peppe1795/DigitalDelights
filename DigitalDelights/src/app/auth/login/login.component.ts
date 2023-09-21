@@ -18,7 +18,6 @@ export class LoginComponent {
     this.authSrv.login(this.email, this.password).subscribe(
       (response) => {
         if (response.accessToken) {
-          // Modificato per utilizzare userRole$ al posto di userRoleSubject
           this.authSrv.userRole$.subscribe((role) => {
             if (role === 'ADMIN') {
               this.router.navigate(['/dashboard']);

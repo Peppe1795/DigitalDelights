@@ -114,7 +114,6 @@ export class OrderComponent implements OnInit {
           console.log('Order created successfully', response);
           this.notificationMessage = 'Ordine creato con successo!';
           this.isOrderCreated = true;
-
           this.checkoutForm.reset();
           this.shippingInfo = {
             recipientName: '',
@@ -129,10 +128,17 @@ export class OrderComponent implements OnInit {
           this.discount = 0;
           this.calculateTotal();
           this.loaded = true;
-
           setTimeout(() => {
             this.notificationMessage = '';
           }, 3000);
+          this.cartService.clearCart().subscribe(
+            () => {
+              console.log('Il carrello è stato svuotato con successo.');
+            },
+            (error) => {
+              console.error('Errore nello svuotamento del carrello:', error);
+            }
+          );
         },
         (error) => {
           console.error('Error creating order', error);

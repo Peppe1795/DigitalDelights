@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+
 import { CartItem } from '../models/cart-item.interface';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';

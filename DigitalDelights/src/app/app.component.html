@@ -1,12 +1,9 @@
-<!-- Se l'utente non è loggato, mostra semplicemente la navbar normale -->
 <app-navbar *ngIf="!authSrv.isAuthenticated()"></app-navbar>
 
-<!-- Se l'utente è loggato come user, mostra la navbar normale -->
 <app-navbar
   *ngIf="authSrv.isAuthenticated() && !authSrv.isAdmin()"
 ></app-navbar>
 
-<!-- Se l'utente è loggato come admin, mostra la navbar dell'admin -->
 <app-navbardashboard
   *ngIf="authSrv.isAuthenticated() && authSrv.isAdmin()"
 ></app-navbardashboard>

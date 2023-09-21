@@ -15,8 +15,9 @@ import { Router } from '@angular/router';
 })
 export class WishListComponent implements OnInit {
   favorites: Product[] = [];
-  currentPage = 0;
+  currentPage = 1;
   pageSize = 10;
+  totalPages: number = 0;
   favoriteProductIds: string[] = [];
   constructor(
     private wishlistService: WishListService,
@@ -26,11 +27,11 @@ export class WishListComponent implements OnInit {
     private productSrv: ProductsService,
     private cartService: CartService
   ) {}
-
   ngOnInit(): void {
     this.loadFavorites();
     const userId = this.authSrv.getCurrentUserId();
-    if (userId) {
+
+    if (userId !== null) {
       this.loadWishlist(userId);
     } else {
       console.error(
@@ -41,16 +42,19 @@ export class WishListComponent implements OnInit {
 
   loadWishlist(userId: string): void {
     this.wishlistService
-      .getUserWishlist(userId, this.currentPage, this.pageSize)
+      .getUserWishlist(userId, this.currentPage - 1, this.pageSize)
       .subscribe(
         (response: any) => {
           this.favorites = response.content;
+          this.totalPages = response.totalPages;
+          this.cdr.detectChanges();
         },
         (error) => {
           console.error('Errore nel recupero dei preferiti:', error);
         }
       );
   }
+
   loadFavorites(): void {
     this.productSrv.getFavorites().subscribe(
       (response: any) => {
@@ -136,5 +140,23 @@ export class WishListComponent implements OnInit {
         );
       }
     );
+  }
+  goPrevPage(): void {
+    const userId = this.authSrv.getCurrentUserId();
+    if (this.currentPage > 1 && userId !== null) {
+      this.currentPage--;
+      this.loadWishlist(userId);
+    }
+  }
+
+  goNextPage(): void {
+    const userId = this.authSrv.getCurrentUserId();
+    if (this.currentPage < this.totalPages && userId !== null) {
+      this.currentPage++;
+      console.log(
+        `Current Page: ${this.currentPage}, Total Pages: ${this.totalPages}`
+      );
+      this.loadWishlist(userId);
+    }
   }
 }

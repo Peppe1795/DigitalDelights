@@ -1,5 +1,8 @@
 package Giuseppe.DigitalDelights.cart;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,27 +72,26 @@ public class CartService {
 	}
 
 	public String getCurrentUserCartId() {
-		// Ottieni l'oggetto di autenticazione dal contesto di sicurezza
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		if (authentication != null && authentication.isAuthenticated()) {
-			String username = authentication.getName(); // Supponendo che tu stia usando il nome utente come principal
+			String username = authentication.getName(); 
 
-			// Utilizza il nome utente per cercare l'utente nel tuo database
+			
 			Optional<User> userOptional = userRepo.findByUsername(username);
 
 			if (userOptional.isPresent()) {
 				User currentUser = userOptional.get();
 
-				// Controlla se l'utente ha un carrello associato
+				
 				if (currentUser.getCart() != null) {
 					return currentUser.getCart().getCartId().toString();
 				}
 			}
 		}
 
-		// Se l'utente non è autenticato o non ha un carrello associato, restituisci
-		// null
+		
 		return null;
 	}
 
@@ -139,5 +141,27 @@ public class CartService {
 
 		return cart;
 	}
+	
+	public Cart clearCart(UUID cartId) {
+	    Cart cart = findById(cartId);
+	    List<CartItem> cartItems = cart.getCartItems();
 
+	    if(cartItems != null && !cartItems.isEmpty()) {
+	        for (CartItem item : new ArrayList<>(cartItems)) {
+	            cart.removeCartItem(item);  
+	            cartItemRepo.delete(item);  
+	        }
+	        cart.setCartItems(Collections.emptyList());  
+	        return cartRepo.save(cart); 
+	    }
+	    return cart;
+	}
+
+
+
+
+
+
+
+	 
 }

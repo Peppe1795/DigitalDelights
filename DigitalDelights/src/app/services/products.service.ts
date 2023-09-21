@@ -71,11 +71,18 @@ export class ProductsService {
     return this.http.delete(url, { responseType: 'text' });
   }
 
-  searchProducts(query: string): Observable<Product[]> {
-    console.log('Searching for:', query);
+  searchProducts(query: string, page?: number, size?: number): Observable<any> {
+    let params = new HttpParams();
+    if (page != null) {
+      params = params.append('page', page.toString());
+    }
+    if (size != null) {
+      params = params.append('size', size.toString());
+    }
     return this.http
       .get<Product[]>(
-        `${this.baseUrl}/partOfName?partOfName=${encodeURIComponent(query)}`
+        `${this.baseUrl}/partOfName?partOfName=${encodeURIComponent(query)}`,
+        { params }
       )
       .pipe(
         map((response) => {

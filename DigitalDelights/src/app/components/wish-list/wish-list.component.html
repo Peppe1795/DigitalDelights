@@ -45,7 +45,21 @@
       </div>
     </div>
   </div>
-  <button (click)="loadMoreProducts()" class="btn btn-primary">
-    Carica più risultati
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+  <button
+    class="btn prevButton"
+    (click)="goPrevPage()"
+    [disabled]="currentPage <= 1"
+  >
+    Indietro
+  </button>
+  <button
+    class="btn nextButton ml-2"
+    (click)="goNextPage()"
+    [disabled]="currentPage >= totalPages"
+  >
+    Avanti
   </button>
 </div>
