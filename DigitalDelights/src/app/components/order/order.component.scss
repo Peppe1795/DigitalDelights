@@ -25,3 +25,51 @@
 .cardColor {
   background: rgb(223, 249, 251);
 }
+
+// BOTTONE ANNULLA
+
+.resetButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #e82929;
+  padding: 10px 30px;
+  border: 2px solid #22cad9;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #c41c0c;
+  color: #ffffff;
+}
+
+//BOTTONE CONTINUA
+
+.proceedButton {
+  border: none;
+  text-decoration: none;
+  color: white;
+  outline: 0;
+  background-color: #07115d;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.proceedButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.proceedButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}

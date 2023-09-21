@@ -75,3 +75,20 @@
     </div>
   </ng-template>
 </div>
+
+<div class="d-flex justify-content-center mt-4">
+  <button
+    class="btn btn-primary"
+    (click)="goPrevPage()"
+    [disabled]="currentPage <= 1"
+  >
+    Indietro
+  </button>
+  <button
+    class="btn btn-primary ml-2"
+    (click)="goNextPage()"
+    [disabled]="currentPage >= totalPages"
+  >
+    Avanti
+  </button>
+</div>

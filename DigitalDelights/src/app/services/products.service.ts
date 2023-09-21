@@ -32,9 +32,21 @@ export class ProductsService {
     return this.http.get<Product>(`${this.baseUrl}/${productId}`);
   }
 
-  getProductsByCategory(category: Category): Observable<ApiResponse> {
+  getProductsByCategory(
+    category: Category,
+    page?: number,
+    size?: number
+  ): Observable<ApiResponse> {
+    let params = new HttpParams();
+    if (page != null) {
+      params = params.append('page', page.toString());
+    }
+    if (size != null) {
+      params = params.append('size', size.toString());
+    }
     return this.http.get<ApiResponse>(
-      `${this.baseUrl}/filter?category=${category}`
+      `${this.baseUrl}/filter?category=${category}`,
+      { params }
     );
   }
 

@@ -11,7 +11,7 @@
 
           <p class="card-text"><strong>Email:</strong> {{ user?.email }}</p>
           <p class="card-text"><strong>Username:</strong> {{ user?.name }}</p>
-          <p class="card-text"><strong>Ruolo:</strong> {{ user?.role }}</p>
+
           <address>
             <strong>Indirizzo:</strong><br />
             {{ user?.address?.via }}, {{ user?.address?.localita }},<br />
@@ -229,10 +229,11 @@
                 />
               </div>
             </div>
-
-            <button type="submit" class="btn btn-primary">
-              Aggiorna Profilo
-            </button>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn profileButton">
+                Aggiorna Profilo
+              </button>
+            </div>
           </form>
         </div>
       </div>

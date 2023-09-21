@@ -1,6 +1,7 @@
 import { Category } from '../enum/category';
 export interface ApiResponse {
   content: Product[];
+  totalPages: number;
 }
 export interface Product {
   productId: string;

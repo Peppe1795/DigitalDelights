@@ -20,6 +20,9 @@ export class ProductsComponent implements OnInit {
   objectKeys = Object.keys;
   loading = true;
   selectedCategory?: Category;
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 0;
 
   favoriteProductIds: string[] = [];
 
@@ -48,26 +51,40 @@ export class ProductsComponent implements OnInit {
   getObjectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
+
+  goPrevPage(): void {
+    this.currentPage--;
+    this.loadAllProductsByCategories();
+  }
+
+  goNextPage(): void {
+    this.currentPage++;
+    this.loadAllProductsByCategories();
+  }
   loadAllProductsByCategories(): void {
     const categories = Object.values(Category);
 
     let completedRequests = 0;
 
     categories.forEach((category) => {
-      this.productSrv.getProductsByCategory(category).subscribe(
-        (response) => {
-          this.categoriesWithProducts[category] = response.content;
+      this.productSrv
+        .getProductsByCategory(category, this.currentPage, this.pageSize)
+        .subscribe(
+          (response) => {
+            this.categoriesWithProducts[category] = response.content;
 
-          completedRequests++;
-          if (completedRequests === categories.length) {
+            this.totalPages = response.totalPages;
+
+            completedRequests++;
+            if (completedRequests === categories.length) {
+              this.loading = false;
+            }
+          },
+          (error) => {
+            console.error('Error fetching products by category:', error);
             this.loading = false;
           }
-        },
-        (error) => {
-          console.error('Error fetching products by category:', error);
-          this.loading = false;
-        }
-      );
+        );
     });
   }
   loadFavorites(): void {

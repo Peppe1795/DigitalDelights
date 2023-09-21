@@ -25,9 +25,8 @@ export class StripeService {
   }
 
   async redirectToCheckout(totalPrice: number) {
-    // Aggiungi il parametro totalPrice qui
     const session = await this.http
-      .get<any>(`${this.baseURL}/create-checkout-session/${totalPrice}`) // Usa il parametro nell'URL
+      .get<any>(`${this.baseURL}/create-checkout-session/${totalPrice}`)
       .toPromise();
     const stripe = await this.getStripe();
     const { error } = await stripe.redirectToCheckout({

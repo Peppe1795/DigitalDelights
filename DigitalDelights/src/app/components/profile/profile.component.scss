@@ -32,36 +32,6 @@ input.form-control:focus {
   border-color: #0733c4;
 }
 
-.btn-primary {
-  position: relative;
-  background-color: #47b5ff;
-  border: none;
-  color: #000000;
-  padding: 10px 20px;
-  box-shadow: 0 4px 6px rgba(255, 99, 71, 0.1);
-}
-
-.btn-primary:hover {
-  background-color: #09db3d;
-}
-
-.btn-primary:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 100%;
-  height: 100%;
-  width: 120%;
-  z-index: -1;
-  background: rgba(255, 255, 255, 0.2);
-  transform: skewX(-45deg) translateX(-100%);
-  transition: all 0.4s;
-}
-
-.btn-primary:hover:after {
-  transform: skewX(-45deg) translateX(100%);
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -140,6 +110,7 @@ div.text-danger {
 
 .reviewsButton {
   border: none;
+  font-weight: bold;
   text-decoration: none;
   color: rgb(21, 18, 18);
   outline: 0;
@@ -169,4 +140,25 @@ div.text-danger {
 .rating span:hover,
 .rating span.hovered {
   color: gold;
+}
+
+// BOTTONE AGGIORNA PROFILO
+
+.profileButton {
+  font-weight: bold;
+  border: none;
+  text-decoration: none;
+  color: rgb(21, 18, 18);
+  outline: 0;
+  background-color: #54faf2;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.profileButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.profileButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
 }

@@ -156,12 +156,12 @@
                 </div>
               </div>
 
-              <div class="float-end">
-                <button class="btn btn-light border" (click)="onCancelClick()">
+              <div class="d-flex justify-content-between">
+                <button class="btn resetButton" (click)="onCancelClick()">
                   Annulla
                 </button>
                 <button
-                  class="btn btn-success shadow-0 border"
+                  class="btn proceedButton"
                   [disabled]="!checkoutForm.valid"
                   (click)="onContinueClick()"
                 >
@@ -210,13 +210,15 @@
               Applica
             </button>
           </div>
-          <button
-            *ngIf="isOrderCreated"
-            (click)="handlePayment()"
-            class="btn payment"
-          >
-            Vai al pagamento
-          </button>
+          <div class="d-flex justify-content-center">
+            <button
+              *ngIf="isOrderCreated"
+              (click)="handlePayment()"
+              class="btn payment"
+            >
+              Vai al pagamento
+            </button>
+          </div>
           <hr />
           <h6 class="text-dark my-4">Articoli nel carrello</h6>
 
