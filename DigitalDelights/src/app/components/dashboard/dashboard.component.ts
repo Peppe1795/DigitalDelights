@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/services/order.service';
 import { Orders } from 'src/app/models/orders.interface';
-
+import { Product } from 'src/app/models/products';
+import { ProductsService } from 'src/app/services/products.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserProfile } from 'src/app/models/userprofile.interface';
+import { ProductRequestPayload } from 'src/app/models/productrequestpayload.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +16,12 @@ export class DashboardComponent implements OnInit {
   selectedSection: string = '';
   allOrders: Orders[] = [];
   allUsers: UserProfile[] | null = null;
+  allProducts: Product[] = [];
 
   constructor(
     private orderService: OrderService,
-    private authSrv: AuthService
+    private authSrv: AuthService,
+    private productService: ProductsService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +33,9 @@ export class DashboardComponent implements OnInit {
       if (response && response.content) {
         this.allUsers = response.content;
       }
+    });
+    this.productService.getAllProducts().subscribe((products: Product[]) => {
+      this.allProducts = products;
     });
   }
 
@@ -74,5 +81,26 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
+  }
+
+  onSubmit(formValue: any): void {
+    const newProduct: ProductRequestPayload = {
+      name: formValue.name,
+      description: formValue.description,
+      price: formValue.price,
+      imageUrl: formValue.imageUrl,
+      active: formValue.active || false,
+      unitsInStock: formValue.unitsInStock,
+      category: formValue.category,
+    };
+
+    this.productService.createProduct(newProduct).subscribe(
+      (product) => {
+        console.log('Prodotto creato con successo:', product);
+      },
+      (error) => {
+        console.error('Errore nella creazione del prodotto:', error);
+      }
+    );
   }
 }

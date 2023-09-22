@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { ApiResponse } from '../models/products';
 import { AuthService } from '../auth/auth.service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ProductRequestPayload } from '../models/productrequestpayload.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,25 @@ export class ProductsService {
 
   getProductById(productId: string): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${productId}`);
+  }
+
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<any>(this.baseUrl).pipe(
+      map((response) => {
+        if (response && Array.isArray(response.content)) {
+          return response.content;
+        } else {
+          throw new Error('Invalid response structure');
+        }
+      }),
+      catchError((error) => {
+        console.error(
+          'Errore durante la richiesta di tutti i prodotti:',
+          error
+        );
+        return throwError(error);
+      })
+    );
   }
 
   getProductsByCategory(
@@ -91,6 +111,22 @@ export class ProductsService {
         }),
         catchError((error) => {
           console.error('Error during search:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  createProduct(product: ProductRequestPayload): Observable<Product> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http
+      .post<Product>(`${this.baseUrl}`, JSON.stringify(product), { headers })
+      .pipe(
+        map((response) => {
+          console.log('Product created:', response);
+          return response;
+        }),
+        catchError((error) => {
+          console.error('Error during product creation:', error);
           return throwError(error);
         })
       );

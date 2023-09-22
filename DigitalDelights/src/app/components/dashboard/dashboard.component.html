@@ -23,6 +23,13 @@
         >
           Gestione Magazzino
         </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navigateTo('addProduct')"
+        >
+          Aggiungi prodotto
+        </button>
       </div>
     </div>
     <div class="col-12">
@@ -40,8 +47,7 @@
             <tbody>
               <tr *ngFor="let order of allOrders">
                 <td>{{ order.orderId }}</td>
-
-                <!-- Sostituisci con i campi effettivi del tuo modello -->
+                <td>{{ order.status }}</td>
                 <td>
                   <button
                     class="btn btn-danger"
@@ -84,7 +90,109 @@
           </table>
         </div>
         <div *ngIf="selectedSection === 'management'">
-          <h1>Magazzino</h1>
+          <h1>Prodotti</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Prodotto</th>
+                <th>Nome</th>
+                <th>Prezzo</th>
+                <th>Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of allProducts">
+                <td>{{ product.productId }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                  <button class="btn btn-danger">Rimuovi</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="selectedSection === 'addProduct'">
+          <h1>Aggiungi un nuovo prodotto</h1>
+          <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm.value)">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                ngModel
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Descrizione</label>
+              <textarea
+                class="form-control"
+                id="description"
+                name="description"
+                rows="3"
+                ngModel
+                required
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Prezzo</label>
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                name="price"
+                ngModel
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">URL dell'immagine</label>
+              <input
+                type="text"
+                class="form-control"
+                id="imageUrl"
+                name="imageUrl"
+                ngModel
+              />
+            </div>
+            <div class="mb-3">
+              <label for="unitsInStock" class="form-label"
+                >Quanità da aggiungere</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="unitsInStock"
+                name="unitsInStock"
+                ngModel
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Categoria</label>
+              <select
+                class="form-select"
+                id="category"
+                name="category"
+                ngModel
+                required
+              >
+                <option value="" disabled>Seleziona una categoria</option>
+                <option value="SMARTPHONE">SMARTPHONE</option>
+                <option value="LAPTOP">LAPTOP</option>
+                <option value="SMARTWATCH">SMARTWATCH</option>
+                <option value="TABLET">TABLET</option>
+                <option value="TV">TV</option>
+                <option value="PC">PC</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Aggiungi Prodotto
+            </button>
+          </form>
         </div>
       </div>
     </div>
