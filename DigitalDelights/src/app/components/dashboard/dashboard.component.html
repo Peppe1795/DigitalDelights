@@ -1,0 +1,42 @@
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <div class="btn-group" role="group" aria-label="Dashboard buttons">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navigateTo('orders')"
+        >
+          Ordini
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navigateTo('users')"
+        >
+          Utenti
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navigateTo('management')"
+        >
+          Gestione Magazzino
+        </button>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="text-center">
+        <div *ngIf="selectedSection === 'orders'">
+          <h1>Ordini</h1>
+        </div>
+        <div *ngIf="selectedSection === 'users'">
+          <h1>Utenti</h1>
+        </div>
+        <div *ngIf="selectedSection === 'management'">
+          <h1>Magazzino</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -43,40 +43,42 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
+// CARTELLINO OFFERTA
 .label-top {
   position: absolute;
-
-  background-color: rgb(231, 35, 35);
-  top: 8px;
-  right: 8px;
-  padding: 0;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 8px;
-  text-transform: uppercase;
-}
-
-.top-right {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  font-size: 1rem;
-  font-weight: 900;
-  background: #8bc34a;
-  line-height: 90px;
-  text-align: center;
+  top: 10px;
+  right: 10px;
+  background-color: #d9534f;
   color: white;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  transform: rotate(-5deg);
+  z-index: 1;
 }
 
-.top-right span {
-  display: inline-block;
-  vertical-align: middle;
+.label-top::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 5px 5px 5px;
+  border-color: transparent transparent #d9534f transparent;
 }
 
+.label-top::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 1px;
+  background-color: white;
+  transform: rotate(90deg);
+}
 .aff-link {
   font-weight: 500;
 }
@@ -109,11 +111,13 @@
   }
 }
 
-/* START BUTTON */
+// BOTTONE AGGIUNGI AL CARRELLO
 .productsButton {
   border: none;
   text-decoration: none;
+  color: white;
   outline: 0;
+  background-color: #07115d;
   box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
   border-radius: 100px;
 }
@@ -122,6 +126,26 @@
   box-shadow: 0 0 0 0.25rem;
 }
 .productsButton:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+// BOTTONE DETTAGLI
+
+.deatilsButton {
+  border: none;
+  text-decoration: none;
+  color: rgb(21, 18, 18);
+  outline: 0;
+  background-color: #54faf2;
+  box-shadow: -1px 6px 19px rgba(12, 12, 12, 0.25);
+  border-radius: 100px;
+}
+
+.deatilsButton:active:focus {
+  box-shadow: 0 0 0 0.25rem;
+}
+.deatilsButton:hover {
   transform: translateY(-5px);
   transition: all 0.3s ease;
 }
@@ -201,4 +225,9 @@
   transform: translateY(-0px);
   background-color: #279ed9;
   color: #ffffff;
+}
+
+.borderCard {
+  box-shadow: 0px 6px 15px rgba(92, 202, 242, 0.25);
+  border-radius: 10px;
 }

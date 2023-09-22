@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   categoriesWithProducts: Category[] = [];
   searchResults: Product[] = [];
   searchQuery: string = '';
+  isAdmin: boolean = false;
 
   constructor(
     private productSrv: ProductsService,
@@ -23,6 +24,9 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategoriesWithProducts();
+    this.authService.userRole$.subscribe((role) => {
+      this.isAdmin = role === 'ADMIN';
+    });
   }
 
   logout(): void {

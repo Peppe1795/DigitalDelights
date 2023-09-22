@@ -1,12 +1,4 @@
-<app-navbar *ngIf="!authSrv.isAuthenticated()"></app-navbar>
-
-<app-navbar
-  *ngIf="authSrv.isAuthenticated() && !authSrv.isAdmin()"
-></app-navbar>
-
-<app-navbardashboard
-  *ngIf="authSrv.isAuthenticated() && authSrv.isAdmin()"
-></app-navbardashboard>
+<app-navbar></app-navbar>
 
 <div class="container">
   <router-outlet></router-outlet>

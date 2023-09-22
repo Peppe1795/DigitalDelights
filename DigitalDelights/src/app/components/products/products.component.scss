@@ -192,8 +192,6 @@
   color: #fff;
   background-color: #e82929;
   padding: 10px 30px;
-
-  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
   border-radius: 50px;
   transition: 1000ms;
   transform: translateY(0);
@@ -219,8 +217,6 @@
   color: #fff;
   background-color: #07115d;
   padding: 10px 30px;
-
-  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
   border-radius: 50px;
   transition: 1000ms;
   transform: translateY(0);
@@ -236,4 +232,9 @@
   transform: translateY(-0px);
   background-color: #279ed9;
   color: #ffffff;
+}
+
+.borderCard {
+  box-shadow: 0px 6px 15px rgba(92, 202, 242, 0.25);
+  border-radius: 10px;
 }

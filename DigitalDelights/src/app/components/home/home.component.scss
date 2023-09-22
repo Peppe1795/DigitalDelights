@@ -78,8 +78,8 @@ h1 {
 .first-image {
   height: auto;
   width: 100%;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 .wish {

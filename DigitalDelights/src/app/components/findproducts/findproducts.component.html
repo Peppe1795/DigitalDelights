@@ -5,7 +5,7 @@
       class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3 hp"
     >
       <div class="card h-100">
-        <a>
+        <a class="bg-white borderCard">
           <img [src]="product.imageUrl" class="card-img-top" />
         </a>
         <div class="label-top shadow-sm">
@@ -22,13 +22,13 @@
           </div>
           <div class="d-grid gap-2 my-4">
             <button
-              class="btn btn-warning productsButton bold-btn"
+              class="btn productsButton bold-btn"
               (click)="addToCart(product)"
             >
               Aggiungi al carrello
             </button>
             <button
-              class="btn btn-danger productsButton bold-btn"
+              class="btn deatilsButton bold-btn"
               (click)="showDetails(product)"
             >
               Dettagli

@@ -16,11 +16,11 @@ import { LoginComponent } from './auth/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrderComponent } from './components/order/order.component';
-import { NavbardashboardComponent } from './components/navbardashboard/navbardashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DetailsComponent } from './components/details/details.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FindproductsComponent } from './components/findproducts/findproducts.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Route[] = [
   {
@@ -30,6 +30,10 @@ const routes: Route[] = [
   {
     path: 'products',
     component: ProductsComponent,
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
   },
   {
     path: 'wishlist',
@@ -84,11 +88,11 @@ const routes: Route[] = [
     CartComponent,
     WishListComponent,
     OrderComponent,
-    NavbardashboardComponent,
     FooterComponent,
     DetailsComponent,
     ProfileComponent,
     FindproductsComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

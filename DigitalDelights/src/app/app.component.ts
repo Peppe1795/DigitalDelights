@@ -9,4 +9,7 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
   title = 'DigitalDelights';
   constructor(public authSrv: AuthService) {}
+  ngOnInit(): void {
+    this.authSrv.restore();
+  }
 }

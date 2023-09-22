@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 .icon-hover-primary:hover {
   border-color: #3b71ca !important;
   background-color: white !important;
+}
+.priceFont {
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
 }
 
 .icon-hover-primary:hover i {
@@ -15,7 +20,7 @@
   color: #dc4c64 !important;
 }
 
-.sticky-summary {
+.stickySummary {
   position: sticky;
   top: 10px;
 }

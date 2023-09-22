@@ -18,13 +18,7 @@ export class LoginComponent {
     this.authSrv.login(this.email, this.password).subscribe(
       (response) => {
         if (response.accessToken) {
-          this.authSrv.userRole$.subscribe((role) => {
-            if (role === 'ADMIN') {
-              this.router.navigate(['/dashboard']);
-            } else {
-              this.router.navigate(['/']);
-            }
-          });
+          this.router.navigate(['/']);
         }
       },
       (error) => {

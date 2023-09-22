@@ -40,7 +40,7 @@
               <p class="d-none d-md-block mb-0">Login</p>
             </a>
             <a
-              *ngIf="isUserLoggedIn"
+              *ngIf="isUserLoggedIn && !isAdmin"
               [routerLink]="['/profile']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
@@ -48,6 +48,16 @@
             >
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Profilo</p>
+            </a>
+            <a
+              *ngIf="isUserLoggedIn && isAdmin"
+              [routerLink]="['/dashboard']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="me-1 ms-2 btn rightButton py-1 px-3 nav-link d-flex align-items-center"
+            >
+              <i class="fas fa-user-alt m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">Dashboard</p>
             </a>
             <a
               *ngIf="isUserLoggedIn"
