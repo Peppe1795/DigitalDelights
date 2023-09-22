@@ -9,6 +9,7 @@ import { ShippingInfo } from '../models/shipping-info.interface';
 import { BehaviorSubject } from 'rxjs';
 import { Orders } from '../models/orders.interface';
 import { DetailedOrderResponse } from '../models/detailedorderresponse.interface';
+import { OrderResponse } from '../models/orderresponse.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,9 @@ export class OrderService {
   setTotalPrice(price: number): void {
     this.totalPriceSubject.next(price);
   }
+  getAllOrders(): Observable<OrderResponse> {
+    return this.http.get<OrderResponse>(`${this.baseURL}`);
+  }
 
   getTotalPrice(): Observable<number> {
     return this.totalPrice$;
@@ -60,5 +64,11 @@ export class OrderService {
     return this.http.get<DetailedOrderResponse>(
       `${this.baseURL}/${orderId}/details`
     );
+  }
+
+  deleteOrder(orderId: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/${orderId}`, {
+      responseType: 'text',
+    });
   }
 }

@@ -8,6 +8,7 @@ import { Data } from './data.interface';
 import { map, catchError } from 'rxjs/operators';
 import { UserProfile } from '../models/userprofile.interface';
 import { throwError } from 'rxjs';
+import { UserResponse } from '../models/userresponse.interface';
 
 interface DecodedToken {
   sub: string;
@@ -132,6 +133,16 @@ export class AuthService {
 
   isUser(): boolean {
     return this.userRoleSubject.value === 'USER';
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}user/${userId}`, {
+      responseType: 'text',
+    });
+  }
+
+  getAllUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${this.baseURL}user`);
   }
 
   updateUserDetails(data: any): Observable<any> {

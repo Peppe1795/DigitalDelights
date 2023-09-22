@@ -29,9 +29,59 @@
       <div class="text-center">
         <div *ngIf="selectedSection === 'orders'">
           <h1>Ordini</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Ordine</th>
+                <th>Dettagli</th>
+                <th>Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of allOrders">
+                <td>{{ order.orderId }}</td>
+
+                <!-- Sostituisci con i campi effettivi del tuo modello -->
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteOrder(order.orderId)"
+                  >
+                    Cancella
+                  </button>
+                  <button class="btn btn-success">Spedisci</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div *ngIf="selectedSection === 'users'">
           <h1>Utenti</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Utente</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of allUsers">
+                <td>{{ user.userId }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteUser(user.userId)"
+                  >
+                    Rimuovi
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div *ngIf="selectedSection === 'management'">
           <h1>Magazzino</h1>
