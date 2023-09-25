@@ -40,7 +40,7 @@ public class ShippingInfoService {
 		ShippingInfo found = this.findById(id);
 		ShippingInfo updatedShippingInfo = body.toShippingInfo();
 
-		// Updating the found entity with new values
+	
 		found.setRecipientName(updatedShippingInfo.getRecipientName());
 		found.setShippingAddress(updatedShippingInfo.getShippingAddress());
 		found.setCity(updatedShippingInfo.getCity());

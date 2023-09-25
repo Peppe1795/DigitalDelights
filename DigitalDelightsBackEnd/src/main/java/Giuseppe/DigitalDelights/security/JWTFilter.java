@@ -32,11 +32,11 @@ public class JWTFilter extends OncePerRequestFilter {
 			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", "/removeWishList/{productId}",
 			"/{userId}/wishList", "user/{userId}"};
 
-	private static final String[] ADMIN_ROUTES = { "/product", // POST per creare un nuovo prodotto
-			"/product/*", // PUT e DELETE per modificare o eliminare un prodotto
-			"/reviews", // POST per creare una nuova recensione
-			"/reviews/*", // PUT e DELETE per modificare o eliminare una recensione
-			"/indirizzo", // GET per vedere tutti gli indirizzi
+	private static final String[] ADMIN_ROUTES = { "/product", 
+			"/product/*",
+			"/reviews", 
+			"/reviews/*", 
+			"/indirizzo", 
 			"/orders",
 			"/orders/*" 
 	};
@@ -58,7 +58,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 		String token = authHeader.substring(7);
 		jwttools.verificaToken(token);
-		String roleFromToken = jwttools.extractRole(token); // Estrai il ruolo dal token
+		String roleFromToken = jwttools.extractRole(token); 
 
 		if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(roleFromToken)) {
 			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
@@ -68,8 +68,7 @@ public class JWTFilter extends OncePerRequestFilter {
 			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di user");
 		}
 
-		// Poiché stai usando Spring Security, potresti ancora voler ottenere l'utente
-		// dal servizio e impostarlo nel contesto
+	
 		String id = jwttools.extractSubject(token);
 		User currentUser = uS.findById(UUID.fromString(id));
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,

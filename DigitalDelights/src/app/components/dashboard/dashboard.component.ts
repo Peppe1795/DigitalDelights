@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
   allOrders: Orders[] = [];
   allUsers: UserProfile[] | null = null;
   allProducts: Product[] = [];
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   constructor(
     private orderService: OrderService,
@@ -25,6 +27,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadProducts();
     this.orderService.getAllOrders().subscribe((response) => {
       this.allOrders = response.content;
     });
@@ -34,8 +37,12 @@ export class DashboardComponent implements OnInit {
         this.allUsers = response.content;
       }
     });
-    this.productService.getAllProducts().subscribe((products: Product[]) => {
-      this.allProducts = products;
+    this.productService.getAllProducts().subscribe((response: any) => {
+      if (response && response.products) {
+        this.allProducts = response.products;
+      } else {
+        console.error('Unexpected structure of response', response);
+      }
     });
   }
 
@@ -102,5 +109,45 @@ export class DashboardComponent implements OnInit {
         console.error('Errore nella creazione del prodotto:', error);
       }
     );
+  }
+
+  goToNextPage(): void {
+    console.log('Going to next page', this.currentPage, this.totalPages);
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadProducts();
+    }
+  }
+
+  goToPreviousPage(): void {
+    console.log('Going to previous page', this.currentPage);
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadProducts();
+    }
+  }
+
+  loadProducts(): void {
+    this.productService
+      .getAllProducts(this.currentPage)
+      .subscribe((response: any) => {
+        console.log('LoadProducts Response:', response);
+        if (
+          response &&
+          response.products &&
+          typeof response.totalPages === 'number'
+        ) {
+          this.allProducts = response.products;
+          this.totalPages = response.totalPages;
+
+          if (typeof response.currentPage === 'undefined') {
+            console.log('Using this.currentPage:', this.currentPage);
+          } else {
+            this.currentPage = response.currentPage + 1;
+          }
+        } else {
+          console.error('Unexpected structure of response', response);
+        }
+      });
   }
 }

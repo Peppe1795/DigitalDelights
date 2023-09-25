@@ -91,6 +91,20 @@
         </div>
         <div *ngIf="selectedSection === 'management'">
           <h1>Prodotti</h1>
+          <button
+            class="btn btn-secondary"
+            (click)="goToPreviousPage()"
+            [disabled]="currentPage === 1"
+          >
+            Indietro
+          </button>
+          <button
+            class="btn btn-secondary"
+            (click)="goToNextPage()"
+            [disabled]="currentPage === totalPages"
+          >
+            Avanti
+          </button>
           <table class="table">
             <thead>
               <tr>

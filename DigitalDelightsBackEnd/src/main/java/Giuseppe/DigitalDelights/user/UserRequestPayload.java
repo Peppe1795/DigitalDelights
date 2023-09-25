@@ -30,10 +30,10 @@ public class UserRequestPayload {
 	@Override
 	public String toString() {
 		return "UserRequestPayload {" + "name='" + name + '\'' + ", username='" + username + '\'' + ", lastName='"
-				+ lastName + '\'' + ", email='" + email + '\'' + ", password='" + "********" + '\'' + // Maschera la
-																										// password per
-																										// ragioni di
-																										// sicurezza
+				+ lastName + '\'' + ", email='" + email + '\'' + ", password='" + "********" + '\'' + 
+																										
+																										
+																										
 				", address=" + (address != null ? address.toString() : "null") + '}';
 	}
 

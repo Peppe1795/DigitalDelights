@@ -33,11 +33,17 @@ export class ProductsService {
     return this.http.get<Product>(`${this.baseUrl}/${productId}`);
   }
 
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<any>(this.baseUrl).pipe(
+  getAllProducts(page: number = 1): Observable<any> {
+    const params = new HttpParams().set('page', page.toString());
+
+    return this.http.get<any>(this.baseUrl, { params }).pipe(
       map((response) => {
         if (response && Array.isArray(response.content)) {
-          return response.content;
+          return {
+            products: response.content,
+            totalPages: response.totalPages,
+            currentPage: response.pageNumber,
+          };
         } else {
           throw new Error('Invalid response structure');
         }
