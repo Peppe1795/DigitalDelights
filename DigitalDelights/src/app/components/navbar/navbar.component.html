@@ -101,6 +101,7 @@
                 class="form-control transparent-input border-0"
                 placeholder="Search"
                 [(ngModel)]="searchQuery"
+                (input)="searchProducts()"
               />
             </div>
             <button

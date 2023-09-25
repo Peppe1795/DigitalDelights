@@ -18,8 +18,7 @@ export class FindproductsComponent implements OnInit {
   searchQuery: string = '';
   favoriteProductIds: string[] = [];
 
-  // Variabili per la paginazione
-  currentPage: number = 1;
+  currentPage: number = 0;
   pageSize: number = 10;
   totalPages: number = 0;
 
@@ -51,6 +50,7 @@ export class FindproductsComponent implements OnInit {
           this.totalPages = response.totalPages;
         }
       });
+    this.cdr.detectChanges();
   }
 
   loadFavorites(): void {

@@ -68,11 +68,32 @@ export class NavbarComponent implements OnInit {
     return this.categoriesWithProducts;
   }
 
+  loadProducts(): void {
+    this.productSrv
+      .searchProducts(this.searchQuery)
+      .subscribe((response: any) => {
+        if (Array.isArray(response)) {
+          this.searchResults = response;
+        } else if (response && response.content) {
+          this.searchResults = response.content;
+        }
+      });
+  }
+
   onSearchButtonClick(): void {
+    this.searchProducts();
+  }
+
+  searchProducts(): void {
     if (this.searchQuery.trim() !== '') {
       this.router.navigate(['/findproducts'], {
         queryParams: { q: this.searchQuery },
+        queryParamsHandling: 'merge',
       });
     }
+  }
+
+  onSearchChange(): void {
+    this.searchProducts();
   }
 }

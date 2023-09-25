@@ -100,17 +100,6 @@
   font-size: 1.5rem;
 }
 
-@media (max-width: 1025px) {
-  .btn {
-    padding: 5px 40px 5px 40px;
-  }
-}
-@media (max-width: 250px) {
-  .btn {
-    padding: 5px 30px 5px 30px;
-  }
-}
-
 // BOTTONE AGGIUNGI AL CARRELLO
 .productsButton {
   border: none;
@@ -223,7 +212,7 @@
   transition: 1000ms;
   padding: 10px 50px;
   transform: translateY(-0px);
-  background-color: #279ed9;
+  background-color: #0d5b82;
   color: #ffffff;
 }
 
