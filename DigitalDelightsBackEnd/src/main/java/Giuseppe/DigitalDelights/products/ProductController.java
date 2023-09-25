@@ -44,19 +44,21 @@ public class ProductController {
 	}
 
 	@GetMapping("/filter")
-	public ResponseEntity<Page<Product>> getFilteredProducts(@RequestParam(required = false) String name,
-			@RequestParam(required = false) Category category, @RequestParam(required = false) Double minPrice,
-			@RequestParam(required = false) Double maxPrice, @RequestParam(defaultValue = "productId") String sortBy,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-		Page<Product> products = productSrv.findFilteredProducts(name, category, minPrice, maxPrice, sortBy, pageable);
+	public ResponseEntity<Page<Product>> getFilteredProducts(@RequestParam Category category, 
+	        @RequestParam(defaultValue = "productId") String sortBy,
+	        @RequestParam(defaultValue = "0") int page, 
+	        @RequestParam(defaultValue = "10") int size) {
+		System.out.println("Richiesta ricevuta per getFilteredProducts");
+	    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+	    Page<Product> products = productSrv.findFilteredProducts(category, sortBy, pageable);
 
-		if (products.getContent().isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(products);
-		}
+	    if (products.getContent().isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    } else {
+	        return ResponseEntity.ok(products);
+	    }
 	}
+
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('ADMIN')")

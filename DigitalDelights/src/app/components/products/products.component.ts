@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit {
   objectKeys = Object.keys;
   loading = true;
   selectedCategory?: Category;
-  currentPage: number = 1;
+  currentPage: number = 0;
   pageSize: number = 10;
   totalPages: number = 0;
 
@@ -39,9 +39,11 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.loadFavorites();
     console.log('Trying to reload favorites...');
-    this.route.params.subscribe((params) => {
-      if (params['category']) {
-        this.selectedCategory = params['category'] as Category;
+    this.route.paramMap.subscribe((paramMap) => {
+      const category = paramMap.get('category');
+      if (category) {
+        this.selectedCategory = category as Category;
+        console.log('Selected category:', this.selectedCategory);
         this.loadProductsBySelectedCategory();
       } else {
         this.loadAllProductsByCategories();
@@ -54,12 +56,12 @@ export class ProductsComponent implements OnInit {
 
   goPrevPage(): void {
     this.currentPage--;
-    this.loadAllProductsByCategories();
+    this.loadProductsBySelectedCategory();
   }
 
   goNextPage(): void {
     this.currentPage++;
-    this.loadAllProductsByCategories();
+    this.loadProductsBySelectedCategory();
   }
   loadAllProductsByCategories(): void {
     const categories = Object.values(Category);
@@ -121,21 +123,35 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProductsBySelectedCategory(): void {
-    if (!this.selectedCategory) return;
+    if (!this.selectedCategory) {
+      console.error('Categoria selezionata non definita!');
+      return;
+    }
 
-    this.productSrv.getProductsByCategory(this.selectedCategory).subscribe(
-      (response) => {
-        this.categoriesWithProducts = {};
-        if (this.selectedCategory) {
-          this.categoriesWithProducts[this.selectedCategory] = response.content;
+    this.categoriesWithProducts = {};
+    this.productSrv
+      .getProductsByCategory(
+        this.selectedCategory,
+        this.currentPage,
+        this.pageSize
+      )
+      .subscribe(
+        (response) => {
+          if (this.selectedCategory) {
+            this.categoriesWithProducts[this.selectedCategory] =
+              response.content;
+            this.totalPages = response.totalPages;
+          }
+          this.loading = false;
+        },
+        (error) => {
+          console.error(
+            'Errore nel caricamento dei prodotti per la categoria selezionata:',
+            error
+          );
+          this.loading = false;
         }
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Error fetching products by selected category:', error);
-        this.loading = false;
-      }
-    );
+      );
   }
 
   toggleFavorite(product: Product): void {

@@ -73,11 +73,10 @@ public class ProductService {
 		productRepo.delete(productToDelete);
 	}
 
-	public Page<Product> findFilteredProducts(String name, Category category, Double minPrice, Double maxPrice,
-			String sortBy, Pageable pageable) {
-
-		Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy));
-		return productRepo.findFilteredProducts(name, category, minPrice, maxPrice, sortedPageable);
+	public Page<Product> findFilteredProducts(Category category, String sortBy, Pageable pageable) {
+	    Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy));
+	    return productRepo.findByCategory(category, sortedPageable);
 	}
+
 
 }

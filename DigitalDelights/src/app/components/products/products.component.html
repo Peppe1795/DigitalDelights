@@ -80,14 +80,14 @@
   <button
     class="btn prevButton"
     (click)="goPrevPage()"
-    [disabled]="currentPage <= 1"
+    [disabled]="currentPage <= 0"
   >
     Indietro
   </button>
   <button
     class="btn nextButton ml-2"
     (click)="goNextPage()"
-    [disabled]="currentPage >= totalPages"
+    [disabled]="currentPage >= totalPages - 1"
   >
     Avanti
   </button>

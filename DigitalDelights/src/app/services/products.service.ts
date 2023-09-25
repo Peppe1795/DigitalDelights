@@ -63,17 +63,17 @@ export class ProductsService {
     page?: number,
     size?: number
   ): Observable<ApiResponse> {
-    let params = new HttpParams();
+    let params = new HttpParams().set('category', category);
+
     if (page != null) {
-      params = params.append('page', page.toString());
+      params = params.set('page', page.toString());
     }
+
     if (size != null) {
-      params = params.append('size', size.toString());
+      params = params.set('size', size.toString());
     }
-    return this.http.get<ApiResponse>(
-      `${this.baseUrl}/filter?category=${category}`,
-      { params }
-    );
+
+    return this.http.get<ApiResponse>(`${this.baseUrl}/filter`, { params });
   }
 
   getFavorites(): Observable<any> {

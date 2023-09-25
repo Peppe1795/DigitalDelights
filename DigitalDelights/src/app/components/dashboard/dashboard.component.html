@@ -36,11 +36,12 @@
       <div class="text-center">
         <div *ngIf="selectedSection === 'orders'">
           <h1>Ordini</h1>
-          <table class="table">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th>ID Ordine</th>
                 <th>Stato</th>
+                <th>Informazioni di Spedizione</th>
                 <th>Prodotti</th>
                 <th>Azioni</th>
               </tr>
@@ -49,6 +50,19 @@
               <tr *ngFor="let order of allOrders">
                 <td>{{ order.orderId }}</td>
                 <td>{{ order.status }}</td>
+                <td>
+                  <ul>
+                    <li>
+                      Nome destinatario: {{ order.shippingInfo.recipientName }}
+                    </li>
+                    <li>Indirizzo: {{ order.shippingInfo.shippingAddress }}</li>
+                    <li>Città: {{ order.shippingInfo.city }}</li>
+                    <li>Stato: {{ order.shippingInfo.state }}</li>
+                    <li>CAP: {{ order.shippingInfo.postalCode }}</li>
+                    <li>Paese: {{ order.shippingInfo.country }}</li>
+                    <li>Telefono: {{ order.shippingInfo.phoneNumber }}</li>
+                  </ul>
+                </td>
                 <td>
                   <ul>
                     <li *ngFor="let orderItem of order.orderItems">
@@ -79,7 +93,7 @@
 
         <div *ngIf="selectedSection === 'users'">
           <h1>Utenti</h1>
-          <table class="table">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th>ID Utente</th>
@@ -105,6 +119,7 @@
             </tbody>
           </table>
         </div>
+
         <div *ngIf="selectedSection === 'management'">
           <h1>Prodotti</h1>
           <button
@@ -121,7 +136,7 @@
           >
             Avanti
           </button>
-          <table class="table">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th>ID Prodotto</th>
@@ -142,6 +157,7 @@
             </tbody>
           </table>
         </div>
+
         <div *ngIf="selectedSection === 'addProduct'">
           <h1>Aggiungi un nuovo prodotto</h1>
           <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm.value)">
@@ -190,7 +206,7 @@
             </div>
             <div class="mb-3">
               <label for="unitsInStock" class="form-label"
-                >Quanità da aggiungere</label
+                >Quantità in magazzino</label
               >
               <input
                 type="number"
