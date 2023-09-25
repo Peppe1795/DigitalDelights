@@ -10,10 +10,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class ShippingInfo {
 	@Id
@@ -39,5 +42,16 @@ public class ShippingInfo {
 		this.postalCode = postalCode;
 		this.country = country;
 		this.phoneNumber = phoneNumber;
+	}
+	
+	@Override
+	public String toString() {
+	    return "Destinatario: " + recipientName + "\n" +
+	           "Indirizzo di spedizione: " + shippingAddress + "\n" +
+	           "Città: " + city + "\n" +
+	           "Stato: " + state + "\n" +
+	           "Codice Postale: " + postalCode + "\n" +
+	           "Paese: " + country + "\n" +
+	           "Numero di Telefono: " + phoneNumber;
 	}
 }

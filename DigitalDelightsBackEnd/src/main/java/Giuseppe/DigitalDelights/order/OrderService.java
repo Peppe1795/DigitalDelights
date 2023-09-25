@@ -26,6 +26,8 @@ public class OrderService {
 	private final ProductRepository productRepo;
 	@Autowired
 	private UserService userService; 
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	public OrderService(OrderRepository orderRepo, ProductRepository productRepo) {
@@ -103,4 +105,30 @@ public class OrderService {
 		Order foundOrder = this.findById(id);
 		orderRepo.delete(foundOrder);
 	}
+	public Order shipOrder(UUID id) throws NotFoundException {
+	    Order foundOrder = this.findById(id);
+	    foundOrder.setStatus(Status.SHIPPED);
+	    orderRepo.save(foundOrder);
+
+	   
+	    String userEmail = foundOrder.getUser().getEmail();
+	    String orderId = foundOrder.getOrderId().toString();
+	    List<String> productNames = foundOrder.getOrderItems().stream()
+	            .map(item -> item.getProduct().getName() + " (Quantità: " + item.getQuantity() + ")")
+	            .collect(Collectors.toList());
+	    String productsList = String.join(", ", productNames);
+	    String shippingAddress = foundOrder.getShippingInfo().toString(); 
+
+	  
+	    String emailBody = String.format(
+	            "Gentile cliente,\n\nIl suo ordine con ID %s è stato spedito.\n\nProdotti nel suo ordine: %s\n\nDettagli della spedizione:\n%s\n\nGrazie per aver fatto acquisti con noi.\n\nCordiali saluti,\nIl Team di Giuseppe's Digital Delights",
+	            orderId, productsList, shippingAddress
+	    );
+
+
+	    emailService.sendSimpleMessage(userEmail, "Il tuo ordine è stato spedito", emailBody);
+
+	    return foundOrder;
+	}
+
 }

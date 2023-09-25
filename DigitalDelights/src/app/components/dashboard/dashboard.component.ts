@@ -150,4 +150,26 @@ export class DashboardComponent implements OnInit {
         }
       });
   }
+
+  shipOrder(orderId: string): void {
+    if (window.confirm('Sei sicuro di voler spedire questo ordine?')) {
+      this.orderService.shipOrder(orderId).subscribe(
+        (updatedOrder) => {
+          const orderIndex = this.allOrders.findIndex(
+            (order) => order.orderId === orderId
+          );
+          if (orderIndex > -1) {
+            this.allOrders[orderIndex] = updatedOrder;
+          }
+          window.alert('Ordine spedito e email inviata.');
+        },
+        (error) => {
+          console.error("Errore durante la spedizione dell'ordine:", error);
+          window.alert(
+            "Si è verificato un errore durante la spedizione dell'ordine."
+          );
+        }
+      );
+    }
+  }
 }

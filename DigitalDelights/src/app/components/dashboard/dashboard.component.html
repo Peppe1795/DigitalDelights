@@ -40,7 +40,8 @@
             <thead>
               <tr>
                 <th>ID Ordine</th>
-                <th>Dettagli</th>
+                <th>Stato</th>
+                <th>Prodotti</th>
                 <th>Azioni</th>
               </tr>
             </thead>
@@ -49,18 +50,33 @@
                 <td>{{ order.orderId }}</td>
                 <td>{{ order.status }}</td>
                 <td>
+                  <ul>
+                    <li *ngFor="let orderItem of order.orderItems">
+                      {{ orderItem.product.name }} (Quantità:
+                      {{ orderItem.quantity }})
+                    </li>
+                  </ul>
+                </td>
+                <td>
                   <button
                     class="btn btn-danger"
                     (click)="deleteOrder(order.orderId)"
                   >
                     Cancella
                   </button>
-                  <button class="btn btn-success">Spedisci</button>
+                  <button
+                    class="btn btn-success"
+                    (click)="shipOrder(order.orderId)"
+                    [disabled]="order.status === 'SHIPPED'"
+                  >
+                    Spedisci
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
         <div *ngIf="selectedSection === 'users'">
           <h1>Utenti</h1>
           <table class="table">

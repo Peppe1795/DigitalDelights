@@ -30,7 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 	private static final String[] USER_ROUTES = { "/{cartId}/product/{productId}", "/current-user-cart-id",
 			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", "/removeWishList/{productId}",
-			"/{userId}/wishList", "user/{userId}"};
+			"/{userId}/wishList", "user/{userId}",};
 
 	private static final String[] ADMIN_ROUTES = { "/product", 
 			"/product/*",

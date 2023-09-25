@@ -71,4 +71,8 @@ export class OrderService {
       responseType: 'text',
     });
   }
+
+  shipOrder(orderId: string): Observable<any> {
+    return this.http.put(`${this.baseURL}/${orderId}/ship`, {});
+  }
 }

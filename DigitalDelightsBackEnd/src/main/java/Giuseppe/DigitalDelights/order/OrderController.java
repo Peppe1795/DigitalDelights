@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import Giuseppe.DigitalDelights.exception.NotFoundException;
 import Giuseppe.DigitalDelights.user.User;
 import Giuseppe.DigitalDelights.user.UserService;
 
@@ -61,6 +62,11 @@ public class OrderController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Order createOrder(@RequestBody OrderRequestPayload body) {
 		return orderService.create(body);
+	}
+	
+	@PutMapping("/{orderId}/ship")
+	public Order shipOrder(@PathVariable UUID orderId) throws NotFoundException {
+	    return orderService.shipOrder(orderId);
 	}
 
 	@PutMapping("/{orderId}")
