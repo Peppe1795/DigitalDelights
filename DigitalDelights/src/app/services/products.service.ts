@@ -137,4 +137,19 @@ export class ProductsService {
         })
       );
   }
+
+  deleteProduct(productId: string): Observable<any> {
+    return this.http
+      .delete(`${this.baseUrl}/${productId}`, { responseType: 'text' })
+      .pipe(
+        map((response) => {
+          console.log('Product deleted:', response);
+          return response;
+        }),
+        catchError((error) => {
+          console.error('Error during product deletion:', error);
+          return throwError(error);
+        })
+      );
+  }
 }

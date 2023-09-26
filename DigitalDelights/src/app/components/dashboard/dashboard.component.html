@@ -151,7 +151,12 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}</td>
                 <td>
-                  <button class="btn btn-danger">Rimuovi</button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteProduct(product.productId)"
+                  >
+                    Rimuovi
+                  </button>
                 </td>
               </tr>
             </tbody>

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GuardGuard } from './auth/guard.guard';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -34,14 +35,17 @@ const routes: Route[] = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [GuardGuard],
   },
   {
     path: 'wishlist',
     component: WishListComponent,
+    canActivate: [GuardGuard],
   },
   {
     path: 'order',
     component: OrderComponent,
+    canActivate: [GuardGuard],
   },
   {
     path: 'details/:id',
@@ -54,10 +58,12 @@ const routes: Route[] = [
   {
     path: 'cart',
     component: CartComponent,
+    canActivate: [GuardGuard],
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [GuardGuard],
   },
   {
     path: 'findproducts',
@@ -108,6 +114,7 @@ const routes: Route[] = [
       useClass: TokenInterceptor,
       multi: true,
     },
+    GuardGuard,
   ],
   bootstrap: [AppComponent],
 })

@@ -90,6 +90,25 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  deleteProduct(productId: string): void {
+    if (window.confirm('Sei sicuro di voler rimuovere questo prodotto?')) {
+      this.productService.deleteProduct(productId).subscribe(
+        () => {
+          this.allProducts = this.allProducts.filter(
+            (product) => product.productId !== productId
+          );
+          window.alert('Prodotto rimosso con successo.');
+        },
+        (error) => {
+          console.error('Errore durante la rimozione del prodotto:', error);
+          window.alert(
+            'Si è verificato un errore durante la rimozione del prodotto.'
+          );
+        }
+      );
+    }
+  }
+
   onSubmit(formValue: any): void {
     const newProduct: ProductRequestPayload = {
       name: formValue.name,

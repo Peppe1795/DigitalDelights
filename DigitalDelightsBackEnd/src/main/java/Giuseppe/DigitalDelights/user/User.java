@@ -71,7 +71,7 @@ public class User implements UserDetails {
 	@JoinTable(name = "user_prodotti_preferiti", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Product> favoriteProducts = new ArrayList<>();
 
-	@OneToMany
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Reviews> reviews = new ArrayList<>();
 
 	public User(String username, String name, String lastName, String email, String password, Address address,

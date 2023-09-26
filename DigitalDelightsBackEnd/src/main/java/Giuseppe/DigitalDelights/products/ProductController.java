@@ -61,7 +61,6 @@ public class ProductController {
 
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Product saveProduct(@RequestBody ProductRequestPayload body) {
 		Product created = productSrv.create(body);
@@ -70,13 +69,12 @@ public class ProductController {
 	}
 
 	@PutMapping("/{productId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
 	public Product updateProduct(@PathVariable UUID productId, @RequestBody ProductRequestPayload body) {
 		return productSrv.findByIdAndUpdate(productId, body);
 	}
 
 	@DeleteMapping("/{productId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	
 	public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
 		productSrv.findByIdAndDelete(productId);
 		return ResponseEntity.ok("Prodotto eliminato con successo.");

@@ -32,12 +32,12 @@ public class Cart {
 	@GeneratedValue
 	private UUID cartId;
 
-	@OneToOne
+	@OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
 	private User user;
 
-	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonBackReference
 	private List<CartItem> cartItems = new ArrayList<>();
 

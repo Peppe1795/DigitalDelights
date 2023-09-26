@@ -30,16 +30,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
 	private static final String[] USER_ROUTES = { "/{cartId}/product/{productId}", "/current-user-cart-id",
 			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", "/removeWishList/{productId}",
-			"/{userId}/wishList", "user/{userId}",};
+			"/{userId}/wishList", "user/{userId}", "/orders", "/reviews", 
+			"/reviews/*",
+			"/orders/*" };
 
-	private static final String[] ADMIN_ROUTES = { "/product", 
-			"/product/*",
-			"/reviews", 
-			"/reviews/*", 
-			"/indirizzo", 
-			"/orders",
-			"/orders/*" 
-	};
+	
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -60,22 +55,31 @@ public class JWTFilter extends OncePerRequestFilter {
 		jwttools.verificaToken(token);
 		String roleFromToken = jwttools.extractRole(token); 
 
-		if (isAdminRoute(servletPath) && !"ADMIN".equalsIgnoreCase(roleFromToken)) {
-			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di admin");
+
+		if ("ADMIN".equalsIgnoreCase(roleFromToken)) {
+			setAuthentication(token);
+			filterChain.doFilter(request, response);
+			return;
 		}
+
+		
 
 		if (isUserRoute(servletPath) && !"USER".equalsIgnoreCase(roleFromToken)) {
 			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di user");
 		}
 
-	
+		setAuthentication(token);
+		filterChain.doFilter(request, response);
+	}
+
+	private void setAuthentication(String token) {
 		String id = jwttools.extractSubject(token);
 		User currentUser = uS.findById(UUID.fromString(id));
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(currentUser, null,
 				currentUser.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-		filterChain.doFilter(request, response);
 	}
+
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -101,13 +105,6 @@ public class JWTFilter extends OncePerRequestFilter {
 		return false;
 	}
 
-	private boolean isAdminRoute(String servletPath) {
-		for (String adminRoute : ADMIN_ROUTES) {
-			if (new AntPathMatcher().match(adminRoute, servletPath)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	
 
 }
