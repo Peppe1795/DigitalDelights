@@ -1,0 +1,109 @@
+.dashboardController {
+  background: rgb(60, 193, 203);
+}
+// BOTTONI ORDINI
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+  background-color: #f5f5f5;
+}
+
+.table th,
+.table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  vertical-align: top;
+  text-align: center;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.04);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  border-bottom: 2px solid #f2f2f2;
+}
+
+.table-hover tbody tr:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.table {
+  transition: all 0.3s;
+}
+
+.table:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table thead {
+  background-image: linear-gradient(45deg, #f5f5f5, #e0e0e0);
+}
+
+.table {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dashboardController {
+  background: rgb(60, 193, 203);
+}
+
+.remouveButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #e82929;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remouveButton:hover {
+  padding: 10px 50px;
+  background-color: #c41c0c;
+}
+
+.shipButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #07115d;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shipButton:hover {
+  padding: 10px 50px;
+  background-color: #0b577d;
+}

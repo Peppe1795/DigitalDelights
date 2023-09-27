@@ -61,7 +61,6 @@ export class WishListComponent implements OnInit {
         this.favoriteProductIds = response.content.map(
           (product: any) => product.productId
         );
-        console.log('Favorites loaded:', this.favoriteProductIds);
       },
       (error) => {
         console.error('Errore nel caricamento dei prodotti preferiti:', error);
@@ -108,7 +107,7 @@ export class WishListComponent implements OnInit {
         } else {
           this.favoriteProductIds.push(product.productId);
         }
-        console.log('Prodotti preferiti aggiornati:', this.favoriteProductIds);
+
         this.cdr.detectChanges();
       },
       (error) => {
@@ -126,18 +125,21 @@ export class WishListComponent implements OnInit {
   addToCart(product: Product): void {
     if (!product) {
       console.error('Nessun prodotto fornito.');
+      alert('Errore: Nessun prodotto fornito.');
       return;
     }
 
     this.cartService.addProductToCart(product.productId, 1).subscribe(
       () => {
-        console.log('Prodotto aggiunto al carrello con successo!');
+        ('Prodotto aggiunto al carrello con successo!');
+        alert('Prodotto aggiunto al carrello con successo!');
       },
       (error) => {
         console.error(
           'Errore:',
           error.message || "Errore nell'aggiunta del prodotto al carrello."
         );
+        alert("Errore nell'aggiunta del prodotto al carrello.");
       }
     );
   }
@@ -153,9 +155,7 @@ export class WishListComponent implements OnInit {
     const userId = this.authSrv.getCurrentUserId();
     if (this.currentPage < this.totalPages && userId !== null) {
       this.currentPage++;
-      console.log(
-        `Current Page: ${this.currentPage}, Total Pages: ${this.totalPages}`
-      );
+
       this.loadWishlist(userId);
     }
   }

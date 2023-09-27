@@ -73,7 +73,6 @@ export class ProfileComponent implements OnInit {
       this.authService.getUserDetails(userId).subscribe(
         (response: UserProfile) => {
           this.user = response;
-          console.log('Dettagli utente ricevuti:', this.user);
         },
         (error) => {
           console.error("Errore nel recuperare i dettagli dell'utente:", error);
@@ -110,7 +109,6 @@ export class ProfileComponent implements OnInit {
   getDetailsForOrder(orderId: string): void {
     this.orderService.getOrderDetails(orderId).subscribe(
       (details) => {
-        console.log("Dettagli dell'ordine ricevuti:", details);
         const index = this.orders.findIndex(
           (order) => order.orderId === orderId
         );
@@ -164,7 +162,6 @@ export class ProfileComponent implements OnInit {
       .createReview(userId, productId, reviewPayload)
       .subscribe(
         (response) => {
-          console.log('Recensione inviata con successo', response);
           this.reviewText = '';
           this.showFeedback = true;
           this.feedbackMessage = 'Recensione inviata con successo!';

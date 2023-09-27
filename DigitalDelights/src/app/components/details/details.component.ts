@@ -106,7 +106,7 @@ export class DetailsComponent implements OnInit {
         } else {
           this.favoriteProductIds.push(product.productId);
         }
-        console.log('Prodotti preferiti aggiornati:', this.favoriteProductIds);
+
         this.cdr.detectChanges();
       },
       (error) => {
@@ -123,7 +123,6 @@ export class DetailsComponent implements OnInit {
         this.favoriteProductIds = response.content.map(
           (product: any) => product.productId
         );
-        console.log('Favorites loaded:', this.favoriteProductIds);
       },
       (error) => {
         console.error('Errore nel caricamento dei prodotti preferiti:', error);

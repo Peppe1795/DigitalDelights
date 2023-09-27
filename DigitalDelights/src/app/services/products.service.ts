@@ -112,7 +112,6 @@ export class ProductsService {
       )
       .pipe(
         map((response) => {
-          console.log('Search response:', response);
           return response;
         }),
         catchError((error) => {
@@ -128,7 +127,6 @@ export class ProductsService {
       .post<Product>(`${this.baseUrl}`, JSON.stringify(product), { headers })
       .pipe(
         map((response) => {
-          console.log('Product created:', response);
           return response;
         }),
         catchError((error) => {
@@ -143,7 +141,6 @@ export class ProductsService {
       .delete(`${this.baseUrl}/${productId}`, { responseType: 'text' })
       .pipe(
         map((response) => {
-          console.log('Product deleted:', response);
           return response;
         }),
         catchError((error) => {

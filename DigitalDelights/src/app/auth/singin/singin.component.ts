@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class SinginComponent implements OnInit {
   isLoading = false;
+  errorMessage = '';
 
   formData: any = {
     name: '',
@@ -30,8 +31,20 @@ export class SinginComponent implements OnInit {
   ngOnInit(): void {}
 
   registra() {
+    this.errorMessage = '';
+
+    if (
+      !this.formData.name ||
+      !this.formData.username ||
+      !this.formData.email ||
+      !this.formData.password
+    ) {
+      this.errorMessage = 'Compila tutti i campi del form di registrazione.';
+      return;
+    }
+
     this.isLoading = true;
-    console.log(this.formData);
+
     this.authSrv.signup(this.formData).subscribe(
       () => {
         this.router.navigate(['/login']);
@@ -40,7 +53,7 @@ export class SinginComponent implements OnInit {
       (error) => {
         console.error(error);
         if (error.status == 400) {
-          alert('Email già registrata!');
+          this.errorMessage = 'Email già registrata!';
           this.router.navigate(['/register']);
         }
         this.isLoading = false;

@@ -135,3 +135,77 @@ span.rounded-circle {
 i.fas {
   font-size: 24px;
 }
+
+// ANIMAZIONE IPHONE
+
+.animation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+
+  justify-content: center;
+}
+
+.iphone {
+  position: absolute;
+  height: 50vh;
+}
+
+.widgets {
+  position: absolute;
+  z-index: -1;
+  width: auto;
+  height: auto;
+  max-height: 20vh;
+}
+
+#socials {
+  background: linear-gradient(#ff348b, #e30217);
+  border-radius: 30px;
+  aspect-ratio: 1;
+  height: 10vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .iphone {
+    height: 40vh;
+  }
+
+  .widgets {
+    max-height: 15vh;
+  }
+
+  #socials {
+    height: 8vh;
+  }
+
+  a {
+    font-size: 1.5vh;
+    height: 2.5vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .iphone {
+    height: 30vh;
+  }
+
+  .widgets {
+    max-height: 10vh;
+  }
+
+  #socials {
+    height: 7vh;
+  }
+
+  a {
+    font-size: 1vh;
+    height: 2vh;
+  }
+}

@@ -38,7 +38,7 @@ public class OrderService {
 	public Order create(OrderRequestPayload body) {
 		User currentUser = userService.getCurrentUser();
 
-		Order initialOrder = new Order(currentUser, Status.DELIVERED, body.getTotalPrice(),
+		Order initialOrder = new Order(currentUser, Status.PENDING, body.getTotalPrice(),
 				body.getShippingInfoRequestPayload().toShippingInfo(), new ArrayList<>());
 
 		final Order[] savedOrder = new Order[1];

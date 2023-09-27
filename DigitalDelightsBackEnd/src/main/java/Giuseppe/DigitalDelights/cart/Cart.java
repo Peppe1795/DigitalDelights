@@ -37,7 +37,7 @@ public class Cart {
 	@JsonIgnore
 	private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
 	@JsonBackReference
 	private List<CartItem> cartItems = new ArrayList<>();
 

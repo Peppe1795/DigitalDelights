@@ -1,3 +1,9 @@
+<div *ngIf="showToast" class="successMessage">
+  Login effettuato con successo! Verrai reindirizzato alla homepage.
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
 <form
   class="form_container d-flex justify-content-center align-items-center flex-column mt-5"
   (ngSubmit)="onLogin()"
@@ -48,6 +54,7 @@
       id="email_field"
     />
   </div>
+
   <div class="input_container">
     <label class="input_label col-sm-2 col-form-label" for="password_field"
       >Password</label

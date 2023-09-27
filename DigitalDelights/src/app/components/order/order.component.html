@@ -175,7 +175,7 @@
       <div
         class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end cardColor"
       >
-        <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px">
+        <div class="mt-4 mt-lg-0">
           <h6 class="mb-3 mt-3">Sommario</h6>
 
           <div class="d-flex justify-content-between">
@@ -233,12 +233,13 @@
                 {{ item.quantity }}
               </span>
               <img
+                [src]="item.product.imageUrl"
                 style="height: 96px; width: 96px"
                 class="img-sm rounded border"
               />
             </div>
             <div class="">
-              <a href="#" class="nav-link"> {{ item.product.name }} <br /> </a>
+              <a class="nav-link fw-bold"> {{ item.product.name }} <br /> </a>
               <div class="price text-muted">
                 Totale: €{{ (item.product.price * item.quantity).toFixed(2) }}
               </div>

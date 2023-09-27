@@ -121,9 +121,7 @@ export class DashboardComponent implements OnInit {
     };
 
     this.productService.createProduct(newProduct).subscribe(
-      (product) => {
-        console.log('Prodotto creato con successo:', product);
-      },
+      (product) => {},
       (error) => {
         console.error('Errore nella creazione del prodotto:', error);
       }
@@ -131,7 +129,6 @@ export class DashboardComponent implements OnInit {
   }
 
   goToNextPage(): void {
-    console.log('Going to next page', this.currentPage, this.totalPages);
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.loadProducts();
@@ -139,7 +136,6 @@ export class DashboardComponent implements OnInit {
   }
 
   goToPreviousPage(): void {
-    console.log('Going to previous page', this.currentPage);
     if (this.currentPage > 1) {
       this.currentPage--;
       this.loadProducts();
@@ -150,7 +146,6 @@ export class DashboardComponent implements OnInit {
     this.productService
       .getAllProducts(this.currentPage)
       .subscribe((response: any) => {
-        console.log('LoadProducts Response:', response);
         if (
           response &&
           response.products &&
@@ -160,7 +155,6 @@ export class DashboardComponent implements OnInit {
           this.totalPages = response.totalPages;
 
           if (typeof response.currentPage === 'undefined') {
-            console.log('Using this.currentPage:', this.currentPage);
           } else {
             this.currentPage = response.currentPage + 1;
           }

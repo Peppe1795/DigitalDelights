@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Mooli&display=swap");
+
 //COLORE DELLA NAV SUPERIORE
 .navColor {
   background: rgb(56, 228, 241);
@@ -119,4 +121,11 @@
 .nav-link:hover {
   color: #020f0c;
   transition: color 250ms;
+}
+.logo {
+  font-family: "Mooli", sans-serif;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.8em;
 }

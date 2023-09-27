@@ -280,7 +280,6 @@
   </div>
 </div>
 
-<!-- Modal per recensioni -->
 <div
   class="modal fade"
   id="reviewModal"
@@ -304,48 +303,58 @@
         <div *ngIf="showFeedback" class="alert alert-success mb-3">
           {{ feedbackMessage }}
         </div>
-        <div class="rating">
-          <span
-            *ngFor="let star of [1, 2, 3, 4, 5]"
-            (click)="setRating(star)"
-            (mouseover)="setHover(star)"
-            (mouseout)="removeHover()"
-            [class.selected]="rating >= star"
-            [class.hovered]="hoverRating >= star"
-          >
-            ☆
-          </span>
+        <div class="mb-3">
+          <label class="form-label">Valutazione:</label>
+          <div class="rating">
+            <span
+              *ngFor="let star of [1, 2, 3, 4, 5]"
+              (click)="setRating(star)"
+              (mouseover)="setHover(star)"
+              (mouseout)="removeHover()"
+              [class.selected]="rating >= star"
+              [class.hovered]="hoverRating >= star"
+            >
+              ☆
+            </span>
+          </div>
         </div>
-        <textarea
-          [(ngModel)]="reviewText"
-          class="form-control"
-          rows="4"
-          placeholder="Scrivi la tua recensione qui..."
-        ></textarea>
+        <div class="mb-3">
+          <label class="form-label">La tua recensione:</label>
+          <textarea
+            [(ngModel)]="reviewText"
+            class="form-control"
+            rows="4"
+            placeholder="Scrivi la tua recensione qui..."
+          ></textarea>
+        </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          (click)="closeReviewModal()"
-        >
-          Chiudi
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="submitReview()"
-          *ngIf="authService.isAuthenticated() && selectedProductForReview"
-        >
-          Invia
-        </button>
-        <p *ngIf="!authService.isAuthenticated()">
-          Effettua il login per lasciare una recensione.
-        </p>
-        <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
-          Seleziona un prodotto per lasciare una recensione.
-        </p>
+        <div class="d-flex justify-content-between">
+          <button
+            type="button"
+            class="btn annButton"
+            data-bs-dismiss="modal"
+            (click)="closeReviewModal()"
+          >
+            Chiudi
+          </button>
+          <button
+            type="button"
+            class="btn sandButton ms-2"
+            (click)="submitReview()"
+            *ngIf="authService.isAuthenticated() && selectedProductForReview"
+          >
+            Invia
+          </button>
+        </div>
+        <div>
+          <p *ngIf="!authService.isAuthenticated()">
+            Effettua il login per lasciare una recensione.
+          </p>
+          <p *ngIf="authService.isAuthenticated() && !selectedProductForReview">
+            Seleziona un prodotto per lasciare una recensione.
+          </p>
+        </div>
       </div>
     </div>
   </div>

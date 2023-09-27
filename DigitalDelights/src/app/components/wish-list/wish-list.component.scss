@@ -12,6 +12,14 @@
 .card-img-top {
   border-top-left-radius: calc(1rem - 1px);
   border-top-right-radius: calc(1rem - 1px);
+  height: 100%;
+  width: 100%;
+
+  object-fit: contain;
+  padding: 30px;
+}
+.borderCard {
+  height: 100%;
 }
 
 .card h5 {
@@ -24,14 +32,6 @@
 .card h5 a {
   color: black;
   text-decoration: none;
-}
-
-.card-img-top {
-  width: 100%;
-  min-height: 250px;
-  max-height: 250px;
-  object-fit: contain;
-  padding: 30px;
 }
 
 .card h2 {

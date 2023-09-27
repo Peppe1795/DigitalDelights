@@ -169,3 +169,51 @@ div.text-danger {
   color: gold;
   margin-right: 4px;
 }
+
+// BOTTONI MODALE
+
+.annButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #e82929;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+}
+
+.annButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #c41c0c;
+  color: #ffffff;
+}
+
+.sandButton {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  background-color: #07115d;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sandButton:hover {
+  transition: 1000ms;
+  padding: 10px 50px;
+  transform: translateY(-0px);
+  background-color: #0b577d;
+  color: #ffffff;
+}
+
+.modal-header {
+  background-color: #73dce4;
+}

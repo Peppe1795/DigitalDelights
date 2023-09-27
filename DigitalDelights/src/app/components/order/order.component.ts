@@ -87,7 +87,6 @@ export class OrderComponent implements OnInit {
   applyDiscount(): void {
     if (this.promoCodes[this.promoCode.toUpperCase()]) {
       this.calculateTotal();
-      console.log('Total Price after discount:', this.totalPrice);
     } else {
       alert('Codice promozionale non valido!');
       this.discount = 0;
@@ -111,7 +110,6 @@ export class OrderComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          console.log('Order created successfully', response);
           this.notificationMessage = 'Ordine creato con successo!';
           this.isOrderCreated = true;
           this.checkoutForm.reset();
