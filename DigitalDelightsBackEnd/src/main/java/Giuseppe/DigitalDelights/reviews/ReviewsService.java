@@ -16,17 +16,24 @@ import Giuseppe.DigitalDelights.user.UserService;
 @Service
 public class ReviewsService {
 	private final ReviewsRepository reviewsRepo;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private ProductRepository productRepository;
-	@Autowired
-	private UserService us;
+	
+	private final UserRepository userRepository;
+	
+	private final ProductRepository productRepository;
+	
+	private final UserService us;
 
-	@Autowired
-	public ReviewsService(ReviewsRepository reviewsRepo) {
+	
+@Autowired
+	public ReviewsService(ReviewsRepository reviewsRepo, UserRepository userRepository,
+			ProductRepository productRepository, UserService us) {
+		
 		this.reviewsRepo = reviewsRepo;
+		this.userRepository = userRepository;
+		this.productRepository = productRepository;
+		this.us = us;
 	}
+
 
 	public Reviews createReviewForProduct(UUID userId, UUID productId, int rating, String reviewText) {
         User currentUser = userRepository.findById(userId)

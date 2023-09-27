@@ -24,15 +24,20 @@ public class OrderService {
 
 	private final OrderRepository orderRepo;
 	private final ProductRepository productRepo;
-	@Autowired
-	private UserService userService; 
-	@Autowired
-	private EmailService emailService;
 
-	@Autowired
-	public OrderService(OrderRepository orderRepo, ProductRepository productRepo) {
+	private final UserService userService; 
+
+	private final EmailService emailService;
+
+	
+@Autowired
+	public OrderService(OrderRepository orderRepo, ProductRepository productRepo, UserService userService,
+			EmailService emailService) {
+
 		this.orderRepo = orderRepo;
 		this.productRepo = productRepo;
+		this.userService = userService;
+		this.emailService = emailService;
 	}
 
 	public Order create(OrderRequestPayload body) {
