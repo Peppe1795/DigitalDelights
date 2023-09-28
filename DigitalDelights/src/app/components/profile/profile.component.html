@@ -304,7 +304,7 @@
           {{ feedbackMessage }}
         </div>
         <div class="mb-3">
-          <label class="form-label">Valutazione:</label>
+          <label class="form-label fw-bold">Valutazione:</label>
           <div class="rating">
             <span
               *ngFor="let star of [1, 2, 3, 4, 5]"
@@ -319,7 +319,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label">La tua recensione:</label>
+          <label class="form-label fw-bold">La tua recensione:</label>
           <textarea
             [(ngModel)]="reviewText"
             class="form-control"

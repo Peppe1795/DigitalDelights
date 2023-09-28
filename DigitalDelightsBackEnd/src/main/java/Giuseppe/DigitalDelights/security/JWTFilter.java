@@ -1,6 +1,7 @@
 package Giuseppe.DigitalDelights.security;
 
 import java.io.IOException;
+
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 	private static final String[] USER_ROUTES = { "/{cartId}/product/{productId}", "/current-user-cart-id",
 			"/cart/{cartId}", "/cart/{cartId}/products", "/addWishList/{productId}", "/removeWishList/{productId}",
-			"/{userId}/wishList", "user/{userId}", "/orders", "/reviews", 
-			"/reviews/*",
-			"/orders/*" };
-
-	
+			"/{userId}/wishList", "user/{userId}", "/orders", "/reviews", "/reviews/*", "/orders/*" };
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -53,16 +50,13 @@ public class JWTFilter extends OncePerRequestFilter {
 
 		String token = authHeader.substring(7);
 		jwttools.verificaToken(token);
-		String roleFromToken = jwttools.extractRole(token); 
-
+		String roleFromToken = jwttools.extractRole(token);
 
 		if ("ADMIN".equalsIgnoreCase(roleFromToken)) {
 			setAuthentication(token);
 			filterChain.doFilter(request, response);
 			return;
 		}
-
-		
 
 		if (isUserRoute(servletPath) && !"USER".equalsIgnoreCase(roleFromToken)) {
 			throw new UnauthorizedException("L'accesso a questa route richiede il ruolo di user");
@@ -79,7 +73,6 @@ public class JWTFilter extends OncePerRequestFilter {
 				currentUser.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 	}
-
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -104,7 +97,5 @@ public class JWTFilter extends OncePerRequestFilter {
 		}
 		return false;
 	}
-
-	
 
 }

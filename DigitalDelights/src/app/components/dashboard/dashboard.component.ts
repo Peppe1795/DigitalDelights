@@ -6,6 +6,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserProfile } from 'src/app/models/userprofile.interface';
 import { ProductRequestPayload } from 'src/app/models/productrequestpayload.interface';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,11 +20,21 @@ export class DashboardComponent implements OnInit {
   allProducts: Product[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
+  productForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+    price: ['', [Validators.required]],
+    imageUrl: [''],
+    active: [false],
+    unitsInStock: ['', Validators.required],
+    category: ['', Validators.required],
+  });
 
   constructor(
     private orderService: OrderService,
     private authSrv: AuthService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -109,23 +120,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onSubmit(formValue: any): void {
-    const newProduct: ProductRequestPayload = {
-      name: formValue.name,
-      description: formValue.description,
-      price: formValue.price,
-      imageUrl: formValue.imageUrl,
-      active: formValue.active || false,
-      unitsInStock: formValue.unitsInStock,
-      category: formValue.category,
-    };
+  onSubmit(): void {
+    if (this.productForm.valid) {
+      const newProduct: ProductRequestPayload = this.productForm.value;
 
-    this.productService.createProduct(newProduct).subscribe(
-      (product) => {},
-      (error) => {
-        console.error('Errore nella creazione del prodotto:', error);
-      }
-    );
+      this.productService.createProduct(newProduct).subscribe(
+        (product) => {
+          this.allProducts.push(product);
+          this.productForm.reset();
+
+          window.alert('Prodotto aggiunto con successo!');
+        },
+        (error) => {
+          console.error('Errore nella creazione del prodotto:', error);
+        }
+      );
+    } else {
+      this.productForm.markAllAsTouched();
+    }
   }
 
   goToNextPage(): void {

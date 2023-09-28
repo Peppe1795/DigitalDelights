@@ -171,50 +171,77 @@
 
         <div *ngIf="selectedSection === 'addProduct'">
           <h1>Aggiungi un nuovo prodotto</h1>
-          <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm.value)">
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label for="name" class="form-label">Nome</label>
               <input
                 type="text"
                 class="form-control"
                 id="name"
-                name="name"
-                ngModel
+                formControlName="name"
                 required
               />
+              <div
+                *ngIf="
+                  productForm.get('name')?.touched &&
+                  productForm.get('name')?.invalid
+                "
+                class="alert alert-danger"
+              >
+                Nome del prodotto è obbligatorio.
+              </div>
             </div>
+
             <div class="mb-3">
               <label for="description" class="form-label">Descrizione</label>
               <textarea
                 class="form-control"
                 id="description"
-                name="description"
+                formControlName="description"
                 rows="3"
-                ngModel
                 required
               ></textarea>
+              <div
+                *ngIf="
+                  productForm.get('description')?.touched &&
+                  productForm.get('description')?.invalid
+                "
+                class="alert alert-danger"
+              >
+                Descrizione è obbligatoria.
+              </div>
             </div>
+
             <div class="mb-3">
               <label for="price" class="form-label">Prezzo</label>
               <input
                 type="number"
                 class="form-control"
                 id="price"
-                name="price"
-                ngModel
+                formControlName="price"
                 required
               />
+              <div
+                *ngIf="
+                  productForm.get('price')?.touched &&
+                  productForm.get('price')?.invalid
+                "
+                class="alert alert-danger"
+              >
+                Prezzo è obbligatorio.
+              </div>
             </div>
+
             <div class="mb-3">
               <label for="imageUrl" class="form-label">URL dell'immagine</label>
               <input
                 type="text"
                 class="form-control"
                 id="imageUrl"
-                name="imageUrl"
-                ngModel
+                formControlName="imageUrl"
               />
             </div>
+
             <div class="mb-3">
               <label for="unitsInStock" class="form-label"
                 >Quantità in magazzino</label
@@ -223,18 +250,26 @@
                 type="number"
                 class="form-control"
                 id="unitsInStock"
-                name="unitsInStock"
-                ngModel
+                formControlName="unitsInStock"
                 required
               />
+              <div
+                *ngIf="
+                  productForm.get('unitsInStock')?.touched &&
+                  productForm.get('unitsInStock')?.invalid
+                "
+                class="alert alert-danger"
+              >
+                Quantità in magazzino è obbligatoria.
+              </div>
             </div>
+
             <div class="mb-3">
               <label for="category" class="form-label">Categoria</label>
               <select
                 class="form-select"
                 id="category"
-                name="category"
-                ngModel
+                formControlName="category"
                 required
               >
                 <option value="" disabled>Seleziona una categoria</option>
@@ -245,10 +280,22 @@
                 <option value="TV">TV</option>
                 <option value="PC">PC</option>
               </select>
+              <div
+                *ngIf="
+                  productForm.get('category')?.touched &&
+                  productForm.get('category')?.invalid
+                "
+                class="alert alert-danger"
+              >
+                Categoria è obbligatoria.
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Aggiungi Prodotto
-            </button>
+
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn shipButton">
+                Aggiungi Prodotto
+              </button>
+            </div>
           </form>
         </div>
       </div>

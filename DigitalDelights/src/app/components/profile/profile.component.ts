@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/models/products';
 import { ReviewsService } from 'src/app/services/reviews.service';
+declare var bootstrap: any;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -35,6 +36,19 @@ export class ProfileComponent implements OnInit {
     this.loadMyOrders();
     this.loadUserData();
     this.initUserForm();
+  }
+
+  ngAfterViewInit(): void {
+    const modalElement = document.getElementById('reviewModal');
+    if (modalElement) {
+      this.modalInstance = new bootstrap.Modal(modalElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.modalInstance) {
+      this.modalInstance.dispose();
+    }
   }
 
   initUserForm() {
@@ -161,14 +175,14 @@ export class ProfileComponent implements OnInit {
     this.reviewsService
       .createReview(userId, productId, reviewPayload)
       .subscribe(
-        (response) => {
+        () => {
           this.reviewText = '';
           this.showFeedback = true;
           this.feedbackMessage = 'Recensione inviata con successo!';
           setTimeout(() => {
             this.closeReviewModal();
             this.showFeedback = false;
-          }, 1500);
+          }, 1000);
         },
         (error) => {
           console.error('Impossibile inviare la recensione', error);
@@ -183,10 +197,16 @@ export class ProfileComponent implements OnInit {
   }
   openReviewModal(product: Product): void {
     this.selectedProductForReview = product;
+    if (this.modalInstance) {
+      this.modalInstance.show();
+    }
     this.isModalOpen = true;
   }
 
   closeReviewModal(): void {
+    if (this.modalInstance) {
+      this.modalInstance.hide();
+    }
     this.isModalOpen = false;
   }
   setHover(star: number): void {
