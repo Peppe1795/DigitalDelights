@@ -44,7 +44,6 @@
   <div *ngFor="let review of reviews">
     <div class="card">
       <div class="card-header text-center colorCardBottom">
-        <!-- Visualizzazione stelle -->
         <div class="stars">
           <i
             class="fas fa-star star"
@@ -54,6 +53,7 @@
         </div>
       </div>
       <div class="card-body text-center cardColor">
+        <h4 class="card-text">{{ review.user.name }}</h4>
         <p class="card-text">{{ review.reviewText }}</p>
       </div>
     </div>

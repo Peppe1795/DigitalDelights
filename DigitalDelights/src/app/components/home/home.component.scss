@@ -209,3 +209,14 @@ i.fas {
     height: 2vh;
   }
 }
+
+.scroll-text {
+  position: absolute;
+  opacity: 1;
+  right: 150px;
+  width: 40%;
+  color: black;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.2s;
+}

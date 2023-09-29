@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('iphone', { static: false }) iphone!: ElementRef;
   @ViewChildren('widgets', { read: ElementRef })
   widgetElements!: QueryList<ElementRef>;
+  @ViewChild('scrollText', { static: false }) scrollText!: ElementRef;
 
   constructor(private productService: ProductsService) {}
 
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initializeAnimations();
+    this.initializeTextAnimation();
   }
 
   selectRandomProducts(products: Product[], count: number): Product[] {
@@ -115,6 +117,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
 
     return tl;
+  }
+  initializeTextAnimation() {
+    gsap.to(this.scrollText.nativeElement, { opacity: 1, delay: 2 });
+
+    gsap.to(this.scrollText.nativeElement, {
+      scrollTrigger: {
+        trigger: '.animation',
+        start: 'top ',
+        end: 'center center',
+        scrub: 1,
+      },
+      opacity: 0,
+    });
   }
 }
 
