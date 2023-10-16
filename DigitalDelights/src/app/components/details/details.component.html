@@ -44,16 +44,17 @@
   <div *ngFor="let review of reviews">
     <div class="card">
       <div class="card-header text-center colorCardBottom">
-        <div class="stars">
+        <h4 class="card-text">{{ review.user.username }}</h4>
+      </div>
+      <div class="card-body text-center cardColor">
+        <div class="stars mb-4">
           <i
             class="fas fa-star star"
             *ngFor="let star of [1, 2, 3, 4, 5]"
             [class.checked]="star <= review.rating"
           ></i>
         </div>
-      </div>
-      <div class="card-body text-center cardColor">
-        <h4 class="card-text">{{ review.user.name }}</h4>
+
         <p class="card-text">{{ review.reviewText }}</p>
       </div>
     </div>

@@ -62,7 +62,7 @@ export class DetailsComponent implements OnInit {
 
     this.cartService.addProductToCart(product.productId, 1).subscribe(
       () => {
-        console.log('Prodotto aggiunto al carrello con successo!');
+        alert('Prodotto aggiunto al carrello con successo!');
       },
       (error) => {
         console.error(

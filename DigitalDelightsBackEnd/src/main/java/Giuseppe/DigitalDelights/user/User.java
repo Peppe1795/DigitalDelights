@@ -74,11 +74,11 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Reviews> reviews = new ArrayList<>();
 
-	public User(String username, String name, String lastName, String email, String password, Address address,
+	public User(String name, String username, String lastName, String email, String password, Address address,
 			Role role) {
-
-		this.username = username;
 		this.name = name;
+		this.username = username;
+
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
